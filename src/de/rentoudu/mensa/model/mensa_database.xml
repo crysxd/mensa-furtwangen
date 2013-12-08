@@ -1,0 +1,38 @@
+<mensaDatabase>
+    
+    <!-- Mensa Furtwangen -->
+    <mensa id="641">
+        <name>Mensa Furtwangen</name>
+        <street>Gerwigstrasse 15</street>
+        <zip>78120</zip>
+        <place>Furtwangen</place>
+        <description>Die Mensa bei der Fachhochschule bietet täglich zwei verschiedene Menüs zum Preis von 2,65 € für Studierende. Zusätzlich betreibt das Studentenwerk eine moderne Cafeteria, in der Kaffee und Snacks für zwischendurch zu studentenfreundlichen Preisen angeboten werden.\n\nKinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.</description>
+    </mensa>
+    
+    <!-- Mensa Offenburg -->
+    <mensa id="651">
+        <name>Mensa Offenburg</name>
+        <street>Badstrasse 24</street>
+        <zip>77652</zip>
+        <place>Offenburg</place>
+        <description>Die Mensa bei der Fachhochschule bietet täglich zwei verschiedene Menüs zum Preis von 2,65 € für Studierende. Zusätzlich betreibt das Studentenwerk eine moderne Cafeteria, in der Kaffee und Snacks für zwischendurch zu studentenfreundlichen Preisen angeboten werden.\n\nKinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.</description>
+    </mensa>
+    
+    <!--  Mensa Schwenningen -->
+     <mensa id="671">
+        <name>Mensa Schwenningen</name>
+        <street>Karlstrasse 19</street>
+        <zip>78054</zip>
+        <place>Villingen-Schwenningen</place>
+        <description>Mensa und Cafeteria sind ganztägig geöffnet. Angeboten werden täglich zwei Essen, eins davon fleischlos. Neben den Tagesgerichten gibt es ein großes Free-Flow-Angebot, aus dem sich die Gäste ihr Essen selbst zusammenstellen können.\nDie Cafeteria mit Lounge und Freiterrasse im Erdgeschoss ergänzt das Angebot der Mensa durch Frühstücksangebote, frisch gebackene Croissants und anderes Gebäck, belegte Brötchen, Fruchtsäfte, Obst und Milchprodukte. Mittags gibt es kleine Snacks und nachmittags natürlich Kaffee und Kuchen. \n\nKinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.</description>
+    </mensa>
+    
+    <!-- Mensa Rempartstraße -->
+    <mensa id="610">
+        <name>Mensa Rempartstraße</name>
+        <street>Rempartstraße 18</street>
+        <zip>79098 </zip>
+        <place>Freiburg</place>
+        <description>Vier unterschiedliche Gerichte stehen täglich im Angebot, frisch zubereitet und für jeden Geschmack etwas. Im Hauptgeschoss ist das günstige Tagesgericht vom Band erhältlich, an einer Linientheke stehen zwei weitere Tagesessen zur Wahl, bei denen man zwischen den Beilagen wählen kann. Ebenfalls im Hauptgeschoss gibt es im MensaPavillon ein Salatbuffet, Schnitzel oder Currywurst mit Pommes und für die ganz Eiligen gibt’s auf der Galerie den Schnellen Teller.\nIm Erdgeschoss bietet das MensaBistro im Erdgeschoss Salat- und Antipasti-Buffets, unterschiedliche Pasta-Gerichte, Fleisch oder Fisch vom Grill, Asia-Gerichte aus dem Wok und ein täglich wechselndes Bio-Essen.\n\nKinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.</description>
+    </mensa>
+</mensaDatabase>
