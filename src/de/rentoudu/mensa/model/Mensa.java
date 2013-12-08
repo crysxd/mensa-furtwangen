@@ -9,7 +9,7 @@ import org.simpleframework.xml.Text;
 public class Mensa {
 
 	@Attribute(name="id")
-	private int id = -1;
+	private int id;
 	@Element
 	private String name;
 	@Element
@@ -21,57 +21,29 @@ public class Mensa {
 	@Element
 	private String description;
 	
-	/*
-	 * Empty constructor for desirialisation
-	 */
 	public Mensa() {
+		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * Returns the id of this Mensa object.
-	 * @return The id of this Mensa object
-	 */
 	public int getId() {
 		return id;
 	}
-	
-	/**
-	 * Returns the name of this Mensa object.
-	 * @return The name of this Mensa object
-	 */
 	public String getName() {
 		return name;
 	}
-	
-	/**
-	 * Returns the street and number of this Mensa object.
-	 * @return The street and number of this Mensa object
-	 */
 	public String getStreet() {
 		return street;
 	}
-	
-	/**
-	 * Returns the place name of this Mensa object.
-	 * @return The place name of this Mensa object
-	 */
 	public String getPlace() {
 		return place;
 	}
-	
-	/**
-	 * Returns the description of this Mensa object.
-	 * @return The description of this Mensa object
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
-	/**
-	 * Returns the zip code of this Mensa object.
-	 * @return The zip code of this Mensa object
-	 */
+//	public String getDescription() {
+//		return description;
+//	}
 	public String getZip() {
 		return zip;
 	}
+	
+	
+
 }

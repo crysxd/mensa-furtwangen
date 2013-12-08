@@ -8,16 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.TwoLineListItem;
 
-public class NavigationDrawerListAdapter extends ArrayAdapter<Mensa> {
+public class MensaArrayAdapter extends ArrayAdapter<Mensa> {
 
-	public NavigationDrawerListAdapter(Context context, Mensa[] objects) {
-		//Call super constructor using simple_list_item_2
+	public MensaArrayAdapter(Context context, Mensa[] objects) {
 		super(context, android.R.layout.simple_list_item_2, android.R.id.text1, objects);
-	}
-	
-	@Override
-	public int getCount() {
-		return super.getCount() + 3;
 	}
 	
 	@Override
@@ -27,11 +21,9 @@ public class NavigationDrawerListAdapter extends ArrayAdapter<Mensa> {
 		TextView text1 = (TextView) view.findViewById(android.R.id.text1);
 		TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 		
-		//Set mensa name and location
 		text1.setText(this.getItem(position).getName());
 		text2.setText(this.getItem(position).getPlace());
 		
-		//Done...return
 		return view;
 	}
 

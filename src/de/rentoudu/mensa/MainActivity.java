@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.*;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +35,7 @@ import de.rentoudu.mensa.task.DietFetchTask;
  */
 public class MainActivity extends FragmentActivity implements OnItemClickListener {
 
-	private final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID={id}";
+	private static final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID={id}";
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -81,15 +80,14 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//create pagers
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		dayPagerAdapter = new DayPagerAdapter(getResources(), getSupportFragmentManager());
+
 
 		//set selected canteen. TODO: Save in Bundle and reuse
 		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(641);
 		this.getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
 
-		//load saved instances or reload from feed
 		if(savedInstanceState != null && savedInstanceState.containsKey("diet")) {
 			// Reuse already fetched diet.
 			Diet savedDiet = (Diet) savedInstanceState.getSerializable("diet");
@@ -99,11 +97,14 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			refreshDiet();
 		}
 
-		//Create drawer amnd its list
+		/*
+		 * Left Drawer init
+		 */
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		//create toggle switch to replace the back button in the activity's actionbar
+
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
@@ -124,7 +125,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		};
 
 		// Set the adapter for the list view
-		mDrawerList.setAdapter(new NavigationDrawerListAdapter(this, 
+		mDrawerList.setAdapter(new MensaArrayAdapter(this, 
 				MensaDatabase.createMensaDatabase().getMensaListArray()));
 
 		// Set the list's click listener
@@ -133,7 +134,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		//Set the correct settings for the actionbar to corespond with the ActionBarDrawerToggle
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getActionBar().setHomeButtonEnabled(true);
 
@@ -158,60 +158,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		super.onSaveInstanceState(outState);
 		// Remember the fetched diet for restoring in #onCreate.
 		outState.putSerializable("diet", currentDiet);
-	}
-
-	/**
-	 * Inflate the menu; this adds items to the action bar if it is present.
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		//this.mDrawerLayout.openDrawer(Gravity.LEFT);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		//hide the drawer
-		this.mDrawerLayout.closeDrawers();
-
-		// Pass the event to ActionBarDrawerToggle, if it returns
-		// true, then it has handled the app icon touch event
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-
-		// Handle your other action bar items...
-		switch (item.getItemId()) {
-		case R.id.menu_today:
-			goToToday();
-			break;
-		case R.id.menu_sync:
-			refreshDiet();
-			break;
-		case R.id.menu_about:
-			showAboutMenu();
-			break;
-		}
-		return true;
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-		//A new canteen was selected in the drawer's list. Get the selected one
-		Mensa m = ((NavigationDrawerListAdapter)this.mDrawerList.getAdapter()).getItem(position);//MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
-
-		//If the new is not the old, set the new and reload the diet
-		if(m != null && m!= this.selectedMensa) {
-			this.selectedMensa = m;
-			this.refreshDiet();
-		} 
-		
-		//close drawer
-		this.mDrawerLayout.closeDrawers();
-
 	}
 
 	/**
@@ -257,7 +203,43 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 				.replace("{day}", String.valueOf(startDay))
 				.replace("{id}", String.valueOf(this.selectedMensa.getId()));
 	}
-	
+
+	/**
+	 * Inflate the menu; this adds items to the action bar if it is present.
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		//hide the drawer
+		this.mDrawerLayout.closeDrawers();
+		
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
+		// Handle your other action bar items...
+		switch (item.getItemId()) {
+		case R.id.menu_today:
+			goToToday();
+			break;
+		case R.id.menu_sync:
+			refreshDiet();
+			break;
+		case R.id.menu_about:
+			showAboutMenu();
+			break;
+		}
+		return true;
+	}
+
 	private void goToToday() {
 		viewPager.setCurrentItem(getCurrentDayIndex());
 	}
@@ -303,4 +285,20 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	protected void log(String message) {
 		// Log.v(getClass().getSimpleName(), message);
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
+		
+		Mensa m = MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
+		
+		if(m != this.selectedMensa) {
+			this.selectedMensa = m;
+			this.refreshDiet();
+		}
+		
+		this.mDrawerLayout.closeDrawers();
+
+	}
+
 }
