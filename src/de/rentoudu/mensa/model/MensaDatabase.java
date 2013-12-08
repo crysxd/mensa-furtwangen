@@ -27,20 +27,33 @@ public class MensaDatabase {
 	 */ 
 	private static MensaDatabase defaultMensaDatabase = null;
 	
+	/**
+	 * Creates a new MensaDatabase instance or returns a used instance.
+	 * @return A MensaDatabase instance
+	 */
 	public static MensaDatabase createMensaDatabase() {
 		
+		//If the defaultInstance is not available create new one and save as defaulr
 		if(MensaDatabase.defaultMensaDatabase == null ) {
+			
+			
+			//Create Serializer and Reader for resource
 			Serializer serializer = new Persister();
 			Reader r = new InputStreamReader(MensaDatabase.class.getResourceAsStream("mensa_database.xml"));
+			
+			//desirialize XML
 			MensaDatabase db = null;
 			try {
 				db = serializer.read(MensaDatabase.class, r);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			//set as default and return
 			MensaDatabase.defaultMensaDatabase = db;
 			return db;
 			
+		//Instance available -> return this one
 		} else {
 			return MensaDatabase.defaultMensaDatabase;
 		}
@@ -53,19 +66,29 @@ public class MensaDatabase {
 	@ElementList(name="mensa", inline=true)
 	private ArrayList<Mensa> mensaList;
 
+	/**
+	 * Returns a list of all known canteens.
+	 * @return a list of all known canteens
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Mensa> getMensaList() {
 		return (List<Mensa>) this.mensaList.clone();
 	}
 
+	/**
+	 * Returns a list of all known canteens.
+	 * @return a list of all known canteens
+	 */
 	public Mensa[] getMensaListArray() {
 		return this.mensaList.toArray(new Mensa[this.mensaList.size()]);
 	}
 	
-	public Mensa getMensaAtPosition(int position) {
-		return this.mensaList.get(position);
-	}
-	
+	/**
+	 * Returns the Mensa instance with the given id.
+	 * @param id The id of the wanted Mensa instance
+	 * @return The wanted Mensa instance
+	 * @throws IllegalArgumentException
+	 */
 	public Mensa getMensaForId(int id) throws IllegalArgumentException {
 		for(int i=0; i<this.mensaList.size(); i++)
 			if(this.mensaList.get(i).getId() == id)
