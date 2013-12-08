@@ -133,7 +133,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 			// No main course.. no menu!
 			if(menuOne.getMainCourse() != "") 
 				day.addMenu(menuOne);
-			
+		
 			if(menuTwo.getMainCourse() != "") 
 				day.addMenu(menuTwo);
 			
