@@ -41,5 +41,6 @@
     <string name="notification_updating_menu_text">Das Menü wird aktualisiert&#8230;</string>
     
      <string name="error_diet_fetch">Sry, keine Internetverbindung.</string>
+     <string name="drawer_open">Mensa wählen</string>
 
 </resources>

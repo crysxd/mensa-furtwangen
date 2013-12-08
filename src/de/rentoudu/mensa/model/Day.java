@@ -46,7 +46,7 @@ public class Day implements Serializable {
 	}
 	
 	public boolean hasMenus() {
-		return menus.isEmpty() == false;
+		return !menus.isEmpty();
 	}
 	
 	public void setNotes(String notes) {

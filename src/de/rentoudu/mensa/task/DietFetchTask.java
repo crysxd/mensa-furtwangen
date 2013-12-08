@@ -204,7 +204,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 	private void endDietFetchNotification(boolean success) {
 		notificationManager.cancel(0);
 		if(success) {
-			//getActivity().showToast(getActivity().getString(R.string.text_diet_synced));
+			getActivity().showToast(getActivity().getString(R.string.text_diet_synced));
 		} else {
 			getActivity().showToast(getActivity().getString(R.string.error_diet_fetch));
 		}

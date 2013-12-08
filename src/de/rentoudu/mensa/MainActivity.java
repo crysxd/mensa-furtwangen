@@ -1,16 +1,31 @@
 package de.rentoudu.mensa;
 
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.*;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import de.rentoudu.mensa.model.Diet;
+import de.rentoudu.mensa.model.Mensa;
+import de.rentoudu.mensa.model.MensaDatabase;
 import de.rentoudu.mensa.task.DietFetchTask;
 
 /**
@@ -18,9 +33,9 @@ import de.rentoudu.mensa.task.DietFetchTask;
  * 
  * @author Florian Sauter
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements OnItemClickListener {
 
-	private static final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID=641";
+	private static final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID={id}";
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -37,25 +52,42 @@ public class MainActivity extends FragmentActivity {
 	 * The current activity diet.
 	 */
 	private Diet currentDiet;
-	
+
+	/**
+	 * The selected mensa's id
+	 */
+	private Mensa selectedMensa = null;
+
 	/**
 	 * Opening time in german format
 	 */
 	public static int[] openingTime = {11, 25};
-	
+
 	/**
 	 * Closing time in german format
 	 */
 	public static int[] closingTime = {13, 40};
 
+	/**
+	 * DrawerLayout stuff
+	 */
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+	private DrawerLayout mDrawerLayout;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		dayPagerAdapter = new DayPagerAdapter(getResources(), getSupportFragmentManager());
-		
+
+
+		//set selected canteen. TODO: Save in Bundle and reuse
+		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(641);
+		this.getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+
 		if(savedInstanceState != null && savedInstanceState.containsKey("diet")) {
 			// Reuse already fetched diet.
 			Diet savedDiet = (Diet) savedInstanceState.getSerializable("diet");
@@ -64,8 +96,63 @@ public class MainActivity extends FragmentActivity {
 			// Starts async fetching task.
 			refreshDiet();
 		}
+
+		/*
+		 * Left Drawer init
+		 */
+
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+
+		mDrawerToggle = new ActionBarDrawerToggle(
+				this,                  /* host Activity */
+				mDrawerLayout,         /* DrawerLayout object */
+				R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
+				R.string.drawer_open,  /* "open drawer" description */
+				R.string.app_name  /* "close drawer" description */
+				) {
+
+			/** Called when a drawer has settled in a completely closed state. */
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+			}
+
+			/** Called when a drawer has settled in a completely open state. */
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(R.string.drawer_open);
+			}
+		};
+
+		// Set the adapter for the list view
+		mDrawerList.setAdapter(new MensaArrayAdapter(this, 
+				MensaDatabase.createMensaDatabase().getMensaListArray()));
+
+		// Set the list's click listener
+		mDrawerList.setOnItemClickListener(this);
+
+		// Set the drawer toggle as the DrawerListener
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getActionBar().setHomeButtonEnabled(true);
+
 	}
-	
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -85,7 +172,7 @@ public class MainActivity extends FragmentActivity {
 		}
 		return Utils.getDay() + dateBalancer;
 	}
-	
+
 	/**
 	 * Returns the current day index.
 	 */
@@ -94,13 +181,13 @@ public class MainActivity extends FragmentActivity {
 		int dateBalancer = -2;
 		return Utils.getDay() + dateBalancer;
 	}
-	
+
 	public void refreshDiet() {
 		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
 		String secondWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex() + 7);
 		new DietFetchTask(this).execute(firstWeekFeedUrl, secondWeekFeedUrl);
 	}
-	
+
 	public void updateDietAndView(Diet diet) {
 		this.currentDiet = diet;
 		dayPagerAdapter.setDiet(diet);
@@ -112,7 +199,9 @@ public class MainActivity extends FragmentActivity {
 	 * Builds the feed URL to fetch based on the current weekday.
 	 */
 	protected String buildFeedUrl(int startDay) {
-		return FEED_URL.replace("{day}", String.valueOf(startDay));
+		return FEED_URL
+				.replace("{day}", String.valueOf(startDay))
+				.replace("{id}", String.valueOf(this.selectedMensa.getId()));
 	}
 
 	/**
@@ -126,16 +215,27 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		//hide the drawer
+		this.mDrawerLayout.closeDrawers();
+		
+		// Pass the event to ActionBarDrawerToggle, if it returns
+		// true, then it has handled the app icon touch event
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+
+		// Handle your other action bar items...
 		switch (item.getItemId()) {
-			case R.id.menu_today:
-				goToToday();
-				break;
-			case R.id.menu_sync:
-				refreshDiet();
-				break;
-			case R.id.menu_about:
-				showAboutMenu();
-				break;
+		case R.id.menu_today:
+			goToToday();
+			break;
+		case R.id.menu_sync:
+			refreshDiet();
+			break;
+		case R.id.menu_about:
+			showAboutMenu();
+			break;
 		}
 		return true;
 	}
@@ -155,23 +255,23 @@ public class MainActivity extends FragmentActivity {
 		String message = String.format(getString(R.string.text_about), version);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(message).setTitle(R.string.menu_about)
-			.setNeutralButton(android.R.string.ok,
-	            new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				}
-			).create().show();
+		.setNeutralButton(android.R.string.ok,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		}
+				).create().show();
 	}
-	
+
 	public DayPagerAdapter getDayPagerAdapter() {
 		return dayPagerAdapter;
 	}
-	
+
 	public ViewPager getViewPager() {
 		return viewPager;
 	}
-	
+
 	/**
 	 * Shows a toast notification.
 	 */
@@ -185,4 +285,20 @@ public class MainActivity extends FragmentActivity {
 	protected void log(String message) {
 		// Log.v(getClass().getSimpleName(), message);
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
+		
+		Mensa m = MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
+		
+		if(m != this.selectedMensa) {
+			this.selectedMensa = m;
+			this.refreshDiet();
+		}
+		
+		this.mDrawerLayout.closeDrawers();
+
+	}
+
 }
