@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -22,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import de.rentoudu.mensa.MainActivity;
 import de.rentoudu.mensa.R;
 import de.rentoudu.mensa.Utils;
@@ -29,61 +32,91 @@ import de.rentoudu.mensa.model.Day;
 import de.rentoudu.mensa.model.Diet;
 import de.rentoudu.mensa.model.Menu;
 
-/**
- * When I wrote this, only God and I understood what I was doing
- * Now, God only knows
- */
+
 public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
+	//The MainActivity instance invoking this DietFetchTask
 	private MainActivity activity;
+
+	//The ProgressDialog shown when loading the RSS feed
 	private ProgressDialog progressDialog;
-	
+
+	/**
+	 * Creates a new DieFetchTask instance.
+	 * @param mainActivity The MainActivity instance invoking this contructor.
+	 */
 	public DietFetchTask(MainActivity mainActivity) {
 		this.activity = mainActivity;
 	}
 
 	@Override
-	protected Diet doInBackground(String... urls) {
+	protected Diet doInBackground(String... args) {
 
+		//Show the LoadingDialog
 		startDietFetchNotification(); // Ends in onPostExecute(..)
 
+		//Create Rss Cache instance
+		RssCache rssCach = new RssCache();
+
+		//Load Diet for first week
+		Diet d1 = null, d2 = null;
 		try {
-			InputStream firstWeekStream = fetchRss(urls[0]);
-			InputStream secondWeekStream = fetchRss(urls[1]);
-			Diet firstWeek = parseRss(firstWeekStream, false);
-			Diet secondWeek = parseRss(secondWeekStream, true);
+			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday());
+			d1 = parseRss(in, false);
 
-			Diet mergedDiet = new Diet();
-			mergedDiet.setLastSynced(new Date());
-			mergedDiet.addDays(firstWeek.getDays());
-			mergedDiet.addDays(secondWeek.getDays());
-
-			return mergedDiet;
-		} catch (IOException e) {
+		} catch(Exception e) {
 			e.printStackTrace();
-			return null;
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-
-			return null;
-		} catch (SAXException e) {
-			e.printStackTrace();
-
-			return null;
-			
 		}
+
+		//Load diet for second week
+		try {
+			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0])+1, args[2], this.getDateOfNextSunday());
+			d2 = parseRss(in, false);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+
+		//Merge the two weeks' diets, if they are not null
+		Diet mergedDiet = new Diet();
+		mergedDiet.setLastSynced(new Date());
+		
+		if(d1 != null)
+			mergedDiet.addDays(d1.getDays());
+		
+		if(d2 != null)
+		mergedDiet.addDays(d2.getDays());
+
+		//return the merged one
+		return mergedDiet;
 	}
 
 	@Override
 	protected void onPostExecute(Diet result) {
+
+		//Check if the resut if valid
 		if(result == null) {
+
+			//if not, show an error toast and dismiss the loading dialog
 			endDietFetchNotification(false);
 		} else {
-			getActivity().updateDietAndView(result);
+
+			//if so, update the shown diet and dismiss the loading dialog
+			this.getActivity().updateDietAndView(result);
 			endDietFetchNotification(true);
 		}
 	}
 
+	/**
+	 * Parses the given InputStream to a diet.
+	 * @param in The Inputstream that should be parsed.
+	 * @param isSecondWeek A flag, indicating if the given stream represents the first or the second week
+	 * @return The parsed Diet object
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	protected Diet parseRss(InputStream in, boolean isSecondWeek) throws ParserConfigurationException, SAXException, IOException {
 		//Set up Parser
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -94,10 +127,10 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		int currentWeek = Utils.getWeek();
 		Diet diet = new Diet();
 
-		//create note list for <item>
+		//create note list for <item>, every item node represents a day
 		NodeList itemElements = document.getElementsByTagName("item");
 		for(int i=0; i<itemElements.getLength(); i++) {
-			//Get current Element
+			//Get current Element (current day)
 			Element itemElement = (Element) itemElements.item(i);
 
 			//Get info
@@ -105,33 +138,41 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 			String guid = itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue();
 			String description = itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
 
-			//create day
-			Day d = this.parseDay(title, guid, description);
-			
+			//create day, set guid and title (never used?)
+			Day d = this.parseDay(description);
+			d.setGuid(guid);
+			d.setTitle(title);
+
 			//set day:  index equals Calender.DAYXX + 2 -> WHOOT? :D
 			d.setDay(i + 2);
-			
+
 			//set week
 			if(isSecondWeek) {
 				d.setWeek(currentWeek + 1);
 			} else {
 				d.setWeek(currentWeek);
 			}
-			
+
 			//add day to diet
 			diet.addDay(d);
 
 		}
 
+		//set last sync date and return
 		diet.setLastSynced(new Date());
 		return diet;
 	}
 
-	private Day parseDay(String title, String guid, String description) {
+	/**
+	 * Parses a single day using the given description of the day's menus.
+	 * @param description The description of the day's menus
+	 * @return
+	 */
+	private Day parseDay(String description) {
 
 		//create day
 		Day d = new Day();
-		
+
 		// Clear the CDATA and use delimiter 
 		description = description.replace("<![CDATA[", "");
 		description = description.replace("]]>", "");
@@ -150,13 +191,13 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 				//category title, e.g. "Menü 1"
 				m.setTitle(this.optimizeString(parts[j]).replaceAll("<u>", "").replaceAll("</u>", ""));
-				
+
 				//if category title is the notes title -> save next part as notes and  continue;
 				if(m.getTitle().equals("Kennzeichnung")) {
 					d.setNotes(this.optimizeString(parts[++j]));
 					continue;
 				}
-				
+
 				//get apetizer
 				m.setAppetizer(this.optimizeString(parts[++j]));
 				//get apetizer
@@ -173,7 +214,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 					//Append part to sideDish
 					String s = this.optimizeString(parts[j]);
-					
+
 					if(s.length() > 0)
 						sideDishes.append(s + ", ");
 				}
@@ -182,15 +223,20 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 				if(sideDishes.toString().endsWith(", "))
 					sideDishes.delete(sideDishes.length()-2, sideDishes.length()-1);
 				m.setSideDish(sideDishes.toString());
-				
+
 				//add Menu to day
 				d.addMenu(m);
 			}
 		}
-		
+
 		return d;
 	}
 
+	/**
+	 * Optimizes the given String by deleting unrelevant characters or replacing them by better ones.
+	 * @param s The String object that is going to be optimized
+	 * @return
+	 */
 	private String optimizeString(String s) {
 		s = s.replace("\n", "").replace("\r", "").replace("\t", "");
 		s = s.replaceAll("<u></u>", "");
@@ -207,49 +253,67 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		return s;
 	}
 
+	private Date getDateOfNextSunday() {
+		Calendar calendar = Calendar.getInstance();  
+		int weekday = calendar.get(Calendar.DAY_OF_WEEK);  
 
-	// Given a string representation of a URL, sets up a connection and gets
-	// an input stream.
-	protected InputStream fetchRss(String urlString) throws IOException {
-		URL url = new URL(urlString);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setReadTimeout(10000 /* milliseconds */);
-		conn.setConnectTimeout(15000 /* milliseconds */);
-		conn.setRequestMethod("GET");
-		conn.setDoInput(true);
-		// Starts the query
-		conn.connect();
-		InputStream stream = conn.getInputStream();
-		return stream;
+		if(weekday != Calendar.SUNDAY || (weekday == Calendar.SATURDAY && calendar.get(Calendar.HOUR_OF_DAY) > 20)) {
+
+			int days = Calendar.SUNDAY - weekday;  
+			if (days < 0)  {  
+				// this will usually be the case since Calendar.SUNDAY is the smallest  
+				days += 7;  
+			}  
+			calendar.add(Calendar.DAY_OF_YEAR, days); 
+		}
+
+		calendar.set(Calendar.AM_PM, Calendar.PM);
+		calendar.set(Calendar.HOUR, 8);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+
+		Date d = calendar.getTime();
+
+		return calendar.getTime();
 	}
 
+	/**
+	 * Calls the MainActivity instance to show a loading dialog.
+	 * @see #endDietFetchNotification(boolean)
+	 */
 	private void startDietFetchNotification() {
-		
+
 		//Call UI Thead to show indeterminate ProgressDialog
 		this.getActivity().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				DietFetchTask.this.progressDialog = ProgressDialog.show(DietFetchTask.this.getActivity(), "", 
-		                DietFetchTask.this.getActivity().getResources().getString(R.string.text_diet_fetch), true);
+						DietFetchTask.this.getActivity().getResources().getString(R.string.text_diet_fetch), true);
 			}
 		});
-		
+
 	}
 
+	/**
+	 * Dismisses the dialog which is created in {@link #startDietFetchNotification()} and shows a 
+	 * error Toast if the action was not successfull.
+	 * @param success The flag indicating if the fetch action was successfull.
+	 * @see #startDietFetchNotification()
+	 */
 	private void endDietFetchNotification(boolean success) {
-		
+
 		//Show error toast if an error has occured
 		if(!success)
 			this.getActivity().showToast(this.getActivity().getResources().getString(R.string.error_diet_fetch));
-		
+
 		//if the progress dialog is null, cancel operation
 		if(this.progressDialog == null)
 			return;
-		
+
 		//Call UI Thread to dismiss progressDialog
 		this.getActivity().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				DietFetchTask.this.progressDialog.dismiss();
@@ -257,6 +321,10 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		});
 	}
 
+	/**
+	 * Return the MainActivity instance which has invoked this DietFetchTask.
+	 * @return The MainActivity instance
+	 */
 	public MainActivity getActivity() {
 		return activity;
 	}

@@ -211,10 +211,10 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
 		String secondWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex() + 7);
 		
-		//create Executor and AsyncTask and execute it. Shutdow s proberly.
-		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediatly
+		//create Executor and AsyncTask and execute it. Shutdown s properly.
+		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediately
 		ExecutorService s = Executors.newSingleThreadExecutor();
-		new DietFetchTask(this).executeOnExecutor(s, firstWeekFeedUrl, secondWeekFeedUrl);
+		new DietFetchTask(this).executeOnExecutor(s, this.selectedMensa.getId() + "", firstWeekFeedUrl, secondWeekFeedUrl);
 		s.shutdown();
 	}
 
@@ -334,9 +334,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			
 			//Save the is to the SharedPreferences Object
 			SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
-			Editor e = settings.edit();
-			e.putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId());
-			e.apply();
+			settings.edit().putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId()).apply();
 			
 			//Refresh the diet to dispaly the diet for the new canteen
 			this.refreshDiet();
