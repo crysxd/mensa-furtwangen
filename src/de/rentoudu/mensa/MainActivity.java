@@ -1,10 +1,14 @@
 package de.rentoudu.mensa;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -42,6 +46,16 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	 * fragments for each of the sections.
 	 */
 	private DayPagerAdapter dayPagerAdapter;
+	
+	/**
+	 * The name of the SharedPreferences instance used by this activity
+	 */
+	private final String SHARED_PREFS_NAME = "MainActivitySettings";
+	
+	/**
+	 * The name of the setting in which the selected Mensa's ID is stored
+	 */
+	private final String SELECTED_MENSA_SETTING = "selectedMensa";
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -84,10 +98,16 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		dayPagerAdapter = new DayPagerAdapter(getResources(), getSupportFragmentManager());
 
 
-		//set selected canteen. TODO: Save in Bundle and reuse
-		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(641);
-		this.getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+		//Load the selected Mensa's ID  from the SharedPreferences object or load Furtwangen (id=641) 
+		//as the selected one ans put the selctedMensa object
+	    SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
+	    int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
+		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(selectedMensaId);
 
+		//Update the ActionBar's title to correspont with the selected Mensa
+		this.getActionBar().setTitle(this.selectedMensa.getName());
+		this.getActionBar().setIcon(this.getResources().getDrawable(this.selectedMensa.getIconResource()));
+		
 		if(savedInstanceState != null && savedInstanceState.containsKey("diet")) {
 			// Reuse already fetched diet.
 			Diet savedDiet = (Diet) savedInstanceState.getSerializable("diet");
@@ -97,14 +117,11 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			refreshDiet();
 		}
 
-		/*
-		 * Left Drawer init
-		 */
-
+		//create the left drawer and it's list
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-
+		//create the drawer toggle which will be put in the left side of the ActionBar
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
@@ -115,7 +132,10 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 			/** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+				MainActivity.this.getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+				MainActivity.this.getActionBar().setIcon(MainActivity.this.getResources().getDrawable(
+						MainActivity.this.selectedMensa.getIconResource()));
+
 			}
 
 			/** Called when a drawer has settled in a completely open state. */
@@ -125,8 +145,10 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		};
 
 		// Set the adapter for the list view
-		mDrawerList.setAdapter(new MensaArrayAdapter(this, 
-				MensaDatabase.createMensaDatabase().getMensaListArray()));
+		MensaDatabase db = MensaDatabase.createMensaDatabase();
+		Mensa[] mensen = db.getMensaListArray();
+		MensaArrayAdapter a = new MensaArrayAdapter(this, mensen);
+		mDrawerList.setAdapter(a);
 
 		// Set the list's click listener
 		mDrawerList.setOnItemClickListener(this);
@@ -134,6 +156,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		// Set the drawer toggle as the DrawerListener
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+		//Setup the ActionBar for the DrawerToggle
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getActionBar().setHomeButtonEnabled(true);
 
@@ -183,15 +206,26 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	}
 
 	public void refreshDiet() {
+		
+		//Generate RSS feed URLs
 		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
 		String secondWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex() + 7);
-		new DietFetchTask(this).execute(firstWeekFeedUrl, secondWeekFeedUrl);
+		
+		//create Executor and AsyncTask and execute it. Shutdow s proberly.
+		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediatly
+		ExecutorService s = Executors.newSingleThreadExecutor();
+		new DietFetchTask(this).executeOnExecutor(s, firstWeekFeedUrl, secondWeekFeedUrl);
+		s.shutdown();
 	}
 
 	public void updateDietAndView(Diet diet) {
 		this.currentDiet = diet;
+		
+		viewPager.setAdapter((this.dayPagerAdapter = 
+				new DayPagerAdapter(getResources(), getSupportFragmentManager())));
 		dayPagerAdapter.setDiet(diet);
-		viewPager.setAdapter(dayPagerAdapter);
+		dayPagerAdapter.notifyDataSetChanged();
+
 		viewPager.setCurrentItem(getCurrentCanteenDayIndex());
 	}
 
@@ -289,14 +323,26 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		
-		
+		//Get the Mensa object selceted by the user
 		Mensa m = MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
 		
+		//If the selected object is not the current selected one
 		if(m != this.selectedMensa) {
+			
+			//set the selected one
 			this.selectedMensa = m;
+			
+			//Save the is to the SharedPreferences Object
+			SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
+			Editor e = settings.edit();
+			e.putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId());
+			e.apply();
+			
+			//Refresh the diet to dispaly the diet for the new canteen
 			this.refreshDiet();
 		}
 		
+		//Close the drawer
 		this.mDrawerLayout.closeDrawers();
 
 	}

@@ -17,6 +17,7 @@ import org.xml.sax.SAXException;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -34,40 +35,42 @@ import de.rentoudu.mensa.model.Menu;
  */
 public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
-	private NotificationCompat.Builder notificationBuilder;
-	private NotificationManager notificationManager;
 	private MainActivity activity;
+	private ProgressDialog progressDialog;
 	
 	public DietFetchTask(MainActivity mainActivity) {
 		this.activity = mainActivity;
-		this.notificationBuilder = new NotificationCompat.Builder(activity);
-		this.notificationManager = (NotificationManager) getActivity()
-				.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
-	
+
 	@Override
 	protected Diet doInBackground(String... urls) {
-		
+
 		startDietFetchNotification(); // Ends in onPostExecute(..)
-		
+
 		try {
 			InputStream firstWeekStream = fetchRss(urls[0]);
 			InputStream secondWeekStream = fetchRss(urls[1]);
 			Diet firstWeek = parseRss(firstWeekStream, false);
 			Diet secondWeek = parseRss(secondWeekStream, true);
-			
+
 			Diet mergedDiet = new Diet();
 			mergedDiet.setLastSynced(new Date());
 			mergedDiet.addDays(firstWeek.getDays());
 			mergedDiet.addDays(secondWeek.getDays());
-			
+
 			return mergedDiet;
 		} catch (IOException e) {
+			e.printStackTrace();
 			return null;
 		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+
 			return null;
 		} catch (SAXException e) {
+			e.printStackTrace();
+
 			return null;
+			
 		}
 	}
 
@@ -80,100 +83,130 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 			endDietFetchNotification(true);
 		}
 	}
-	
+
 	protected Diet parseRss(InputStream in, boolean isSecondWeek) throws ParserConfigurationException, SAXException, IOException {
+		//Set up Parser
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(in);
-		
+
+		//Get week and create new Diet
 		int currentWeek = Utils.getWeek();
-		
 		Diet diet = new Diet();
-		
+
+		//create note list for <item>
 		NodeList itemElements = document.getElementsByTagName("item");
-		for (int i = 0; i < 5; i++) { // NO WEEKEND DAYS (SATURDAY)
+		for(int i=0; i<itemElements.getLength(); i++) {
+			//Get current Element
 			Element itemElement = (Element) itemElements.item(i);
+
+			//Get info
 			String title = itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
 			String guid = itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue();
 			String description = itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
 
-			// Clear the CDATA and use delimiter ;
-			description = description.replace("\n", "").replace("\r", "").replace("\t", "");
-	        description = description.replaceAll("<u></u>", "");
-			description = description.trim().replaceAll(" +", " ");
-			description = description.replaceAll(">\\s+<", "><").trim();
-			description = description.replace("<br>", ";");
-			description = description.replaceAll("(;)\\1+", "");
-			description = description.replaceAll("<b>", "");
-			description = description.replaceAll("</b>", "");
+			//create day
+			Day d = this.parseDay(title, guid, description);
 			
-			// Fetch the menu strings
-			int indexOfMenuTwo = description.indexOf("<u>Men", 1);
-			int indexOfNotes = description.indexOf("<u>Kennzeichnung");
+			//set day:  index equals Calender.DAYXX + 2 -> WHOOT? :D
+			d.setDay(i + 2);
 			
-			String menuOneString = description.substring(0, indexOfMenuTwo);
-			String menuTwoString = description.substring(indexOfMenuTwo, indexOfNotes);
-			String notes = description.substring(indexOfNotes).replace("<u>Kennzeichnung</u>;", "");
-			
-			// Parse the menu strings
-			Menu menuOne = parseMenu(menuOneString);
-			Menu menuTwo = parseMenu(menuTwoString);
-			
-			menuOne.setTitle(getActivity().getString(R.string.text_header_menu_one));
-			menuTwo.setTitle(getActivity().getString(R.string.text_header_menu_two));
-
-			Day day = new Day();
+			//set week
 			if(isSecondWeek) {
-				day.setWeek(currentWeek + 1);
+				d.setWeek(currentWeek + 1);
 			} else {
-				day.setWeek(currentWeek);
+				d.setWeek(currentWeek);
 			}
-			day.setDay(i + 2); // index equals Calender.DAYXX + 2
 			
-			// No main course.. no menu!
-			if(menuOne.getMainCourse() != "") 
-				day.addMenu(menuOne);
-		
-			if(menuTwo.getMainCourse() != "") 
-				day.addMenu(menuTwo);
-			
-			day.setNotes(notes);
-			day.setTitle(title);
-			day.setGuid(guid);
+			//add day to diet
+			diet.addDay(d);
 
-			diet.addDay(day);
 		}
 
 		diet.setLastSynced(new Date());
 		return diet;
 	}
-	
-	protected Menu parseMenu(String menuString) {
-		String[] menuItems = menuString.split(";");
+
+	private Day parseDay(String title, String guid, String description) {
+
+		//create day
+		Day d = new Day();
 		
-		Menu menu = new Menu();
-		menu.setAppetizer("");
-		menu.setMainCourse("");
-		menu.setSideDish("");
-		
-		if(menuItems.length > 2) { // Make sure, there is a parsable value.
-		
-			String appetizer = menuItems[1].trim();
-			String mainCourse = menuItems[2].trim();
-			String sideDish = "";
-			for(int i = 3; i < menuItems.length; i++) {
-				sideDish = sideDish.concat(", " + menuItems[i]);
+		// Clear the CDATA and use delimiter 
+		description = description.replace("<![CDATA[", "");
+		description = description.replace("]]>", "");
+
+		//Split description in seperate rows
+		String parts[] = description.split("<br>");
+
+		//Interprete description, cancel if no <u> tag is available
+		for(int j=0; j<parts.length; j++) {
+
+			//Part is start of a new category, e.g. Menü 1
+			if(this.optimizeString(parts[j]).contains("<u>")) {
+
+				//create menu
+				Menu m = new Menu();
+
+				//category title, e.g. "Menü 1"
+				m.setTitle(this.optimizeString(parts[j]).replaceAll("<u>", "").replaceAll("</u>", ""));
+				
+				//if category title is the notes title -> save next part as notes and  continue;
+				if(m.getTitle().equals("Kennzeichnung")) {
+					d.setNotes(this.optimizeString(parts[++j]));
+					continue;
+				}
+				
+				//get apetizer
+				m.setAppetizer(this.optimizeString(parts[++j]));
+				//get apetizer
+				m.setMainCourse(this.optimizeString(parts[++j]));
+				//get side dishes
+				StringBuilder sideDishes = new StringBuilder();
+				while(true) {
+
+					//Check if next part is next title
+					if(++j > parts.length || parts[j].contains("<u>")) {
+						j--;
+						break;
+					}
+
+					//Append part to sideDish
+					String s = this.optimizeString(parts[j]);
+					
+					if(s.length() > 0)
+						sideDishes.append(s + ", ");
+				}
+
+				//remove last comma and set
+				if(sideDishes.toString().endsWith(", "))
+					sideDishes.delete(sideDishes.length()-2, sideDishes.length()-1);
+				m.setSideDish(sideDishes.toString());
+				
+				//add Menu to day
+				d.addMenu(m);
 			}
-			sideDish = sideDish.substring(1).trim();
-			
-			menu.setAppetizer(appetizer);
-			menu.setMainCourse(mainCourse);
-			menu.setSideDish(sideDish);
-		
 		}
 		
-		return menu;
+		return d;
 	}
+
+	private String optimizeString(String s) {
+		s = s.replace("\n", "").replace("\r", "").replace("\t", "");
+		s = s.replaceAll("<u></u>", "");
+		s = s.trim().replaceAll(" +", " ");
+		s = s.replaceAll(">\\s+<", "><").trim();
+		s = s.replace("<br>", "");
+		s = s.replaceAll("(;)\\1+", "");
+		s = s.replaceAll("<b>", "");
+		s = s.replaceAll("</b>", "");
+
+		if(s.startsWith(" "))
+			s = s.substring(1);
+
+		return s;
+	}
+
 
 	// Given a string representation of a URL, sets up a connection and gets
 	// an input stream.
@@ -189,27 +222,41 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		InputStream stream = conn.getInputStream();
 		return stream;
 	}
-	
+
 	private void startDietFetchNotification() {
-		Intent intent = new Intent(getActivity(), MainActivity.class);
-		PendingIntent pIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
-		notificationBuilder.setContentIntent(pIntent);
-		notificationBuilder.setContentTitle(getActivity().getString(R.string.notification_updating_menu_title))
-				.setContentText(getActivity().getString(R.string.notification_updating_menu_text))
-				.setSmallIcon(R.drawable.ic_action_refresh_dark)
-				.setProgress(0, 0, true);
-		notificationManager.notify(0, notificationBuilder.build());
+		
+		//Call UI Thead to show indeterminate ProgressDialog
+		this.getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				DietFetchTask.this.progressDialog = ProgressDialog.show(DietFetchTask.this.getActivity(), "", 
+		                DietFetchTask.this.getActivity().getResources().getString(R.string.text_diet_fetch), true);
+			}
+		});
+		
 	}
-	
+
 	private void endDietFetchNotification(boolean success) {
-		notificationManager.cancel(0);
-		if(success) {
-			getActivity().showToast(getActivity().getString(R.string.text_diet_synced));
-		} else {
-			getActivity().showToast(getActivity().getString(R.string.error_diet_fetch));
-		}
+		
+		//Show error toast if an error has occured
+		if(!success)
+			this.getActivity().showToast(this.getActivity().getResources().getString(R.string.error_diet_fetch));
+		
+		//if the progress dialog is null, cancel operation
+		if(this.progressDialog == null)
+			return;
+		
+		//Call UI Thread to dismiss progressDialog
+		this.getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				DietFetchTask.this.progressDialog.dismiss();
+			}
+		});
 	}
-	
+
 	public MainActivity getActivity() {
 		return activity;
 	}
