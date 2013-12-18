@@ -83,6 +83,12 @@ public class DayPagerAdapter extends FragmentStatePagerAdapter {
             case Calendar.FRIDAY:
             	pageTitle = getPageTitle(R.string.weekday_fr, guid);
             	break;
+            case Calendar.SATURDAY:
+            	pageTitle = getPageTitle(R.string.weekday_sa, guid);
+            	break;
+            case Calendar.SUNDAY:
+            	pageTitle = getPageTitle(R.string.weekday_so, guid);
+            	break;
             default:
             	pageTitle = "UNKOWN";
             	break;

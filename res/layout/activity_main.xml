@@ -15,7 +15,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="8" >
 
             <android.support.v4.view.PagerTitleStrip
@@ -32,8 +32,8 @@
         <fragment
             android:id="@+id/countdown_container"
             android:name="de.rentoudu.mensa.fragment.CountdownFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
 
