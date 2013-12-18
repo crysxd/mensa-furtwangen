@@ -22,7 +22,7 @@
     
     <string name="text_menu_no_offer">No offer today, sry...</string>
     
-    <string name="text_about"><b>\u00A9 Florian Sauter 2013</b>\nSoftware Product Management\nFurtwangen University\nData provided by SWFR.\nVersion: <b>%1$s</b></string>
+    <string name="text_about">\u00A9 <b>Florian Sauter</b> 2013\nSoftware Produktmanagement\nHochschule Furtwangen\n\n\u00A9 <b>Christian Würthner</b> 2014\nAllgemeine Informatik\nHochschule Furtwangen\n\nDaten von SWFR.\nVersion: %1$s</string>
     <string name="text_diet_synced">Menu has been updated.</string>
     <string name="text_diet_fetch">Fetching menu&#8230;</string>
     <string name="text_closed">Closed</string>

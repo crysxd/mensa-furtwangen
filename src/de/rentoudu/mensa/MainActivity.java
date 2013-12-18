@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
@@ -268,7 +269,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			refreshDiet();
 			break;
 		case R.id.menu_about:
-			showAboutMenu();
+			showAboutActivity();
 			break;
 		}
 		return true;
@@ -278,24 +279,27 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		viewPager.setCurrentItem(getCurrentDayIndex());
 	}
 
-	private void showAboutMenu() {
-		String version = "-";
-		try {
-			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			version = packageInfo.versionName;
-		} catch (NameNotFoundException e) {
-			// Nothing to do.
-		}
-		String message = String.format(getString(R.string.text_about), version);
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(message).setTitle(R.string.menu_about)
-		.setNeutralButton(android.R.string.ok,
-				new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		}
-				).create().show();
+	private void showAboutActivity() {
+//		String version = "-";
+//		try {
+//			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+//			version = packageInfo.versionName;
+//		} catch (NameNotFoundException e) {
+//			// Nothing to do.
+//		}
+//		String message = String.format(getString(R.string.text_about), version);
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//		builder.setMessage(message).setTitle(R.string.menu_about)
+//		.setNeutralButton(android.R.string.ok,
+//				new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog, int id) {
+//				dialog.cancel();
+//			}
+//		}
+//				).create().show();
+		
+		Intent i = new Intent(this, AboutActivity.class);
+		this.startActivity(i);
 	}
 
 	public DayPagerAdapter getDayPagerAdapter() {
