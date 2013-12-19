@@ -280,24 +280,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	}
 
 	private void showAboutActivity() {
-//		String version = "-";
-//		try {
-//			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-//			version = packageInfo.versionName;
-//		} catch (NameNotFoundException e) {
-//			// Nothing to do.
-//		}
-//		String message = String.format(getString(R.string.text_about), version);
-//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		builder.setMessage(message).setTitle(R.string.menu_about)
-//		.setNeutralButton(android.R.string.ok,
-//				new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog, int id) {
-//				dialog.cancel();
-//			}
-//		}
-//				).create().show();
-		
 		Intent i = new Intent(this, AboutActivity.class);
 		this.startActivity(i);
 	}

@@ -20,7 +20,7 @@
     <string name="text_header_menu_one">Menu 1</string>
     <string name="text_header_menu_two">Menu 2</string>
     
-    <string name="text_menu_no_offer">No offer today, sry...</string>
+    <string name="text_menu_no_offer">No offer</string>
     
     <string name="text_about">\u00A9 <b>Florian Sauter</b> 2013\nSoftware Produktmanagement\nHochschule Furtwangen\n\n\u00A9 <b>Christian Würthner</b> 2014\nAllgemeine Informatik\nHochschule Furtwangen\n\nDaten von SWFR.\nVersion: %1$s</string>
     <string name="text_diet_synced">Menu has been updated.</string>

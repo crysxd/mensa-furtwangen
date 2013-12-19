@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class AboutActivity extends Activity {
@@ -25,5 +26,16 @@ public class AboutActivity extends Activity {
 		((TextView) this.findViewById(R.id.text1)).setText(message);
 
 	}
+	
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        switch (item.getItemId()) {
+	        case android.R.id.home:
+	        	this.onBackPressed();
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	        }
+	    }
 
 }

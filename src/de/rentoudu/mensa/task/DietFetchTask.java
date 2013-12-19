@@ -198,10 +198,29 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 					continue;
 				}
 
-				//get apetizer
-				m.setAppetizer(this.optimizeString(parts[++j]));
-				//get apetizer
-				m.setMainCourse(this.optimizeString(parts[++j]));
+				//if the next two items do not contain a new category, use them as apetizer and mai course
+				if(!parts[j+1].contains("<u>") && !parts[j+2].contains("<u>")) {
+					//get apetizer
+					m.setAppetizer(this.optimizeString(parts[++j]));
+					//get apetizer
+					m.setMainCourse(this.optimizeString(parts[++j]));
+				
+				} else {
+					
+					//if not the first item contains <u> (a new category) set it as mainCourse and add the menu
+					if(!parts[j+1].contains("<u>")) {
+						m.setMainCourse(this.optimizeString(parts[++j]));
+						d.addMenu(m);
+						continue;
+					
+					//Both contain a new category, skip it
+					} else {
+						continue;
+					}
+				}
+
+				
+		
 				//get side dishes
 				StringBuilder sideDishes = new StringBuilder();
 				while(true) {

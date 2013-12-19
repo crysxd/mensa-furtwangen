@@ -42,6 +42,18 @@ public class MenuFragment extends Fragment {
     	menuRatingBar.setOnTouchListener(menuRatingBarController);
     	menuRatingBarController.refresh();
 		
+    	
+    	//hide unused textfields
+    	if(menuAppetizer.getText().length() == 0) {
+    		menuAppetizer.setVisibility(View.GONE);
+    	}
+    	if(menumainCourse.getText().length() == 0) {
+    		menumainCourse.setVisibility(View.GONE);
+    	}
+    	if(menuSideDish.getText().length() == 0) {
+    		menuSideDish.setVisibility(View.GONE);
+    	}
+    	
 		return view;
 	}
 	

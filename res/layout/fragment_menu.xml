@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="#3f3f3f" />
+        android:textColor="#777777" />
 
     <TextView
         android:id="@+id/menu_maincourse"
@@ -60,6 +60,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="#3f3f3f" />
+        android:textColor="#777777" />
 
 </LinearLayout>

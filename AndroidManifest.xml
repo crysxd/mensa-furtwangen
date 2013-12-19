@@ -27,7 +27,8 @@
         </activity>
         <activity
             android:name="de.rentoudu.mensa.AboutActivity"
-            android:label="@string/menu_about">
+            android:label="@string/menu_about"
+            android:parentActivityName="de.rentoudu.mensa.MainActivity">
         </activity>
     </application>
 
