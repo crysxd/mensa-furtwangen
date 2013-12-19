@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="de.rentoudu.mensa.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +29,7 @@
         <activity
             android:name="de.rentoudu.mensa.AboutActivity"
             android:label="@string/menu_about"
+            android:screenOrientation="portrait"
             android:parentActivityName="de.rentoudu.mensa.MainActivity">
         </activity>
     </application>

@@ -2,6 +2,7 @@ package de.rentoudu.mensa.task;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -81,12 +85,12 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		//Merge the two weeks' diets, if they are not null
 		Diet mergedDiet = new Diet();
 		mergedDiet.setLastSynced(new Date());
-		
+
 		if(d1 != null)
 			mergedDiet.addDays(d1.getDays());
-		
+
 		if(d2 != null)
-		mergedDiet.addDays(d2.getDays());
+			mergedDiet.addDays(d2.getDays());
 
 		//return the merged one
 		return mergedDiet;
@@ -176,78 +180,62 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		// Clear the CDATA and use delimiter 
 		description = description.replace("<![CDATA[", "");
 		description = description.replace("]]>", "");
-
-		//Split description in seperate rows
-		String parts[] = description.split("<br>");
-
-		//Interprete description, cancel if no <u> tag is available
-		for(int j=0; j<parts.length; j++) {
-
-			//Part is start of a new category, e.g. Menü 1
-			if(this.optimizeString(parts[j]).contains("<u>")) {
-
-				//create menu
-				Menu m = new Menu();
-
-				//category title, e.g. "Menü 1"
-				m.setTitle(this.optimizeString(parts[j]).replaceAll("<u>", "").replaceAll("</u>", ""));
-
-				//if category title is the notes title -> save next part as notes and  continue;
-				if(m.getTitle().equals("Kennzeichnung")) {
-					d.setNotes(this.optimizeString(parts[++j]));
-					continue;
-				}
-
-				//if the next two items do not contain a new category, use them as apetizer and mai course
-				if(!parts[j+1].contains("<u>") && !parts[j+2].contains("<u>")) {
-					//get apetizer
-					m.setAppetizer(this.optimizeString(parts[++j]));
-					//get apetizer
-					m.setMainCourse(this.optimizeString(parts[++j]));
-				
-				} else {
-					
-					//if not the first item contains <u> (a new category) set it as mainCourse and add the menu
-					if(!parts[j+1].contains("<u>")) {
-						m.setMainCourse(this.optimizeString(parts[++j]));
-						d.addMenu(m);
-						continue;
-					
-					//Both contain a new category, skip it
-					} else {
-						continue;
-					}
-				}
-
-				
+		description = description.replace("<br> ", "<br>");
+		description = description.replace(" <br>", "<br>");
+		String[] menus = description.split("<br><br>");
 		
-				//get side dishes
-				StringBuilder sideDishes = new StringBuilder();
-				while(true) {
-
-					//Check if next part is next title
-					if(++j > parts.length || parts[j].contains("<u>")) {
-						j--;
-						break;
+		try {
+			for(String s : menus) {
+				
+				String parts[] = s.split("<br>");
+				Menu m = new Menu();
+				
+				for(int i=0; i<parts.length; i++) {
+					
+					if(parts[i].contains("<u>")) {
+						
+						if(m.getTitle() != null && m.getTitle().length() > 0) {
+							d.addMenu(m);
+							m = new Menu();
+						}
+						
+						m.setTitle(this.optimizeString(parts[i]));
+						
+						if(m.getTitle().equals("Kennzeichnung")) {
+							d.setNotes(this.optimizeString(parts[i+1]));
+							m = null;
+							break;
+						}
+						
+					
+					} else if(parts[i].contains("<b>")) {
+						m.setMainCourse(this.optimizeString(parts[i]));
+					
+					} else {
+						
+						if(m.getMainCourse() == null) {
+							m.setAppetizer(this.optimizeString(parts[i]));
+						} else {
+							
+							String a = this.optimizeString(parts[i]);
+							if(m.getSideDish() == null)
+								m.setSideDish(a);
+							else
+								m.setSideDish(m.getSideDish() + ", " + a);
+						}
 					}
-
-					//Append part to sideDish
-					String s = this.optimizeString(parts[j]);
-
-					if(s.length() > 0)
-						sideDishes.append(s + ", ");
+					
 				}
-
-				//remove last comma and set
-				if(sideDishes.toString().endsWith(", "))
-					sideDishes.delete(sideDishes.length()-2, sideDishes.length()-1);
-				m.setSideDish(sideDishes.toString());
-
-				//add Menu to day
-				d.addMenu(m);
+				
+				if(m != null && m.getTitle() != null && m.getTitle().length() > 0)
+					d.addMenu(m);
+				
 			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-
+		
+		
 		return d;
 	}
 
@@ -258,7 +246,8 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 	 */
 	private String optimizeString(String s) {
 		s = s.replace("\n", "").replace("\r", "").replace("\t", "");
-		s = s.replaceAll("<u></u>", "");
+		s = s.replaceAll("<u>", "");
+		s = s.replaceAll("</u>", "");
 		s = s.trim().replaceAll(" +", " ");
 		s = s.replaceAll(">\\s+<", "><").trim();
 		s = s.replace("<br>", "");
