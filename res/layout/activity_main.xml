@@ -6,45 +6,65 @@
 
     <!-- Main Content -->
 
-    <LinearLayout
-        android:id="@+id/day_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="match_parent" >
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8" >
+            android:background="@drawable/bg_stripes" >
+        </RelativeLayout>
 
-            <android.support.v4.view.PagerTitleStrip
-                android:id="@+id/pager_title_strip"
+        <LinearLayout
+            android:id="@+id/day_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:background="#99CC00"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:textColor="#fff" />
-        </android.support.v4.view.ViewPager>
+                android:layout_height="match_parent"
+                android:layout_weight="8" >
 
-        <fragment
-            android:id="@+id/countdown_container"
-            android:name="de.rentoudu.mensa.fragment.CountdownFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+                <android.support.v4.view.PagerTitleStrip
+                    android:id="@+id/pager_title_strip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:background="@color/color_main_style"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="#fff" />
+            </android.support.v4.view.ViewPager>
 
-    <ListView
+            <fragment
+                android:id="@+id/countdown_container"
+                android:name="de.rentoudu.mensa.fragment.CountdownFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- Drawer -->
+
+    <RelativeLayout
         android:id="@+id/left_drawer"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#d2eeeeee"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:background="#d2eeeeee" >
+
+        <ListView
+            android:id="@+id/left_drawer_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp" />
+    </RelativeLayout>
 
 </android.support.v4.widget.DrawerLayout>

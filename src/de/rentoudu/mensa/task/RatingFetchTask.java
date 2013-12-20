@@ -17,8 +17,7 @@ public class RatingFetchTask extends RatingTask<Void, Void, Rating>{
 
 	@Override
 	protected Rating doInBackground(Void... params) {
-		Ratings.Builder ratingsBuilder = new Ratings.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-		Ratings ratingService = ratingsBuilder.build();
+		Ratings ratingService = this.createRatingsService();
 		
 		TotalMenuRatingQuery query = new TotalMenuRatingQuery();
 		query.setMenuId(getActiveController().getActiveMenu().getMainCourse());

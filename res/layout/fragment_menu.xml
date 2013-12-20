@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_empty"
-            android:textColor="#3f3f3f"
+            android:textColor="@color/color_dark_text"
             android:textStyle="bold" />
 
         <RatingBar
@@ -39,21 +39,21 @@
         android:layout_width="match_parent"
         android:layout_height="1dip"
         android:layout_marginBottom="10dp"
-        android:background="#99CC00" />
+        android:background="@color/color_main_style" />
 
     <TextView
         android:id="@+id/menu_appetizer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="#777777" />
+        android:textColor="@color/color_light_text" />
 
     <TextView
         android:id="@+id/menu_maincourse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="#3f3f3f"
+        android:textColor="@color/color_dark_text"
         android:textStyle="italic" />
 
     <TextView
@@ -61,6 +61,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="#777777" />
+        android:textColor="@color/color_light_text" />
 
 </LinearLayout>

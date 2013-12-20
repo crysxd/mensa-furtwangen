@@ -17,27 +17,28 @@ import de.rentoudu.mensa.task.RatingFetchTask;
 import de.rentoudu.mensa.task.RatingInsertTask;
 
 public class RatingBarController implements OnTouchListener, RatingBarDialogListener {
-	
+
 	private Fragment activeFragment;
 	private RatingBar activeRatingBar;
 	private Menu activeMenu;
-	
+
 	public RatingBarController(Fragment fragment, RatingBar ratingBar, Menu menu) {
 		this.activeFragment = fragment;
 		this.activeRatingBar = ratingBar;
 		this.activeMenu = menu;
 	}
-	
+
 	/**
 	 * Updates the view asynchrony.
 	 */
 	public void refresh() {
 		new RatingFetchTask(this).execute();
 	}
-	
+
 	@Override
 	public void onDialogPositiveClick(int rating) {
-		if(rating > 0 && rating < 6) {
+		if(rating > 0 && rating < 6 && getActiveMenu().getMainCourse() != null) {
+
 			// Build rating.
 			Rating userRating = new Rating();
 			userRating.setDeviceId(Utils.getDeviceId());
@@ -45,6 +46,7 @@ public class RatingBarController implements OnTouchListener, RatingBarDialogList
 			userRating.setRatingScore((double) rating);
 			// Persist rating.
 			new RatingInsertTask(this).execute(userRating);
+
 		}
 	}
 
@@ -57,21 +59,21 @@ public class RatingBarController implements OnTouchListener, RatingBarDialogList
 		}
 		return true;
 	}
-	
+
 	public Menu getActiveMenu() {
 		return activeMenu;
 	}
-	
+
 	public RatingBar getActiveRatingBar() {
 		return activeRatingBar;
 	}
-	
+
 	public FragmentActivity getActivity() {
 		return activeFragment.getActivity();
 	}
-	
+
 	public FragmentManager getFragmentManager() {
 		return activeFragment.getFragmentManager();
 	}
-	
+
 }

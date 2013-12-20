@@ -46,7 +46,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections.
 	 */
-	private DayPagerAdapter dayPagerAdapter;
+	private DayPagerAdapter dayPagerAdapter; 
 	
 	/**
 	 * The name of the SharedPreferences instance used by this activity
@@ -69,7 +69,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	private Diet currentDiet;
 
 	/**
-	 * The selected mensa's id
+	 * The selected mensa's id 
 	 */
 	private Mensa selectedMensa = null;
 
@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 		//create the left drawer and it's list
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
 
 		//create the drawer toggle which will be put in the left side of the ActionBar
 		mDrawerToggle = new ActionBarDrawerToggle(

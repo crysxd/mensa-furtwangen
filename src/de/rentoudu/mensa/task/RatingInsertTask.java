@@ -1,5 +1,6 @@
 package de.rentoudu.mensa.task;
 
+import android.content.res.Resources;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -18,8 +19,8 @@ public class RatingInsertTask extends RatingTask<Rating, Void, Boolean>{
 
 	@Override
 	protected Boolean doInBackground(Rating... params) {
-		Ratings.Builder ratingsBuilder = new Ratings.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
-		Ratings ratingService = ratingsBuilder.build();
+		Ratings ratingService = this.createRatingsService();
+
 		
 		try {
 			ratingService.insertRating(params[0]).execute();

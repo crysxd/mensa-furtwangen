@@ -54,6 +54,11 @@ public class MenuFragment extends Fragment {
     		menuSideDish.setVisibility(View.GONE);
     	}
     	
+    	//hide raiting bar if there is no main course to prevent useless votes
+    	if(menu.getMainCourse() == null) {
+    		menuRatingBar.setVisibility(View.GONE);
+    	}
+    	
 		return view;
 	}
 	
