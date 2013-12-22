@@ -32,6 +32,12 @@
             android:screenOrientation="portrait"
             android:parentActivityName="de.rentoudu.mensa.MainActivity">
         </activity>
+         <activity
+            android:name="de.rentoudu.mensa.FavoriteDishActivity"
+            android:label="@string/menu_fav_dish"
+            android:screenOrientation="portrait"
+            android:parentActivityName="de.rentoudu.mensa.MainActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class AboutActivity extends Activity {
-	
+public class AboutActivity extends DefaultActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.activity_about);
-		
+
 		String version = this.getResources().getString(R.string.text_empty);
 		try {
 			PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -26,16 +26,4 @@ public class AboutActivity extends Activity {
 		((TextView) this.findViewById(R.id.text1)).setText(message);
 
 	}
-	
-	 @Override
-	    public boolean onOptionsItemSelected(MenuItem item) {
-	        switch (item.getItemId()) {
-	        case android.R.id.home:
-	        	this.onBackPressed();
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	        }
-	    }
-
 }

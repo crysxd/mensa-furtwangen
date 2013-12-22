@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Mensa Furtwangen</string>
+    <string name="menu_fav_dish">Meine Lieblingsessen</string>
     <string name="weekday_mo">Montag</string>
     <string name="weekday_tu">Dienstag</string>
     <string name="weekday_we">Mittwoch</string>

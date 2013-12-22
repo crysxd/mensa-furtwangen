@@ -47,12 +47,12 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	 * fragments for each of the sections.
 	 */
 	private DayPagerAdapter dayPagerAdapter; 
-	
+
 	/**
 	 * The name of the SharedPreferences instance used by this activity
 	 */
 	private final String SHARED_PREFS_NAME = "MainActivitySettings";
-	
+
 	/**
 	 * The name of the setting in which the selected Mensa's ID is stored
 	 */
@@ -101,14 +101,14 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 		//Load the selected Mensa's ID  from the SharedPreferences object or load Furtwangen (id=641) 
 		//as the selected one ans put the selctedMensa object
-	    SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
-	    int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
+		SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
+		int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
 		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(selectedMensaId);
 
 		//Update the ActionBar's title to correspont with the selected Mensa
 		this.getActionBar().setTitle(this.selectedMensa.getName());
 		this.getActionBar().setIcon(this.getResources().getDrawable(this.selectedMensa.getIconResource()));
-		
+
 		if(savedInstanceState != null && savedInstanceState.containsKey("diet")) {
 			// Reuse already fetched diet.
 			Diet savedDiet = (Diet) savedInstanceState.getSerializable("diet");
@@ -207,11 +207,11 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	}
 
 	public void refreshDiet() {
-		
+
 		//Generate RSS feed URLs
 		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
 		String secondWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex() + 7);
-		
+
 		//create Executor and AsyncTask and execute it. Shutdown s properly.
 		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediately
 		ExecutorService s = Executors.newSingleThreadExecutor();
@@ -221,7 +221,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 	public void updateDietAndView(Diet diet) {
 		this.currentDiet = diet;
-		
+
 		viewPager.setAdapter((this.dayPagerAdapter = 
 				new DayPagerAdapter(getResources(), getSupportFragmentManager())));
 		dayPagerAdapter.setDiet(diet);
@@ -253,7 +253,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 		//hide the drawer
 		this.mDrawerLayout.closeDrawers();
-		
+
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
@@ -271,8 +271,16 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		case R.id.menu_about:
 			showAboutActivity();
 			break;
+		case R.id.menu_fav:
+			showFavoriteDishActivity();
+			break;
 		}
 		return true;
+	}
+
+	private void showFavoriteDishActivity() {
+		Intent i = new Intent(this, FavoriteDishActivity.class);
+		this.startActivity(i);
 	}
 
 	private void goToToday() {
@@ -308,24 +316,24 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
+
 		//Get the Mensa object selceted by the user
 		Mensa m = MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
-		
+
 		//If the selected object is not the current selected one
 		if(m != this.selectedMensa) {
-			
+
 			//set the selected one
 			this.selectedMensa = m;
-			
+
 			//Save the is to the SharedPreferences Object
 			SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
 			settings.edit().putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId()).apply();
-			
+
 			//Refresh the diet to dispaly the diet for the new canteen
 			this.refreshDiet();
 		}
-		
+
 		//Close the drawer
 		this.mDrawerLayout.closeDrawers();
 
