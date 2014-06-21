@@ -30,6 +30,6 @@
     <string name="rating_description_bad">I dislike this</string>
     <string name="notification_updating_menu_title">Updating menu</string>
     <string name="notification_updating_menu_text">The menu is being updated&#8230;</string>
-    <string name="error_diet_fetch">Sry, no connection.</string>
+    <string name="error_diet_fetch">Data could not be loaded.</string>
 
 </resources>

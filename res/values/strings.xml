@@ -31,7 +31,7 @@
     <string name="rating_description_bad">Mag ich nicht</string>
     <string name="notification_updating_menu_title">Aktualisiere Menü</string>
     <string name="notification_updating_menu_text">Das Menü wird aktualisiert&#8230;</string>
-    <string name="error_diet_fetch">Sry, keine Internetverbindung.</string>
+    <string name="error_diet_fetch">Aktuell können keine Daten geladen werden.</string>
     <string name="drawer_open">Mensa wählen</string>
     <color name="color_dark_text">#3f3f3f</color>
     <color name="color_light_text">#777777</color>

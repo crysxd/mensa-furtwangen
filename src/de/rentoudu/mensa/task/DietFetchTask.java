@@ -31,9 +31,12 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 	//The ProgressDialog shown when loading the RSS feed
 	private ProgressDialog progressDialog;
-	
+
 	//A flag indicating if cached values should be used
 	private boolean useCachedValues = true;
+
+	//A attribute to store (the last) occured exception
+	private Exception occuredException = null;
 
 	/**
 	 * Creates a new DieFetchTask instance.
@@ -42,65 +45,78 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 	public DietFetchTask(MainActivity mainActivity, boolean useCachedValues) {
 		this.activity = mainActivity;
 		this.useCachedValues = useCachedValues;
-		
+
 	}
 
 	@Override
 	protected Diet doInBackground(String... args) {
-
-		//Show the LoadingDialog
-		startDietFetchNotification(); // Ends in onPostExecute(..)
-
-		//Create Rss Cache instance
-		RssCache rssCach = RssCache.getCache();
-
-		//Load Diet for first week
-		Diet d1 = null, d2 = null;
+		//Wrap everything into try-catch to perfectly handle exceptions
 		try {
-			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday(), this.useCachedValues);
-			d1 = parseRss(in, false);
+			//Show the LoadingDialog
+			startDietFetchNotification(); // Ends in onPostExecute(..)
+
+			//Create Rss Cache instance
+			RssCache rssCach = RssCache.getCache();
+
+			//Load Diet for first week  (in seperate try-catch to load as much data as possible)
+			Diet d1 = null, d2 = null;
+			try {
+				InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday(), this.useCachedValues);
+				d1 = parseRss(in, false);
+
+			} catch(Exception e) {
+				e.printStackTrace();
+				this.occuredException = e;
+
+			}
+
+			//Load diet for second week (in seperate try-catch to load as much data as possible)
+			try {
+				InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0])+1, args[2], this.getDateOfNextSunday(), this.useCachedValues);
+				d2 = parseRss(in, false);
+
+			} catch(Exception e) {
+				e.printStackTrace();
+				this.occuredException = e;
+
+			}
+
+
+			//Merge the two weeks' diets, if they are not null
+			Diet mergedDiet = new Diet();
+			mergedDiet.setLastSynced(new Date());
+
+			if(d1 != null)
+				mergedDiet.addDays(d1.getDays());
+
+			if(d2 != null)
+				mergedDiet.addDays(d2.getDays());
+
+			//return the merged one
+			return mergedDiet;
 
 		} catch(Exception e) {
+			//Something went wrong...save exception and return null
 			e.printStackTrace();
+			this.occuredException = e;
+			return null;
+
 		}
-
-		//Load diet for second week
-		try {
-			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0])+1, args[2], this.getDateOfNextSunday(), this.useCachedValues);
-			d2 = parseRss(in, false);
-
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-
-		//Merge the two weeks' diets, if they are not null
-		Diet mergedDiet = new Diet();
-		mergedDiet.setLastSynced(new Date());
-
-		if(d1 != null)
-			mergedDiet.addDays(d1.getDays());
-
-		if(d2 != null)
-			mergedDiet.addDays(d2.getDays());
-
-		//return the merged one
-		return mergedDiet;
 	}
 
 	@Override
 	protected void onPostExecute(Diet result) {
 
 		//Check if the resut if valid
-		if(result == null) {
-
+		if(result == null || this.occuredException != null) {
 			//if not, show an error toast and dismiss the loading dialog
 			endDietFetchNotification(false);
+			
 		} else {
-
 			//if so, update the shown diet and dismiss the loading dialog
 			this.getActivity().updateDietAndView(result);
 			endDietFetchNotification(true);
+			
 		}
 	}
 
@@ -174,40 +190,40 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		description = description.replace("<br> ", "<br>");
 		description = description.replace(" <br>", "<br>");
 		String[] menus = description.split("<br><br>");
-		
+
 		try {
 			for(String s : menus) {
-				
+
 				String parts[] = s.split("<br>");
 				Menu m = new Menu();
-				
+
 				for(int i=0; i<parts.length; i++) {
-					
+
 					if(parts[i].contains("<u>")) {
-						
+
 						if(m.getTitle() != null && m.getTitle().length() > 0) {
 							d.addMenu(m);
 							m = new Menu();
 						}
-						
+
 						m.setTitle(this.optimizeString(parts[i]));
-						
+
 						if(m.getTitle().equals("Kennzeichnung")) {
 							d.setNotes(this.optimizeString(parts[i+1]));
 							m = null;
 							break;
 						}
-						
-					
+
+
 					} else if(parts[i].contains("<b>")) {
 						m.setMainCourse(this.optimizeString(parts[i]));
-					
+
 					} else {
-						
+
 						if(m.getMainCourse() == null) {
 							m.setAppetizer(this.optimizeString(parts[i]));
 						} else {
-							
+
 							String a = this.optimizeString(parts[i]);
 							if(m.getSideDish() == null)
 								m.setSideDish(a);
@@ -215,18 +231,18 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 								m.setSideDish(m.getSideDish() + ", " + a);
 						}
 					}
-					
+
 				}
-				
+
 				if(m != null && m.getTitle() != null && m.getTitle().length() > 0)
 					d.addMenu(m);
-				
+
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return d;
 	}
 
@@ -271,7 +287,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 
-//		Date d = calendar.getTime();
+		//		Date d = calendar.getTime();
 
 		return calendar.getTime();
 	}
