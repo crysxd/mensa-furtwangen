@@ -118,10 +118,10 @@ public class RssCache {
 		
 	}
 	
-	public InputStream fetchRssFeed(int id, String url, Date expireDate) throws IOException {
+	public InputStream fetchRssFeed(int id, String url, Date expireDate, boolean useCachedValues) throws IOException {
 		
 		//Get the cached file for the url, may not exist
-		File f = this.getFileForId(id);
+		File f = useCachedValues ? this.getFileForId(id) : null;
 		
 		try {
 			//if f is null the cache file does not exist or is expired -> reload

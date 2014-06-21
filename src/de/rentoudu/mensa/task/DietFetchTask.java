@@ -31,13 +31,18 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 	//The ProgressDialog shown when loading the RSS feed
 	private ProgressDialog progressDialog;
+	
+	//A flag indicating if cached values should be used
+	private boolean useCachedValues = true;
 
 	/**
 	 * Creates a new DieFetchTask instance.
 	 * @param mainActivity The MainActivity instance invoking this contructor.
 	 */
-	public DietFetchTask(MainActivity mainActivity) {
+	public DietFetchTask(MainActivity mainActivity, boolean useCachedValues) {
 		this.activity = mainActivity;
+		this.useCachedValues = useCachedValues;
+		
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		//Load Diet for first week
 		Diet d1 = null, d2 = null;
 		try {
-			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday());
+			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday(), this.useCachedValues);
 			d1 = parseRss(in, false);
 
 		} catch(Exception e) {
@@ -61,7 +66,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 		//Load diet for second week
 		try {
-			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0])+1, args[2], this.getDateOfNextSunday());
+			InputStream in = rssCach.fetchRssFeed(Integer.valueOf(args[0])+1, args[2], this.getDateOfNextSunday(), this.useCachedValues);
 			d2 = parseRss(in, false);
 
 		} catch(Exception e) {

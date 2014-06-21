@@ -105,7 +105,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			updateDietAndView(savedDiet);
 		} else {
 			// Starts async fetching task.
-			refreshDiet();
+			refreshDiet(true);
 		}
 
 		//create the left drawer and it's list
@@ -196,7 +196,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		return Utils.getDay() + dateBalancer;
 	}
 
-	public void refreshDiet() {
+	public void refreshDiet(boolean useCachedValues) {
 
 		//Generate RSS feed URLs
 		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
@@ -205,7 +205,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		//create Executor and AsyncTask and execute it. Shutdown s properly.
 		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediately
 		ExecutorService s = Executors.newSingleThreadExecutor();
-		new DietFetchTask(this).executeOnExecutor(s, this.selectedMensa.getId() + "", firstWeekFeedUrl, secondWeekFeedUrl);
+		new DietFetchTask(this, useCachedValues).executeOnExecutor(s, this.selectedMensa.getId() + "", firstWeekFeedUrl, secondWeekFeedUrl);
 		s.shutdown();
 	}
 
@@ -256,7 +256,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			goToToday();
 			break;
 		case R.id.menu_sync:
-			refreshDiet();
+			refreshDiet(false);
 			break;
 		case R.id.menu_about:
 			showAboutActivity();
@@ -313,7 +313,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			settings.edit().putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId()).apply();
 
 			//Refresh the diet to dispaly the diet for the new canteen
-			this.refreshDiet();
+			this.refreshDiet(true);
 		}
 
 		//Close the drawer
