@@ -20,6 +20,7 @@ public class AboutActivity extends DefaultActivity {
 		} catch (NameNotFoundException e) {
 			// Nothing to do.
 		}
+		
 		String message = String.format(getString(R.string.text_about), version);
 		((TextView) this.findViewById(R.id.text1)).setText(message);
 
