@@ -47,7 +47,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		startDietFetchNotification(); // Ends in onPostExecute(..)
 
 		//Create Rss Cache instance
-		RssCache rssCach = new RssCache();
+		RssCache rssCach = RssCache.getCache();
 
 		//Load Diet for first week
 		Diet d1 = null, d2 = null;

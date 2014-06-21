@@ -18,11 +18,26 @@ import android.os.Environment;
 
 public class RssCache {
 
+	/*
+	 * Singelton design pattern
+	 */
+	private static RssCache instance;
+	
+	public synchronized static RssCache getCache() {
+		if(instance == null)
+			instance = new RssCache();
+		
+		return instance;
+	}
+	
+	/*
+	 * Class context
+	 */
 	private final File CACHE_DIRECTORY = new File(Environment.getExternalStorageDirectory(), "/Android/data/de.rentoudu.mensa");
 	@SuppressLint("SimpleDateFormat")
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 	
-	public RssCache() {
+	private RssCache() {
 		
 		this.CACHE_DIRECTORY.mkdir();
 		
@@ -40,7 +55,16 @@ public class RssCache {
 		
 	}
 	
-	private File getFileForId(int id) {
+	public synchronized void clearCache() {
+		File[] files = this.CACHE_DIRECTORY.listFiles();
+		
+		for(File f : files) {
+			f.delete();
+			
+		}
+	}
+	
+	private synchronized File getFileForId(int id) {
 		
 		//Generate the beginning of the file that represents the cache for the url and list all files in cache dir
 		String fileName = id + "_";
@@ -117,7 +141,7 @@ public class RssCache {
 		
 	}
 	
-	private File cacheRssFeedToFile(int id, String url, Date expireDate) throws Exception {
+	private synchronized File cacheRssFeedToFile(int id, String url, Date expireDate) throws Exception {
 		
 		File f = null;
 		try {
