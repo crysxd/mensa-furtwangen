@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,6 +46,7 @@ public class CanteenInfoActivity extends Activity {
 		//Set title and icon
 		this.getActionBar().setTitle(m.getName());
 		this.getActionBar().setIcon(m.getIconResource());
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		//Prepare map
 		GoogleMap map = ((MapFragment) getFragmentManager()
@@ -72,6 +74,18 @@ public class CanteenInfoActivity extends Activity {
 			.build();
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1, null);
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        this.finish();
+	        return true;
+	    }
+	    
+	    return super.onOptionsItemSelected(item);
 	}
 
 }

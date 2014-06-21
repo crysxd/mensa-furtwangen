@@ -3,6 +3,7 @@ package de.rentoudu.mensa;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class AboutActivity extends DefaultActivity {
@@ -23,6 +24,20 @@ public class AboutActivity extends DefaultActivity {
 		
 		String message = String.format(getString(R.string.text_about), version);
 		((TextView) this.findViewById(R.id.text1)).setText(message);
+		
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        this.finish();
+	        return true;
+	    }
+	    
+	    return super.onOptionsItemSelected(item);
 	}
 }
