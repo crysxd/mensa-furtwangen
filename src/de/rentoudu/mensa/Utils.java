@@ -33,16 +33,21 @@ public class Utils {
 		return getCalendar().get(Calendar.YEAR);
 	}
 	
-	public static String getFormattedDate(String unformattedDate) {
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-		SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
+	public static Date getDate(String unformattedDate) {
 		Date date;
 		try {
 			date = new SimpleDateFormat("E, d.M.y", Locale.GERMANY).parse(unformattedDate);
 		} catch (Exception e) {
 			date = new Date();
 		}
-		String formattedDate = simpleDateFormat.format(date);
+		
+		return date;
+	}
+	
+	public static String getFormattedDate(String unformattedDate) {
+		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+		SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
+		String formattedDate = simpleDateFormat.format(getDate(unformattedDate));
 		return formattedDate;
 	}
 	

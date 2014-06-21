@@ -3,13 +3,6 @@
 
     <string name="app_name">Canteen Furtwangen</string>
     <string name="menu_fav_dish">My favorite dishes</string>
-    <string name="weekday_mo">Monday</string>
-    <string name="weekday_tu">Tuesday</string>
-    <string name="weekday_we">Wednesday</string>
-    <string name="weekday_th">Thursday</string>
-    <string name="weekday_fr">Friday</string>
-    <string name="weekday_sa">Saturday</string>
-    <string name="weekday_so">Sunday</string>
     <string name="menu_about">About</string>
     <string name="menu_today">Today</string>
     <string name="menu_sync">Reload diet</string>

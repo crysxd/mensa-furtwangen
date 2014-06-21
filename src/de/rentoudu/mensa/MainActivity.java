@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		setContentView(R.layout.activity_main);
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
-		dayPagerAdapter = new DayPagerAdapter(getResources(), getSupportFragmentManager());
+		dayPagerAdapter = new DayPagerAdapter(getSupportFragmentManager());
 
 
 		//Load the selected Mensa's ID  from the SharedPreferences object or load Furtwangen (id=641) 
@@ -213,7 +213,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		this.currentDiet = diet;
 
 		viewPager.setAdapter((this.dayPagerAdapter = 
-				new DayPagerAdapter(getResources(), getSupportFragmentManager())));
+				new DayPagerAdapter(getSupportFragmentManager())));
 		dayPagerAdapter.setDiet(diet);
 		dayPagerAdapter.notifyDataSetChanged();
 
