@@ -1,15 +1,11 @@
 package de.rentoudu.mensa.model;
 
 import java.lang.reflect.Field;
-import java.sql.Time;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Text;
 
 import de.rentoudu.mensa.R;
-
-import android.content.res.Resources;
 
 public class Mensa {
 

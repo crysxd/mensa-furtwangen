@@ -13,13 +13,13 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import android.annotation.SuppressLint;
 import android.os.Environment;
-import android.util.Log;
 
 public class RssCache {
 
 	private final File CACHE_DIRECTORY = new File(Environment.getExternalStorageDirectory(), "/Android/data/de.rentoudu.mensa");
+	@SuppressLint("SimpleDateFormat")
 	private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 	
 	public RssCache() {
