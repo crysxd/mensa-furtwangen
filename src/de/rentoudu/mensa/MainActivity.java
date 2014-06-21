@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -37,11 +38,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	 * fragments for each of the sections.
 	 */
 	private DayPagerAdapter dayPagerAdapter; 
-
-	/**
-	 * The name of the SharedPreferences instance used by this activity
-	 */
-	private final String SHARED_PREFS_NAME = "MainActivitySettings";
 
 	/**
 	 * The name of the setting in which the selected Mensa's ID is stored
@@ -91,7 +87,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 		//Load the selected Mensa's ID  from the SharedPreferences object or load Furtwangen (id=641) 
 		//as the selected one ans put the selctedMensa object
-		SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
+		SharedPreferences settings =  PreferenceManager.getDefaultSharedPreferences(this);
 		int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
 		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(selectedMensaId);
 
@@ -261,8 +257,17 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		case R.id.menu_about:
 			showAboutActivity();
 			break;
+		case R.id.menu_info:
+			showCanteenInfo();
+			break;
 		}
 		return true;
+	}
+
+	private void showCanteenInfo() {
+		Intent i = new Intent(this, CanteenInfoActivity.class);
+		this.startActivity(i);
+		
 	}
 
 	private void goToToday() {
@@ -309,7 +314,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			this.selectedMensa = m;
 
 			//Save the is to the SharedPreferences Object
-			SharedPreferences settings = getSharedPreferences(this.SHARED_PREFS_NAME, 0);
+			SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 			settings.edit().putInt(this.SELECTED_MENSA_SETTING, this.selectedMensa.getId()).apply();
 
 			//Refresh the diet to dispaly the diet for the new canteen
