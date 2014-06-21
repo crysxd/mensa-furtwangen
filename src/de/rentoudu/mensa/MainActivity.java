@@ -1,31 +1,21 @@
 package de.rentoudu.mensa;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.*;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import de.rentoudu.mensa.model.Diet;
@@ -271,16 +261,8 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		case R.id.menu_about:
 			showAboutActivity();
 			break;
-		case R.id.menu_fav:
-			showFavoriteDishActivity();
-			break;
 		}
 		return true;
-	}
-
-	private void showFavoriteDishActivity() {
-		Intent i = new Intent(this, FavoriteDishActivity.class);
-		this.startActivity(i);
 	}
 
 	private void goToToday() {

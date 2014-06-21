@@ -2,10 +2,6 @@ package de.rentoudu.mensa.task;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,18 +13,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import de.rentoudu.mensa.MainActivity;
 import de.rentoudu.mensa.R;
 import de.rentoudu.mensa.Utils;
@@ -159,7 +146,6 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 
 			//add day to diet
 			diet.addDay(d);
-
 		}
 
 		//set last sync date and return
@@ -280,7 +266,7 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 
-		Date d = calendar.getTime();
+//		Date d = calendar.getTime();
 
 		return calendar.getTime();
 	}

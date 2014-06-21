@@ -25,13 +25,10 @@
     <string name="text_empty">-</string>
     <string name="text_ok">OK</string>
     <string name="text_cancel">Abbrechen</string>
-    <string name="rating_header">Menü bewerten</string>
     <string name="rating_insert_failed">Konnte die Bewertung nicht speichern, sry.</string>
-    <string name="rating_5">Ausgezeichnet</string>
-    <string name="rating_4">Gut</string>
-    <string name="rating_3">Durchschnittlich</string>
-    <string name="rating_2">Unterdurchschnittlich</string>
-    <string name="rating_1">Schlecht</string>
+    <string name="rating_value_default">0</string>
+    <string name="rating_description_good">Mag ich</string>
+    <string name="rating_description_bad">Mag ich nicht</string>
     <string name="notification_updating_menu_title">Aktualisiere Menü</string>
     <string name="notification_updating_menu_text">Das Menü wird aktualisiert&#8230;</string>
     <string name="error_diet_fetch">Sry, keine Internetverbindung.</string>

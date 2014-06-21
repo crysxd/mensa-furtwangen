@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.rentoudu.mensa"
-    android:versionCode="7"
-    android:versionName="1.1" >
-
+    android:versionCode="9"
+    android:versionName="1.2" >
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
     <application
@@ -18,25 +17,12 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="de.rentoudu.mensa.MainActivity"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="de.rentoudu.mensa.AboutActivity"
-            android:label="@string/menu_about"
-            android:screenOrientation="portrait"
-            android:parentActivityName="de.rentoudu.mensa.MainActivity">
-        </activity>
-         <activity
-            android:name="de.rentoudu.mensa.FavoriteDishActivity"
-            android:label="@string/menu_fav_dish"
-            android:screenOrientation="portrait"
-            android:parentActivityName="de.rentoudu.mensa.MainActivity">
         </activity>
     </application>
 

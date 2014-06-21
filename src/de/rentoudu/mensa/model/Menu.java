@@ -12,6 +12,10 @@ public class Menu implements Serializable {
  
 	public Menu() {}
 	
+	public String getId() {
+		return mainCourse;
+	}
+	
 	public void setTitle(String title) {
 		this.title = title;
 	}

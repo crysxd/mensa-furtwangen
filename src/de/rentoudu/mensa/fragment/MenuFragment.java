@@ -1,14 +1,13 @@
 package de.rentoudu.mensa.fragment;
 
 import de.rentoudu.mensa.R;
-import de.rentoudu.mensa.RatingBarController;
 import de.rentoudu.mensa.model.Menu;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 /**
@@ -16,8 +15,6 @@ import android.widget.TextView;
  */
 public class MenuFragment extends Fragment {
 
-	private RatingBarController menuRatingBarController;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_menu, container, false);
@@ -27,22 +24,14 @@ public class MenuFragment extends Fragment {
     	TextView menumainCourse = (TextView) view.findViewById(R.id.menu_maincourse);
     	TextView menuSideDish = (TextView) view.findViewById(R.id.menu_sidedish);
     	
-    	// Ratings bar.
-    	RatingBar menuRatingBar = (RatingBar) view.findViewById(R.id.menu_ratingBar);
-    	
-    	Menu menu = (Menu) getArguments().get("menu");
+    	Menu menu = getMenu();
     	
 		// Menu value
 		menuTitle.setText(menu.getTitle());
 		menuAppetizer.setText(menu.getAppetizer());
 		menumainCourse.setText(menu.getMainCourse());
     	menuSideDish.setText(menu.getSideDish());
-		// Rating bar
-    	menuRatingBarController = new RatingBarController(this, menuRatingBar, menu);
-    	menuRatingBar.setOnTouchListener(menuRatingBarController);
-    	menuRatingBarController.refresh();
 		
-    	
     	//hide unused textfields
     	if(menuAppetizer.getText().length() == 0) {
     		menuAppetizer.setVisibility(View.GONE);
@@ -55,8 +44,17 @@ public class MenuFragment extends Fragment {
     	}
     	
     	//hide raiting bar if there is no main course to prevent useless votes
-    	if(menu.getMainCourse() == null) {
-    		menuRatingBar.setVisibility(View.GONE);
+//    	if(menu.getMainCourse() == null) {
+//    		menuRatingBar.setVisibility(View.GONE);
+
+    	// Thumbs rating
+    	if(savedInstanceState == null && menu.getMainCourse() != null) {
+    		ThumbsFragment ratingFragment = new ThumbsFragment();
+    		Bundle bundle = new Bundle();
+    		bundle.putString("menuId", menu.getId());
+    		ratingFragment.setArguments(bundle);
+    		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+    		transaction.add(R.id.menu_header_container, ratingFragment).commit();
     	}
     	
 		return view;
@@ -70,4 +68,7 @@ public class MenuFragment extends Fragment {
     	return fragment;
 	}
 	
+	public Menu getMenu() {
+		return (Menu) getArguments().get("menu");
+	}
 }

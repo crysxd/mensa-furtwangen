@@ -6,10 +6,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.appspot.mensa_furtwangen.thumbs.Thumbs;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.json.gson.GsonFactory;
+
 import android.os.Build;
 
 public class Utils {
 
+	public static Thumbs buildThumbsService() {
+		Thumbs.Builder thumbsBuilder = new Thumbs.Builder(AndroidHttp.newCompatibleTransport(), new GsonFactory(), null);
+		thumbsBuilder.setApplicationName("mensa-furtwangen");
+		Thumbs thumbsService = thumbsBuilder.build();
+		return thumbsService;
+	}
+	
 	public static int getDay() {
 		return getCalendar().get(Calendar.DAY_OF_WEEK);
 	}

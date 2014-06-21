@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rating_container"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:layout_gravity="right"
+    android:orientation="horizontal" >
+
+    <!-- LIKE BUTTON -->
+    
+    <TextView
+        android:id="@+id/rating_thumb_up"
+        android:drawableLeft="@drawable/ic_action_good"
+        android:contentDescription="@string/rating_description_good"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/rating_value_default"
+        android:textColor="#ff99cc00" 
+        android:paddingRight="3dp"
+        style="@style/MenuHeaderFont" />
+
+    <!-- DISBLIKE BUTTON -->
+    
+    <TextView
+        android:id="@+id/rating_thumb_down"
+        android:drawableLeft="@drawable/ic_action_bad"
+        android:contentDescription="@string/rating_description_bad"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/rating_value_default"
+        android:textColor="#ffff4444" 
+        style="@style/MenuHeaderFont" />
+
+</LinearLayout>

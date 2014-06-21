@@ -12,10 +12,10 @@ import de.rentoudu.mensa.model.Day;
 import de.rentoudu.mensa.model.Menu;
 
 /**
- * The fragment representing both menus and the rating bar.
+ * The fragment representing both menus, a rating bar and the notes.
  */
 public class DayFragment extends Fragment {
-
+	
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	View view = inflater.inflate(R.layout.fragment_day, container, false);
@@ -27,6 +27,11 @@ public class DayFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Checks wheter we've to add some menus or add a placeholder view (in case of holidays etc.).
+     * 
+     * @param view
+     */
 	private void processDay(View view) {
 		LinearLayout dayContainer = (LinearLayout) view.findViewById(R.id.day_container);
 		LinearLayout menuContainer = (LinearLayout) view.findViewById(R.id.day_menu_container);
@@ -34,9 +39,16 @@ public class DayFragment extends Fragment {
     	if(day.hasMenus())
     		processMenus(dayContainer, menuContainer, day);
     	else
-    		processEmptyView(menuContainer);
+    		processNoMenuView(menuContainer);
 	}
 
+	/**
+	 * Adds all menus programmatically to the day fragment.
+	 * 
+	 * @param dayContainer
+	 * @param menuContainer
+	 * @param day
+	 */
 	private void processMenus(LinearLayout dayContainer, LinearLayout menuContainer, Day day) {
 		NoteFragment notesFragment = NoteFragment.fromText(day.getNotes());
     	FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
@@ -52,11 +64,16 @@ public class DayFragment extends Fragment {
     	fragmentTransaction.commit();
 	}
 	
-	private void processEmptyView(LinearLayout container) {
-		EmptyFragment fragment = new EmptyFragment();
+	/**
+	 * Adds an empty view (like a placeholder).
+	 * 
+	 * @param container
+	 */
+	private void processNoMenuView(LinearLayout container) {
+		EmptyMenuFragment fragment = new EmptyMenuFragment();
 		FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
     	fragmentTransaction.add(container.getId(), fragment, "empty");
     	fragmentTransaction.commit();
 	}
-    
+
 }

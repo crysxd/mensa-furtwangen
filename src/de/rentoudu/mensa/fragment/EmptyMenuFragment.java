@@ -10,7 +10,7 @@ import de.rentoudu.mensa.R;
 /**
  * This fragments represents an empty day (no menus).
  */
-public class EmptyFragment extends Fragment {
+public class EmptyMenuFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

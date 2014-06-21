@@ -25,13 +25,9 @@
     <string name="text_empty">-</string>
     <string name="text_ok">OK</string>
     <string name="text_cancel">Cancel</string>
-    <string name="rating_header">Rate this menu</string>
-    <string name="rating_insert_failed">Could not save your rating, sry.</string>
-    <string name="rating_5">Excellent</string>
-    <string name="rating_4">Above Average</string>
-    <string name="rating_3">Average</string>
-    <string name="rating_2">Below Average</string>
-    <string name="rating_1">Poor</string>
+    <string name="rating_value_default">0</string>
+    <string name="rating_description_good">I like this</string>
+    <string name="rating_description_bad">I dislike this</string>
     <string name="notification_updating_menu_title">Updating menu</string>
     <string name="notification_updating_menu_text">The menu is being updated&#8230;</string>
     <string name="error_diet_fetch">Sry, no connection.</string>
