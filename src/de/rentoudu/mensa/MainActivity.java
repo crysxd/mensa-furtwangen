@@ -12,6 +12,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +45,11 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	 */
 	private final String SELECTED_MENSA_SETTING = "selectedMensa";
 
+	/**
+	 * The name of the setting which indicates if the app was used beefore
+	 */
+	private final String FIRST_START_SETTING = "firstStart";
+	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -146,6 +152,16 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		//Setup the ActionBar for the DrawerToggle
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		this.getActionBar().setHomeButtonEnabled(true);
+		
+		//First start
+		if(settings.getBoolean(this.FIRST_START_SETTING, true)) {
+			settings.edit().putBoolean(this.FIRST_START_SETTING, false);
+			
+			//Show drawer
+			mDrawerLayout.openDrawer(Gravity.LEFT);
+			this.getActionBar().setTitle(R.string.drawer_open);
+
+		}
 
 	}
 
