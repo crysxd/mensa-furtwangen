@@ -1,5 +1,6 @@
 package de.rentoudu.mensa.fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,10 @@ public class MenuFragment extends Fragment {
     	TextView menuSideDish = (TextView) view.findViewById(R.id.menu_sidedish);
     	
     	Menu menu = getMenu();
+    	
+    	//Set Typeface
+		Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Roboto-Light.ttf");
+		menuTitle.setTypeface(myTypeface);
     	
 		// Menu value
 		menuTitle.setText(menu.getTitle());
