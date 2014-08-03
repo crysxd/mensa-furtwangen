@@ -31,12 +31,12 @@
             android:padding="15dp" >
 
             <TextView
-                android:id="@+id/textView1"
-                style="@style/MenuHeaderFont"
+                android:id="@+id/tv_title_address"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/text_address"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/color_dark_text" />
 
             <View
@@ -44,7 +44,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style" />
+                android:background="@color/color_main_style_transparent" />
 
             <TextView
                 android:id="@+id/tv_street"
@@ -61,13 +61,13 @@
                 android:textColor="@color/color_dark_text" />
 
             <TextView
-                android:id="@+id/textView4"
-                style="@style/MenuHeaderFont"
+                android:id="@+id/tv_title_opening_hours"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="@string/text_opening_hours"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/color_dark_text" />
 
             <View
@@ -75,7 +75,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style" />
+                android:background="@color/color_main_style_transparent" />
 
             <TextView
                 android:id="@+id/tv_opening_hours"
@@ -85,13 +85,13 @@
                 android:textColor="@color/color_dark_text" />
 
             <TextView
-                android:id="@+id/textView6"
-                style="@style/MenuHeaderFont"
+                android:id="@+id/tv_title_info"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:text="@string/text_general_info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/color_dark_text" />
 
             <View
@@ -99,7 +99,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
                 android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style" />
+                android:background="@color/color_main_style_transparent" />
 
             <TextView
                 android:id="@+id/tv_info"
