@@ -156,7 +156,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		
 		//First start
 		if(settings.getBoolean(this.FIRST_START_SETTING, true)) {
-			settings.edit().putBoolean(this.FIRST_START_SETTING, false);
+			settings.edit().putBoolean(this.FIRST_START_SETTING, false).apply();
 			
 			//Show drawer
 			mDrawerLayout.openDrawer(Gravity.LEFT);
