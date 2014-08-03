@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 
-import de.rentoudu.mensa.R;
+import de.hfu.mensa.R;
 
 public class Mensa {
 

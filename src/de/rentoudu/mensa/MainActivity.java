@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Diet;
 import de.rentoudu.mensa.model.Mensa;
 import de.rentoudu.mensa.model.MensaDatabase;

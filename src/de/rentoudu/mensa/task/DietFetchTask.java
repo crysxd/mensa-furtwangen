@@ -16,8 +16,8 @@ import org.xml.sax.SAXException;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.MainActivity;
-import de.rentoudu.mensa.R;
 import de.rentoudu.mensa.Utils;
 import de.rentoudu.mensa.model.Day;
 import de.rentoudu.mensa.model.Diet;

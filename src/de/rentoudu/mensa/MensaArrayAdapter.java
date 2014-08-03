@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Mensa;
 
 public class MensaArrayAdapter extends ArrayAdapter<Mensa> {

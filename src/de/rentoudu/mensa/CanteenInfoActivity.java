@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Mensa;
 import de.rentoudu.mensa.model.MensaDatabase;
 

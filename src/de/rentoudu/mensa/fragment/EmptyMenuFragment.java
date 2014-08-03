@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import de.rentoudu.mensa.R;
+import de.hfu.mensa.R;
 
 /**
  * This fragments represents an empty day (no menus).

@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import de.rentoudu.mensa.R;
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Day;
 import de.rentoudu.mensa.model.Menu;
 

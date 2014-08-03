@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
+import de.hfu.mensa.R;
 
 public class AboutActivity extends DefaultActivity {
 

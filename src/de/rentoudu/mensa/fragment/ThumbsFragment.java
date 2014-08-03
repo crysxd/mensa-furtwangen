@@ -2,8 +2,6 @@ package de.rentoudu.mensa.fragment;
 
 import java.io.Serializable;
 
-import com.appspot.mensa_furtwangen.thumbs.model.Thumb;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,7 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import de.rentoudu.mensa.R;
+
+import com.appspot.mensa_furtwangen.thumbs.model.Thumb;
+
+import de.hfu.mensa.R;
 import de.rentoudu.mensa.Utils;
 import de.rentoudu.mensa.task.ThumbInsertTask;
 import de.rentoudu.mensa.task.ThumbRemoveTask;

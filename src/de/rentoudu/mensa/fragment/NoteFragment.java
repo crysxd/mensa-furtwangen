@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import de.rentoudu.mensa.R;
+import de.hfu.mensa.R;
 
 /**
  * This fragments represents the notes of a day.
