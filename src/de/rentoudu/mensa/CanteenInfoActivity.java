@@ -2,6 +2,7 @@ package de.rentoudu.mensa;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
@@ -43,6 +44,12 @@ public class CanteenInfoActivity extends Activity {
 		((TextView) this.findViewById(R.id.tv_opening_hours)).setText(Html.fromHtml(m.getOpeningHours()));
 		((TextView) this.findViewById(R.id.tv_street)).setText(m.getStreet());
 		((TextView) this.findViewById(R.id.tv_place_zip)).setText(m.getPlace() + " " + m.getZip());
+		
+    	//Set Typeface
+		Typeface myTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Roboto-Light.ttf");
+		((TextView) this.findViewById(R.id.tv_title_address)).setTypeface(myTypeface);
+		((TextView) this.findViewById(R.id.tv_title_info)).setTypeface(myTypeface);
+		((TextView) this.findViewById(R.id.tv_title_opening_hours)).setTypeface(myTypeface);
 
 		//Set title and icon
 		this.getActionBar().setTitle(m.getName());
