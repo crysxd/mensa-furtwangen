@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Mensa Furtwangen</string>
+    <string name="app_name">HFU Mensa</string>
     <string name="weekday_so">Sontag</string>
     <string name="menu_about">Über die App</string>
     <string name="menu_info">Info über Mensa</string>
