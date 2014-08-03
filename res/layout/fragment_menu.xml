@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/menu_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="4dp"
     android:background="@drawable/bg_card"
     android:orientation="vertical"
-    android:padding="10dp" >
+    android:padding="10dp"
+    tools:context="de.rentoudu.mensa.MainActivity" >
 
     <LinearLayout
         android:id="@+id/menu_header_container"
@@ -18,26 +21,27 @@
 
         <TextView
             android:id="@+id/menu_title"
-            style="@style/MenuHeaderFont"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/text_empty"
-            android:textColor="@color/color_dark_text"
-            android:textStyle="bold" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/color_dark_text" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dip"
+        android:layout_height="1dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/color_main_style" />
+        android:layout_marginTop="10dp"
+        android:background="@color/color_main_style_transparent" />
 
     <TextView
         android:id="@+id/menu_appetizer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/color_light_text" />
 
     <TextView
@@ -45,14 +49,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
-        android:textColor="@color/color_dark_text"
-        android:textStyle="italic" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/color_light_text"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/menu_sidedish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_empty"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/color_light_text" />
 
 </LinearLayout>
