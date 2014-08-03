@@ -34,5 +34,6 @@
     <color name="color_light_text">#777777</color>
     <color name="color_main_style">#83B81A</color>
     <color name="color_main_style_transparent">#bb83B81A</color>
+    <color name="color_activity_background">#e5e5e5</color>
 
 </resources>

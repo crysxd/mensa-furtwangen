@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="50"
-        android:background="@drawable/bg_stripes" >
+        android:background="@color/color_activity_background" >
 
         <LinearLayout
             android:layout_width="match_parent"
