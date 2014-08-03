@@ -7,28 +7,30 @@
     android:orientation="horizontal" >
 
     <!-- LIKE BUTTON -->
-    
+
     <TextView
         android:id="@+id/rating_thumb_up"
-        android:drawableLeft="@drawable/ic_action_good"
-        android:contentDescription="@string/rating_description_good"
+        style="@style/MenuHeaderFont"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/rating_value_default"
-        android:textColor="#ff99cc00" 
+        android:contentDescription="@string/rating_description_good"
+        android:drawableLeft="@drawable/ic_action_good"
+        android:gravity="center"
         android:paddingRight="3dp"
-        style="@style/MenuHeaderFont" />
+        android:text="@string/rating_value_default"
+        android:textColor="#ff99cc00" />
 
     <!-- DISBLIKE BUTTON -->
-    
+
     <TextView
         android:id="@+id/rating_thumb_down"
-        android:drawableLeft="@drawable/ic_action_bad"
-        android:contentDescription="@string/rating_description_bad"
+        style="@style/MenuHeaderFont"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:contentDescription="@string/rating_description_bad"
+        android:drawableLeft="@drawable/ic_action_bad"
+        android:gravity="center"
         android:text="@string/rating_value_default"
-        android:textColor="#ffff4444" 
-        style="@style/MenuHeaderFont" />
+        android:textColor="#ffff4444" />
 
 </LinearLayout>
