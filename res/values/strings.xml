@@ -14,7 +14,7 @@
     <string name="text_general_info">Sonstige Informationen</string>
     <string name="text_header_menu_two">Menü 2</string>
     <string name="text_menu_no_offer">Kein Angebot</string>
-    <string name="text_about">\u00A9 <b>Florian Sauter</b> 2014\nSoftware Produktmanagement\nHochschule Furtwangen\n\n\u00A9 <b>Christian Würthner</b> 2014\nAllgemeine Informatik\nHochschule Furtwangen\n\nDaten von SWFR.\nVersion: %1$s</string>
+    <string name="text_about">\u00A9 <b>Christian Würthner</b> 2014\nAllgemeine Informatik\nHochschule Furtwangen\n\nBasierend auf Mensa Furtwangen:\nhttps://play.google.com/store/apps/details?id=de.rentoudu.mensa\n\nSourcecode auf Github:\nhttps://github.com/crysxd/mensa-furtwangen\n\nDaten von SWFR.\nVersion: %1$s</string>
     <string name="text_diet_synced">Speiseplan wurde aktualisiert.</string>
     <string name="text_diet_fetch">Aktualisiere Speiseplan&#8230;</string>
     <string name="text_closed">Geschlossen</string>
