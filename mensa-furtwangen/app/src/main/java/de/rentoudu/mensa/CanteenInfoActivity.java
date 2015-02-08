@@ -4,10 +4,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,7 +19,7 @@ import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Mensa;
 import de.rentoudu.mensa.model.MensaDatabase;
 
-public class CanteenInfoActivity extends ActionBarActivity {
+public class CanteenInfoActivity extends DefaultActivity {
 
 	/**
 	 * The name of the setting in which the selected Mensa's ID is stored
@@ -87,17 +85,4 @@ public class CanteenInfoActivity extends ActionBarActivity {
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1, null);
 
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    // Respond to the action bar's Up/Home button
-	    case android.R.id.home:
-	        this.finish();
-	        return true;
-	    }
-
-	    return super.onOptionsItemSelected(item);
-	}
-
 }
