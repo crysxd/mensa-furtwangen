@@ -53,10 +53,8 @@ public class CanteenInfoActivity extends DefaultActivity {
         //Set up Toolbar
         Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
         this.setSupportActionBar(bar);
-
-		//Set title and icon
 		this.getSupportActionBar().setTitle(m.getName());
-        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		//Prepare map
 		GoogleMap map = ((MapFragment) getFragmentManager()
