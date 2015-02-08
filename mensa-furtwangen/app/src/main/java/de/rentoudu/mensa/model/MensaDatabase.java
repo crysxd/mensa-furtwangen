@@ -1,14 +1,18 @@
 package de.rentoudu.mensa.model;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.hfu.mensa.R;
 
 @Root
 public class MensaDatabase {
@@ -18,11 +22,11 @@ public class MensaDatabase {
 	 */ 
 	private static MensaDatabase defaultMensaDatabase = null;
 	
-	public static MensaDatabase createMensaDatabase() {
+	public static MensaDatabase createMensaDatabase(Context ctx) {
 		
 		if(MensaDatabase.defaultMensaDatabase == null ) {
 			Serializer serializer = new Persister();
-			Reader r = new InputStreamReader(MensaDatabase.class.getResourceAsStream("mensa_database.xml"));
+			Reader r = new InputStreamReader(ctx.getResources().openRawResource(R.raw.mensa_database));
 			MensaDatabase db = null;
 			try {
 				db = serializer.read(MensaDatabase.class, r);

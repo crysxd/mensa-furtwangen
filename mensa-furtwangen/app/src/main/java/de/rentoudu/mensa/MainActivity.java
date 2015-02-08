@@ -1,8 +1,5 @@
 package de.rentoudu.mensa;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -20,6 +17,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Diet;
 import de.rentoudu.mensa.model.Mensa;
@@ -96,7 +97,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		//as the selected one ans put the selctedMensa object
 		SharedPreferences settings =  PreferenceManager.getDefaultSharedPreferences(this);
 		int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
-		this.selectedMensa = MensaDatabase.createMensaDatabase().getMensaForId(selectedMensaId);
+		this.selectedMensa = MensaDatabase.createMensaDatabase(this).getMensaForId(selectedMensaId);
 
 		//Update the ActionBar's title to correspont with the selected Mensa
 		this.getActionBar().setTitle(this.selectedMensa.getName());
@@ -139,7 +140,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		};
 
 		// Set the adapter for the list view
-		MensaDatabase db = MensaDatabase.createMensaDatabase();
+		MensaDatabase db = MensaDatabase.createMensaDatabase(this);
 		Mensa[] mensen = db.getMensaListArray();
 		MensaArrayAdapter a = new MensaArrayAdapter(this, mensen);
 		mDrawerList.setAdapter(a);
@@ -322,7 +323,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 		//Get the Mensa object selceted by the user
-		Mensa m = MensaDatabase.createMensaDatabase().getMensaAtPosition(position);
+		Mensa m = MensaDatabase.createMensaDatabase(this).getMensaAtPosition(position);
 
 		//If the selected object is not the current selected one
 		if(m != this.selectedMensa) {

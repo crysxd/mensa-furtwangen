@@ -37,7 +37,7 @@ public class CanteenInfoActivity extends Activity {
 		//as the selected one ans put the selctedMensa object
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		int selectedMensaId = settings.getInt(this.SELECTED_MENSA_SETTING, 641);
-		Mensa m = MensaDatabase.createMensaDatabase().getMensaForId(selectedMensaId);
+		Mensa m = MensaDatabase.createMensaDatabase(this).getMensaForId(selectedMensaId);
 
 		//Set infos in text views
 		((TextView) this.findViewById(R.id.tv_info)).setText(Html.fromHtml(m.getDescription()));
