@@ -5,10 +5,11 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import de.rentoudu.mensa.task.DietFetchTask;
  * 
  * @author Florian Sauter
  */
-public class MainActivity extends FragmentActivity implements OnItemClickListener {
+public class MainActivity extends ActionBarActivity implements OnItemClickListener {
 
 	private static final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID={id}";
 
@@ -92,6 +93,9 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		dayPagerAdapter = new DayPagerAdapter(getSupportFragmentManager());
 
+        //Set up Toolbar
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        this.setSupportActionBar(bar);
 
 		//Load the selected Mensa's ID  from the SharedPreferences object or load Furtwangen (id=641) 
 		//as the selected one ans put the selctedMensa object
@@ -100,8 +104,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		this.selectedMensa = MensaDatabase.createMensaDatabase(this).getMensaForId(selectedMensaId);
 
 		//Update the ActionBar's title to correspont with the selected Mensa
-		this.getActionBar().setTitle(this.selectedMensa.getName());
-		this.getActionBar().setIcon(this.getResources().getDrawable(this.selectedMensa.getIconResource()));
+		this.getSupportActionBar().setTitle(this.selectedMensa.getName());
 
 		if(savedInstanceState != null && savedInstanceState.containsKey("diet")) {
 			// Reuse already fetched diet.
@@ -120,22 +123,21 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		mDrawerToggle = new ActionBarDrawerToggle(
 				this,                  /* host Activity */
 				mDrawerLayout,         /* DrawerLayout object */
-				R.drawable.ic_drawer,  /* nav drawer icon to replace 'Up' caret */
 				R.string.drawer_open,  /* "open drawer" description */
 				R.string.app_name  /* "close drawer" description */
 				) {
 
 			/** Called when a drawer has settled in a completely closed state. */
 			public void onDrawerClosed(View view) {
-				MainActivity.this.getActionBar().setTitle(MainActivity.this.selectedMensa.getName());
-				MainActivity.this.getActionBar().setIcon(MainActivity.this.getResources().getDrawable(
-						MainActivity.this.selectedMensa.getIconResource()));
+				MainActivity.this.getSupportActionBar().setTitle(MainActivity.this.selectedMensa.getName());
+				//MainActivity.this.getSupportActionBar().setIcon(MainActivity.this.getResources().getDrawable(
+				//		MainActivity.this.selectedMensa.getIconResource()));
 
 			}
 
 			/** Called when a drawer has settled in a completely open state. */
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(R.string.drawer_open);
+                MainActivity.this.getSupportActionBar().setTitle(R.string.drawer_open);
 			}
 		};
 
@@ -152,8 +154,8 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		//Setup the ActionBar for the DrawerToggle
-		this.getActionBar().setDisplayHomeAsUpEnabled(true);
-		this.getActionBar().setHomeButtonEnabled(true);
+		this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getSupportActionBar().setHomeButtonEnabled(true);
 		
 		//First start
 		if(settings.getBoolean(this.FIRST_START_SETTING, true)) {
@@ -161,7 +163,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			
 			//Show drawer
 			mDrawerLayout.openDrawer(Gravity.LEFT);
-			this.getActionBar().setTitle(R.string.drawer_open);
+			this.getSupportActionBar().setTitle(R.string.drawer_open);
 
 		}
 
