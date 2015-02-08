@@ -1,0 +1,235 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .gitignore
+* README.md
+* ic_launcher-web.png
+* mensa-furtwangen/
+* mensa-furtwangen/.idea/
+* mensa-furtwangen/.idea/.name
+* mensa-furtwangen/.idea/compiler.xml
+* mensa-furtwangen/.idea/copyright/
+* mensa-furtwangen/.idea/copyright/profiles_settings.xml
+* mensa-furtwangen/.idea/encodings.xml
+* mensa-furtwangen/.idea/misc.xml
+* mensa-furtwangen/.idea/modules.xml
+* mensa-furtwangen/.idea/scopes/
+* mensa-furtwangen/.idea/scopes/scope_settings.xml
+* mensa-furtwangen/.idea/vcs.xml
+* mensa-furtwangen/.idea/workspace.xml
+* mensa-furtwangen/app/
+* mensa-furtwangen/app/build.gradle
+* mensa-furtwangen/app/libs/
+* mensa-furtwangen/app/libs/google-api-client-1.16.0-rc.jar
+* mensa-furtwangen/app/libs/google-api-client-android-1.16.0-rc.jar
+* mensa-furtwangen/app/libs/google-http-client-1.16.0-rc.jar
+* mensa-furtwangen/app/libs/google-http-client-android-1.16.0-rc.jar
+* mensa-furtwangen/app/libs/jsr305-1.3.9.jar
+* mensa-furtwangen/app/libs/simple-xml-2.7.1.jar
+* mensa-furtwangen/app/lint.xml
+* mensa-furtwangen/app/src/
+* mensa-furtwangen/app/src/main/
+* mensa-furtwangen/app/src/main/AndroidManifest.xml
+* mensa-furtwangen/app/src/main/assets/
+* mensa-furtwangen/app/src/main/assets/fonts/
+* mensa-furtwangen/app/src/main/assets/fonts/Roboto-Light.ttf
+* mensa-furtwangen/app/src/main/java/
+* mensa-furtwangen/app/src/main/java/com/
+* mensa-furtwangen/app/src/main/java/com/appspot/
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/Thumbs.java
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/ThumbsRequest.java
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/ThumbsRequestInitializer.java
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/ThumbsScopes.java
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/model/
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/model/Thumb.java
+* mensa-furtwangen/app/src/main/java/com/appspot/mensa_furtwangen/thumbs/model/ThumbsResult.java
+* mensa-furtwangen/app/src/main/java/de/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/AboutActivity.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/CanteenInfoActivity.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/DayPagerAdapter.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/DefaultActivity.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/MainActivity.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/MensaArrayAdapter.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/Utils.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/CountdownFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/DayFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/EmptyMenuFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/MenuFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/NoteFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/fragment/ThumbsFragment.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/Day.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/Diet.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/Mensa.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/MensaDatabase.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/Menu.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/model/mensa_database.xml
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/DietFetchTask.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/RssCache.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/ThumbInsertTask.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/ThumbRemoveTask.java
+* mensa-furtwangen/app/src/main/java/de/rentoudu/mensa/task/ThumbsFetchTask.java
+* mensa-furtwangen/app/src/main/res/
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/.DS_Store
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_about.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_bad.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_bad_red.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_favorite.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_go_to_today.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_good.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_good_green.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_refresh.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_action_refresh_dark.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_drawer.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_launcher.png
+* mensa-furtwangen/app/src/main/res/drawable-hdpi/ic_stripe_background.gif
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/.DS_Store
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_about.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_bad.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_bad_red.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_favorite.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_go_to_today.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_good.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_good_green.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_refresh.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_action_refresh_dark.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_drawer.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_launcher.png
+* mensa-furtwangen/app/src/main/res/drawable-mdpi/ic_stripe_background.gif
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/.DS_Store
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_about.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_bad.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_bad_red.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_favorite.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_go_to_today.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_good.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_good_green.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_refresh.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_action_refresh_dark.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_drawer.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_launcher.png
+* mensa-furtwangen/app/src/main/res/drawable-xhdpi/ic_stripe_background.gif
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/.DS_Store
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_about.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_bad.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_bad_red.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_favorite.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_go_to_today.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_good.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_good_green.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_refresh.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_action_refresh_dark.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_canteen_freiburg.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_canteen_kehl.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_canteen_offenburg.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_default_canteen_icon.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_hfu_claim.png
+* mensa-furtwangen/app/src/main/res/drawable-xxhdpi/ic_stripe_background.gif
+* mensa-furtwangen/app/src/main/res/drawable/
+* mensa-furtwangen/app/src/main/res/drawable/bg_card.xml
+* mensa-furtwangen/app/src/main/res/layout-land/
+* mensa-furtwangen/app/src/main/res/layout-land/activity_canteen_info.xml
+* mensa-furtwangen/app/src/main/res/layout/
+* mensa-furtwangen/app/src/main/res/layout/activity_about.xml
+* mensa-furtwangen/app/src/main/res/layout/activity_canteen_info.xml
+* mensa-furtwangen/app/src/main/res/layout/activity_main.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_countdown.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_day.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_empty.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_menu.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_note.xml
+* mensa-furtwangen/app/src/main/res/layout/fragment_rating.xml
+* mensa-furtwangen/app/src/main/res/layout/tablerow_drawer.xml
+* mensa-furtwangen/app/src/main/res/menu/
+* mensa-furtwangen/app/src/main/res/menu/activity_main.xml
+* mensa-furtwangen/app/src/main/res/values-en/
+* mensa-furtwangen/app/src/main/res/values-en/strings.xml
+* mensa-furtwangen/app/src/main/res/values-v10/
+* mensa-furtwangen/app/src/main/res/values-v10/styles.xml
+* mensa-furtwangen/app/src/main/res/values/
+* mensa-furtwangen/app/src/main/res/values/strings.xml
+* mensa-furtwangen/app/src/main/res/values/styles.xml
+* mensa-furtwangen/build.gradle
+* mensa-furtwangen/gradle/
+* mensa-furtwangen/gradle/wrapper/
+* mensa-furtwangen/gradle/wrapper/gradle-wrapper.jar
+* mensa-furtwangen/gradle/wrapper/gradle-wrapper.properties
+* mensa-furtwangen/gradlew
+* mensa-furtwangen/gradlew.bat
+* mensa-furtwangen/local.properties
+* mensa-furtwangen/settings.gradle
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+google-http-client-gson-1.16.0-rc.jar => com.google.http-client:google-http-client-gson:1.19.0
+gson-2.1.jar => com.google.code.gson:gson:2.1
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.1.jar => version 2.1 in com.google.code.gson:gson:2.1
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* assets/ => app/src/main/assets/
+* libs/google-api-client-1.16.0-rc.jar => app/libs/google-api-client-1.16.0-rc.jar
+* libs/google-api-client-android-1.16.0-rc.jar => app/libs/google-api-client-android-1.16.0-rc.jar
+* libs/google-http-client-1.16.0-rc.jar => app/libs/google-http-client-1.16.0-rc.jar
+* libs/google-http-client-android-1.16.0-rc.jar => app/libs/google-http-client-android-1.16.0-rc.jar
+* libs/jsr305-1.3.9.jar => app/libs/jsr305-1.3.9.jar
+* libs/simple-xml-2.7.1.jar => app/libs/simple-xml-2.7.1.jar
+* lint.xml => app/lint.xml
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
