@@ -1,10 +1,11 @@
 package de.rentoudu.mensa;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Mensa;
 import de.rentoudu.mensa.model.MensaDatabase;
 
-public class CanteenInfoActivity extends Activity {
+public class CanteenInfoActivity extends ActionBarActivity {
 
 	/**
 	 * The name of the setting in which the selected Mensa's ID is stored
@@ -51,10 +52,13 @@ public class CanteenInfoActivity extends Activity {
 		((TextView) this.findViewById(R.id.tv_title_info)).setTypeface(myTypeface);
 		((TextView) this.findViewById(R.id.tv_title_opening_hours)).setTypeface(myTypeface);
 
+        //Set up Toolbar
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        this.setSupportActionBar(bar);
+
 		//Set title and icon
-		this.getActionBar().setTitle(m.getName());
-		this.getActionBar().setIcon(m.getIconResource());
-		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		this.getSupportActionBar().setTitle(m.getName());
+        this.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 		//Prepare map
 		GoogleMap map = ((MapFragment) getFragmentManager()
@@ -83,7 +87,7 @@ public class CanteenInfoActivity extends Activity {
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1, null);
 
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
@@ -92,7 +96,7 @@ public class CanteenInfoActivity extends Activity {
 	        this.finish();
 	        return true;
 	    }
-	    
+
 	    return super.onOptionsItemSelected(item);
 	}
 
