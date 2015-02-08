@@ -1,9 +1,9 @@
 package de.rentoudu.mensa;
 
-import android.app.Activity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
-public abstract class DefaultActivity extends Activity {
+public abstract class DefaultActivity extends ActionBarActivity {
 
 	
 	@Override
