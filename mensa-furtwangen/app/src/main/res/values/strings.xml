@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">HFU Mensa</string>
-    <string name="weekday_so">Sontag</string>
     <string name="menu_about">Über die App</string>
     <string name="menu_info">Info über Mensa</string>
     <string name="menu_today">Heute</string>
@@ -21,7 +20,7 @@
     <string name="text_empty">-</string>
     <string name="text_ok">OK</string>
     <string name="text_cancel">Abbrechen</string>
-    <string name="rating_insert_failed">Konnte die Bewertung nicht speichern, sry.</string>
+    <string name="rating_insert_failed">Bewertung konnte nicht gespeichert werden.</string>
     <string name="rating_value_default">0</string>
     <string name="rating_description_good">Mag ich</string>
     <string name="rating_description_bad">Mag ich nicht</string>
