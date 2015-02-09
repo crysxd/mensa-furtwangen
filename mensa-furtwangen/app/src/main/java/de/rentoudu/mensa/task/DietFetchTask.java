@@ -1,5 +1,13 @@
 package de.rentoudu.mensa.task;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -9,13 +17,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import de.hfu.mensa.R;
 import de.rentoudu.mensa.MainActivity;
 import de.rentoudu.mensa.Utils;
@@ -52,6 +53,10 @@ public class DietFetchTask extends AsyncTask<String, Void, Diet> {
 	protected Diet doInBackground(String... args) {
 		//Wrap everything into try-catch to perfectly handle exceptions
 		try {
+
+            //Pause 250ms to let the animations finish
+            Thread.sleep(250);
+
 			//Show the LoadingDialog
 			startDietFetchNotification(); // Ends in onPostExecute(..)
 
