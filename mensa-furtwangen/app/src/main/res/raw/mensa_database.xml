@@ -7,7 +7,7 @@
         <zip>78120</zip>
         <place>Furtwangen</place>
         <description><![CDATA[Die Mensa bei der Fachhochschule bietet täglich zwei verschiedene Menüs zum Preis von 2,65 € für Studierende. Zusätzlich betreibt das Studentenwerk eine moderne Cafeteria, in der Kaffee und Snacks für zwischendurch zu studentenfreundlichen Preisen angeboten werden.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
-  		<iconResourcename>ic_launcher</iconResourcename>
+  		<iconResourcename>ic_canteen_furtwangen</iconResourcename>
   		<openinghours><![CDATA[<b>Mensa</b><br>Mo-Fr 11:40-13:30 Uhr<br><br><b>Cafeteria</b><br>Mo-Do 07:30-17:00 Uhr<br>im Wintersemester<br>Mo-Do 07:30-16:00 Uhr<br>Fr 07:30-14:00 Uhr]]></openinghours>
     	<latitude>48.050670</latitude>
     	<longitude>8.208260</longitude>
@@ -20,7 +20,7 @@
         <zip>78054</zip>
         <place>Villingen-Schwenningen</place>
         <description><![CDATA[Mensa und Cafeteria sind ganztägig geöffnet. Angeboten werden täglich zwei Essen, eins davon fleischlos. Neben den Tagesgerichten gibt es ein großes Free-Flow-Angebot, aus dem sich die Gäste ihr Essen selbst zusammenstellen können.<br>Die Cafeteria mit Lounge und Freiterrasse im Erdgeschoss ergänzt das Angebot der Mensa durch Frühstücksangebote, frisch gebackene Croissants und anderes Gebäck, belegte Brötchen, Fruchtsäfte, Obst und Milchprodukte. Mittags gibt es kleine Snacks und nachmittags natürlich Kaffee und Kuchen. <br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
-   		<iconResourcename>ic_launcher</iconResourcename>
+   		<iconResourcename>ic_canteen_furtwangen</iconResourcename>
    		<openinghours><![CDATA[<b>Mensa</b><br>Mo-Fr 11:30-14:00 Uhr<br><br><b>Caféteria</b><br>Mo-Do 08:00-17:00 Uhr<br>Fr 08:00-14:00 Uhr]]></openinghours>   		
         <latitude>48.061000</latitude>
     	<longitude>8.534510</longitude>
