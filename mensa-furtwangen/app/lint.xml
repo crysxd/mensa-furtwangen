@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<lint>
-    <issue id="SimpleDateFormat">
-        <ignore path="src/de/rentoudu/mensa/DayPagerAdapter.java" />
-    </issue>
-</lint>
