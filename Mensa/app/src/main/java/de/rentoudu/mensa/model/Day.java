@@ -7,9 +7,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class Day implements Serializable {
 
-	private int week;
-	private int day;
-	
+
 	private String title;
 	private String guid;
 	
@@ -19,22 +17,6 @@ public class Day implements Serializable {
 	
 	public Day() {
 		this.menus = new ArrayList<Menu>();
-	}
-	
-	public void setWeek(int week) {
-		this.week = week;
-	}
-	
-	public int getWeek() {
-		return week;
-	}
-	
-	public void setDay(int day) {
-		this.day = day;
-	}
-	
-	public int getDay() {
-		return day;
 	}
 	
 	public void addMenu(Menu menu) {
