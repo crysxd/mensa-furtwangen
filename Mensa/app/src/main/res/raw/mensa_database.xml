@@ -20,6 +20,7 @@
         <street>Karlstrasse 19</street>
         <zip>78054</zip>
         <place>Villingen-Schwenningen</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-schwenningen/</menuurl>
         <description><![CDATA[Mensa und Cafeteria sind ganztägig geöffnet. Angeboten werden täglich zwei Essen, eins davon fleischlos. Neben den Tagesgerichten gibt es ein großes Free-Flow-Angebot, aus dem sich die Gäste ihr Essen selbst zusammenstellen können.<br>Die Cafeteria mit Lounge und Freiterrasse im Erdgeschoss ergänzt das Angebot der Mensa durch Frühstücksangebote, frisch gebackene Croissants und anderes Gebäck, belegte Brötchen, Fruchtsäfte, Obst und Milchprodukte. Mittags gibt es kleine Snacks und nachmittags natürlich Kaffee und Kuchen. <br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
    		<iconResourcename>ic_canteen_furtwangen</iconResourcename>
    		<openinghours><![CDATA[<b>Mensa</b><br>Mo-Fr 11:30-14:00 Uhr<br><br><b>Caféteria</b><br>Mo-Do 08:00-17:00 Uhr<br>Fr 08:00-14:00 Uhr]]></openinghours>   		
@@ -33,6 +34,7 @@
         <street>Rempartstraße 18</street>
         <zip>79098</zip>
         <place>Freiburg</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-rempartstrasse/</menuurl>
         <description><![CDATA[Vier unterschiedliche Gerichte stehen täglich im Angebot, frisch zubereitet und für jeden Geschmack etwas. Im Hauptgeschoss ist das günstige Tagesgericht vom Band erhältlich, an einer Linientheke stehen zwei weitere Tagesessen zur Wahl, bei denen man zwischen den Beilagen wählen kann. Ebenfalls im Hauptgeschoss gibt es im MensaPavillon ein Salatbuffet, Schnitzel oder Currywurst mit Pommes und für die ganz Eiligen gibt’s auf der Galerie den Schnellen Teller.<br>Im Erdgeschoss bietet das MensaBistro im Erdgeschoss Salat- und Antipasti-Buffets, unterschiedliche Pasta-Gerichte, Fleisch oder Fisch vom Grill, Asia-Gerichte aus dem Wok und ein täglich wechselndes Bio-Essen.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
     	<iconResourcename>ic_canteen_freiburg</iconResourcename>
     	<openinghours><![CDATA[<b>Mittagessen</b><br>Mo-Fr 11:30-14:00<br>Sa 11:30-13:30 Uhr<br><br><b>Cafétheke</b> in der MensaBar<br>Mo-Fr 11:30-14:30 Uhr<br><br><b>Abendessen</b><br>Mo-Fr 17:30-19:30 Uhr<br><br><b>Biergarten im MensaGarten</b> (im Sommersemester)<br>Mo-Sa 11:30-22:00 Uhr]]></openinghours>
@@ -46,6 +48,7 @@
         <street>Stefan-Meier-Str. 28</street>
         <zip>79104</zip>
         <place>Freiburg</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-institutsviertel/</menuurl>
         <description><![CDATA[Neben den Tagesessen bietet die Mensa Institutsviertel zwei große Selbstbedienungsbereiche mit Salattheken, einem Buffetbereich mit Grill und Wok, in dem die Speisen vor den Augen der Gäste zubereitet werden, einer Aktionstheke und einem Antipastibuffet für den kleineren Hunger.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.<br><br>Im Familienbereich können die Kinder von Studierenden und Mitarbeiterinnen und Mitarbeitern entweder allein oder in Begleitung ihrer Eltern essen, spielen oder "chillen".<br><br>Im Erdgeschoss der Mensa befindet sich eine Theke mit Service-Point und einem "Loungebereich" mit Sofas, in dem man einfach mal so sitzen kann. ]]></description>
     	<iconResourcename>ic_canteen_freiburg</iconResourcename>
     	<openinghours><![CDATA[<b>Mittagessen</b><br>Mo-Fr 11:30-14:00 Uhr<br><br><b>ServicePoint</b><br>Mo-Fr 11:30-14:00 Uhr]]></openinghours>
@@ -59,6 +62,7 @@
         <street>Kunzenweg 29</street>
         <zip>79117 </zip>
         <place>Freiburg</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-littenweiler/</menuurl>
         <description><![CDATA[Ganz nach Geschmack kann man seine Mahlzeiten in der Mensa Littenweiler zusammenstellen. In einem großen Self-Service Bereich gibt es verschiedene Theken mit Salaten,  Desserts, einem Grill, einem Wok, Pasta-Angeboten und mehreren Tagesangeboten, zu denen man sich seine Beilagen aussuchen kann.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.<br><br>Am ServicePoint im Erdgeschoss kann man die Chipkarte mit Bargeld aufladen. Außerdem ist er Verkaufsstelle für den Internationalen Studierendenausweis (ISIC), den Club-Ausweis des Internationalen Clubs für Studierende sowie für Tickets für universitäre Veranstaltungen. Auch Merchandising Artikel aus dem PH-Shop werden hier angeboten.]]></description>
     	<iconResourcename>ic_canteen_freiburg</iconResourcename>
     	<openinghours><![CDATA[<b>Öffnungszeiten</b><br>Mo-Fr 09:00-15:00 Uhr<br><br><b>Mittagessen</b><br>Mo-Fr 11:30-14:00 Uhr<br><br><b>Pasta- und Salatbuffet</b><br>Mo-Do 11:30-14:45 Uhr<br>Fr 11:30-14:30 Uhr<br><br><b>ServicePoint</b><br>Mo-Fr 11:30-13:50 Uhr]]></openinghours>
@@ -72,6 +76,7 @@
         <street>Georges-Köhler-Allee 82</street>
         <zip>79110</zip>
         <place>Freiburg</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-flugplatz/</menuurl>
         <description><![CDATA[Auf dem Gelände der 11. Fakultät bei der Neuen Messe befindet sich die kleinste Freiburger Mensa mit einer sonnigen Dachterrasse, auf der man im Sommer unter freiem Himmel speisen kann. Die Mensa Institutsviertel liefert täglich zwei verschiedene Tagesgerichte.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller. ]]></description>
     	<iconResourcename>ic_canteen_freiburg</iconResourcename>
     	<openinghours><![CDATA[<b>Cafeteria</b><br>Mo-Do 09:00-15:00 Uhr<br>Fr 09:00-14:30 Uhr<br><br><b>Mittagessen</b><br>Mo-Fr 11:30-13:30 Uhr]]></openinghours>
@@ -85,7 +90,8 @@
         <street>Schwarzwaldstrasse 141</street>
         <zip>79102</zip>
         <place>Freiburg</place>
-		<description><![CDATA[Die MusiKantine an der Musikhochschule ist ein echtes Kleinod unter den Freiburger Mensen. Idyllisch an einem kleinen Teich gelegen, bietet sich die Sonnenterrasse im Sommer geradezu an, zwischendurch mal abzuschalten.<br>Die MusiKantine an der Musikhochschule ist ein echtes Kleinod unter den Freiburger Mensen. Idyllisch an einem kleinen Teich gelegen, bietet sich die Sonnenterrasse im Sommer geradezu an, zwischendurch mal abzuschalten.]]></description>	
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/musikantine/</menuurl>
+        <description><![CDATA[Die MusiKantine an der Musikhochschule ist ein echtes Kleinod unter den Freiburger Mensen. Idyllisch an einem kleinen Teich gelegen, bietet sich die Sonnenterrasse im Sommer geradezu an, zwischendurch mal abzuschalten.<br>Die MusiKantine an der Musikhochschule ist ein echtes Kleinod unter den Freiburger Mensen. Idyllisch an einem kleinen Teich gelegen, bietet sich die Sonnenterrasse im Sommer geradezu an, zwischendurch mal abzuschalten.]]></description>
     	<openinghours><![CDATA[Mo-Fr 09:00-18:00 Uhr<br><br><b>Mittagessen</b><br>Mo-Fr 11:30-13:30 Uhr]]></openinghours>
 	    <latitude>47.988870</latitude>
     	<longitude>7.872100</longitude>
@@ -97,6 +103,7 @@
         <street>Badstrasse 24</street>
         <zip>77652</zip>
         <place>Offenburg</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-offenburg/</menuurl>
         <description><![CDATA[Die Mensa bei der Fachhochschule bietet täglich zwei verschiedene Menüs zum Preis von 2,65 € für Studierende. Zusätzlich betreibt das Studentenwerk eine moderne Cafeteria, in der Kaffee und Snacks für zwischendurch zu studentenfreundlichen Preisen angeboten werden.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
        	<iconResourcename>ic_canteen_offenburg</iconResourcename>
    		<openinghours><![CDATA[<b>Mensa</b><br>Mo-Fr 11:00-14:00 Uhr<br><br><b>Cafeteria</b><br>Mo-Fr 07:30-15:15 Uhr]]></openinghours>
@@ -110,6 +117,7 @@
         <street>Klosterstraße 14</street>
         <zip>77723</zip>
         <place>Gengenbach</place>
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-gengenbach/</menuurl>
         <description><![CDATA[Die Mensa Gengenbach ist eine Ausgabestelle der Mensa Offenburg. Die Essenpreise, sowie der Speiseplan beziehen sich daher auf Offenburg.<br>Alle Tagesessen müssen am Vortag in der Mensa vorbestellt werden. Ohne diese Vorbestellung sind Schnitzel mit Pommes und Salat sowie verschiedene Snacks erhältlich.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
        	<iconResourcename>ic_canteen_offenburg</iconResourcename>
    		<openinghours><![CDATA[Mo - Do 09.30-15.30 Uhr<br><br><b>Mittagessen</b><br>11.15-13.45 Uhr]]></openinghours>
@@ -123,7 +131,8 @@
         <street>Kinzigallee 1</street>
         <zip>77694</zip>
         <place>Kehl</place>
-		<description><![CDATA[Direkt bei der Hochschule befindet sich die Mensa des Studentenwerks Freiburg. Von Montag bis Freitag gibt es täglich zwei Menüs zur Auswahl (eines davon fleischlos). Der Preis für ein Menü beträgt 2,75 € für Studierende. Frühstücken oder den "kleinen Hunger zwischendurch" bekämpfen kann man in der Cafeteria im gleichen Gebäude.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>	
+        <menuurl>http://www.swfr.de/essen-trinken/speiseplaene/mensa-kehl/</menuurl>
+        <description><![CDATA[Direkt bei der Hochschule befindet sich die Mensa des Studentenwerks Freiburg. Von Montag bis Freitag gibt es täglich zwei Menüs zur Auswahl (eines davon fleischlos). Der Preis für ein Menü beträgt 2,75 € für Studierende. Frühstücken oder den "kleinen Hunger zwischendurch" bekämpfen kann man in der Cafeteria im gleichen Gebäude.<br><br>Kinder von Studierenden unter zehn Jahren, die in Begleitung ihrer Eltern oder eines Elternteils kommen, erhalten zum Essen ihrer Eltern einen kostenlosen zusätzlichen Kinderteller.]]></description>
         <iconResourcename>ic_canteen_kehl</iconResourcename>
     	<openinghours><![CDATA[<b>Mensa</b><br>Mo-Fr 11:30-13:30 Uhr<br><br><b>Cafeteria</b><br>Mo-Fr 07:30-14:00 Uhr]]></openinghours>
 	    <latitude>48.574920</latitude>
