@@ -9,6 +9,8 @@ import java.util.List;
 public class Diet implements Serializable {
 
 	private Date lastSynced;
+
+    private String urlNextWeek;
 	
 	private List<Day> days;
 	
@@ -39,5 +41,9 @@ public class Diet implements Serializable {
 	public void setDays(List<Day> days) {
 		this.days = days;
 	}
+
+    public void setUrlNextWeek(String url) { this.urlNextWeek = url; }
+
+    public String getUrlNextWeek() { return this.urlNextWeek; }
 	
 }
