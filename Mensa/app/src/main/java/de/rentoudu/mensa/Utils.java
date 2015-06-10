@@ -1,16 +1,16 @@
 package de.rentoudu.mensa;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import android.os.Build;
 
 import com.appspot.mensa_furtwangen.thumbs.Thumbs;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.json.gson.GsonFactory;
 
-import android.os.Build;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 
@@ -36,8 +36,10 @@ public class Utils {
 	public static Date getDate(String unformattedDate) {
 		Date date;
 		try {
-			date = new SimpleDateFormat("E, d.M.y", Locale.GERMANY).parse(unformattedDate);
+            String year = new SimpleDateFormat("yyyy").format(new Date());
+			date = new SimpleDateFormat("EEEEE dd.MM.yyyy", Locale.GERMANY).parse(unformattedDate + year);
 		} catch (Exception e) {
+            e.printStackTrace();
 			date = new Date();
 		}
 		
