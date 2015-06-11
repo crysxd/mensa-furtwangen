@@ -5,11 +5,12 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -295,8 +295,8 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	/**
 	 * Shows a toast notification.
 	 */
-	public void showToast(String message) {
-		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+	public void showSnackbar(String message) {
+        Snackbar.make(this.getViewPager(), message, Snackbar.LENGTH_LONG).show();
 	}
 
 	/**

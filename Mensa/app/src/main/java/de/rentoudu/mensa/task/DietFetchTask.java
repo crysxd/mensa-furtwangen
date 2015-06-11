@@ -256,7 +256,7 @@ public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 
 		//Show error toast if an error has occured
 		if(!success)
-			this.getActivity().showToast(this.getActivity().getResources().getString(R.string.error_diet_fetch));
+			this.getActivity().showSnackbar(this.getActivity().getResources().getString(R.string.error_diet_fetch));
 
 		//if the progress dialog is null, cancel operation
 		if(this.progressDialog == null)
