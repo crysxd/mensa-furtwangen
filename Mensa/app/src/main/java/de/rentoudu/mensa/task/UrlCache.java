@@ -2,6 +2,7 @@ package de.rentoudu.mensa.task;
 
 import android.annotation.SuppressLint;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,10 +66,10 @@ public class UrlCache {
 		}
 	}
 	
-	private synchronized File getFileForId(int id) {
+	private synchronized File getFileForURL(String url) {
 		
 		//Generate the beginning of the file that represents the cache for the url and list all files in cache dir
-		String fileName = id + "_";
+		String fileName = url.hashCode() + "_";
 		File[] files = this.CACHE_DIRECTORY.listFiles();
 
 		if(files == null)
@@ -119,21 +120,26 @@ public class UrlCache {
 		
 	}
 	
-	public InputStream fetchUrl(int id, String url, Date expireDate, boolean useCachedValues) throws IOException {
+	public InputStream fetchUrl(String url, Date expireDate, boolean useCachedValues) throws IOException {
 		
 		//Get the cached file for the url, may not exist
-		File f = useCachedValues ? this.getFileForId(id) : null;
+		File f = useCachedValues ? this.getFileForURL(url) : null;
 		
 		try {
-			//if f is null the cache file does not exist or is expired -> reload
-			if(f == null)
-				f = this.cacheUrlToFile(id, url, expireDate);
+
+            //if f is null the cache file does not exist or is expired -> reload
+			if(f == null) {
+                Log.i(this.getClass().getSimpleName(), "Cache miss for " + url.hashCode());
+                f = this.cacheUrlToFile(url, expireDate);
+            }
 			
 			//create a FileInputStream and return it
-			return new FileInputStream(f);
+            Log.i(this.getClass().getSimpleName(), "Cache hit for " + url.hashCode());
+            return new FileInputStream(f);
+
 		} catch(Exception e) {
-			e.printStackTrace();
-			
+            Log.e(this.getClass().getSimpleName(), "Error while reading cache file for " + url.hashCode());
+            e.printStackTrace();
 			//If an error occurs try to return the direct InputStream over HTTP
 			return this.getUrlInputStream(url);
 			
@@ -142,12 +148,12 @@ public class UrlCache {
 		
 	}
 	
-	private synchronized File cacheUrlToFile(int id, String url, Date expireDate) throws Exception {
+	private synchronized File cacheUrlToFile(String url, Date expireDate) throws Exception {
 		
 		File f = null;
 		try {
 			//create File
-			f = new File(this.CACHE_DIRECTORY, id + "_" + this.DATE_FORMAT.format(expireDate));
+			f = new File(this.CACHE_DIRECTORY, url.hashCode() + "_" + this.DATE_FORMAT.format(expireDate));
 			f.createNewFile();
 			
 			//get reader and writer
@@ -190,7 +196,12 @@ public class UrlCache {
 		conn.setConnectTimeout(15000 /* milliseconds */);
 		conn.setRequestMethod("GET");
 		conn.setDoInput(true);
+
+        //Hard code a Chrome user agent
+        //This is necessary because the server returnes an error if no Chrome/IE/... user agent is set
+        //Let the games begin...
         conn.setRequestProperty("User-Agent", " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.3");
+
 		// Starts the query
 		conn.connect();
 		InputStream stream = conn.getInputStream();
