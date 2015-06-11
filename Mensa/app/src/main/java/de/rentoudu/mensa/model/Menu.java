@@ -38,7 +38,7 @@ public class Menu implements Serializable {
 
         //Set rest as data
         try {
-            this.setData(html);
+            this.setData(this.optimizeString(html));
         } catch(Exception e) {
             e.printStackTrace();
 
