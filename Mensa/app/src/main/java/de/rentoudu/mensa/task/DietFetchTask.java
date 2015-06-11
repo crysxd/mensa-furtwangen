@@ -2,7 +2,6 @@ package de.rentoudu.mensa.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -123,22 +122,17 @@ public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 	 */
 	protected Diet parseMenu(InputStream in) throws Exception {
         //Read input stream
-        Log.i(this.getClass().getSimpleName(), "Start reading...");
         StringBuilder html = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream((in))));
         String line;
         while((line = br.readLine()) != null) {
             html.append(line);
         }
-        Log.i(this.getClass().getSimpleName(), "Reading done.");
-
 
         in.close();
 
         //Create Jsoup document
-        Log.i(this.getClass().getSimpleName(), "Start parsing...");
         Document doc = Jsoup.parse(html.toString());
-        Log.i(this.getClass().getSimpleName(), "Parsing done");
 
         // Create empty Diet
         Diet diet = new Diet();
