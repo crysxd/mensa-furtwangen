@@ -3,9 +3,11 @@ package de.rentoudu.mensa;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -56,7 +58,13 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 	 */
 	private ViewPager viewPager;
 
-	/**
+    /**
+     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
+     */
+    private TabLayout tabLayout;
+
+
+    /**
 	 * The current activity diet.
 	 */
 	private Diet currentDiet;
@@ -90,6 +98,11 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		dayPagerAdapter = new DayPagerAdapter(getSupportFragmentManager());
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
+        tabLayout.setBackgroundResource(R.color.color_main_style);
+        tabLayout.setTabTextColors(Color.parseColor("#90ffffff"), Color.parseColor("#ffffff"));
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         //Set up Toolbar
         Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
@@ -226,8 +239,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 				new DayPagerAdapter(getSupportFragmentManager())));
 		dayPagerAdapter.setDiet(diet);
 		dayPagerAdapter.notifyDataSetChanged();
+        tabLayout.setupWithViewPager(viewPager);
 
-		viewPager.setCurrentItem(getCurrentCanteenDayIndex());
+
+        viewPager.setCurrentItem(getCurrentCanteenDayIndex());
 	}
 
 	/**

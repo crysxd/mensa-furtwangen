@@ -38,23 +38,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="8" >
-
-                    <android.support.v4.view.PagerTitleStrip
-                        android:id="@+id/pager_title_strip"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:background="@color/color_main_style"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
-                        android:elevation="2dp"
-                        android:textColor="#fff" />
-                </android.support.v4.view.ViewPager>
+                    android:layout_weight="8" />
 
                 <fragment
                     android:id="@+id/countdown_container"
