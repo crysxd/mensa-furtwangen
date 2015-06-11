@@ -15,110 +15,121 @@
         local:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="2dp"/>
 
-    <fragment
-        android:id="@+id/map"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="50"
-        class="com.google.android.gms.maps.MapFragment" />
-
-    <View
-        android:id="@+id/view1"
-        android:layout_width="fill_parent"
-        android:layout_height="1dip"
-        android:background="@color/color_light_text" />
-
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="50"
-        android:background="@color/color_activity_background" >
+        android:layout_height="match_parent"
+        android:foreground="?android:windowContentOverlay">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/tv_title_address"
+            <fragment
+                android:id="@+id/map"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/text_address"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/color_dark_text" />
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                class="com.google.android.gms.maps.MapFragment" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/view1"
                 android:layout_width="fill_parent"
                 android:layout_height="1dip"
-                android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style_transparent" />
+                android:background="@color/color_light_text" />
 
-            <TextView
-                android:id="@+id/tv_street"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_dark_text" />
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="50"
+                android:background="@color/color_activity_background" >
 
-            <TextView
-                android:id="@+id/tv_place_zip"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_dark_text" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="15dp" >
 
-            <TextView
-                android:id="@+id/tv_title_opening_hours"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="@string/text_opening_hours"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/color_dark_text" />
+                    <TextView
+                        android:id="@+id/tv_title_address"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/text_address"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_dark_text" />
 
-            <View
-                android:id="@+id/view3"
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style_transparent" />
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/color_main_style_transparent" />
 
-            <TextView
-                android:id="@+id/tv_opening_hours"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_dark_text" />
+                    <TextView
+                        android:id="@+id/tv_street"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/color_dark_text" />
 
-            <TextView
-                android:id="@+id/tv_title_info"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
-                android:text="@string/text_general_info"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/color_dark_text" />
+                    <TextView
+                        android:id="@+id/tv_place_zip"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/color_dark_text" />
 
-            <View
-                android:id="@+id/view4"
-                android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:layout_marginBottom="5dp"
-                android:background="@color/color_main_style_transparent" />
+                    <TextView
+                        android:id="@+id/tv_title_opening_hours"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/text_opening_hours"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_dark_text" />
 
-            <TextView
-                android:id="@+id/tv_info"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/color_dark_text" />
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/color_main_style_transparent" />
+
+                    <TextView
+                        android:id="@+id/tv_opening_hours"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/color_dark_text" />
+
+                    <TextView
+                        android:id="@+id/tv_title_info"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/text_general_info"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/color_dark_text" />
+
+                    <View
+                        android:id="@+id/view4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/color_main_style_transparent" />
+
+                    <TextView
+                        android:id="@+id/tv_info"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@color/color_dark_text" />
+                </LinearLayout>
+            </ScrollView>
         </LinearLayout>
-    </ScrollView>
-
+    </FrameLayout>
 </LinearLayout>
