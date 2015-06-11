@@ -2,29 +2,27 @@ package de.rentoudu.mensa.task;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import de.hfu.mensa.R;
 import de.rentoudu.mensa.MainActivity;
-import de.rentoudu.mensa.Utils;
 import de.rentoudu.mensa.model.Day;
 import de.rentoudu.mensa.model.Diet;
 import de.rentoudu.mensa.model.Mensa;
 import de.rentoudu.mensa.model.Menu;
-
 
 public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 
@@ -68,38 +66,24 @@ public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 			UrlCache rssCach = UrlCache.getCache();
 
 			//Load Diet for first week  (in seperate try-catch to load as much data as possible)
-			Diet d1 = null, d2 = null;
+            Diet mergedDiet = new Diet();
+            String urlQuery = "";
 			try {
-				InputStream in = rssCach.fetchUrl(Integer.valueOf(args[0]), args[1], this.getDateOfNextSunday(), this.useCachedValues);
-				d1 = parseRss(in, false);
+                while(urlQuery != null) {
+                    InputStream in = rssCach.fetchUrl(url + urlQuery, this.getDateOfNextSunday(),  this.useCachedValues);
+                    Diet d = parseMenu(in);
+                    mergedDiet.addDays(d.getDays());
+                    urlQuery = d.getUrlQueryNextWeek();
 
+                }
 			} catch(Exception e) {
 				e.printStackTrace();
 				this.occuredException = e;
 
 			}
 
-			//Load diet for second week (in seperate try-catch to load as much data as possible)
-			try {
-				InputStream in = rssCach.fetchUrl(Integer.valueOf(args[0]) + 1, args[2], this.getDateOfNextSunday(), this.useCachedValues);
-				d2 = parseRss(in, false);
-
-			} catch(Exception e) {
-				e.printStackTrace();
-				this.occuredException = e;
-
-			}
-
-
-			//Merge the two weeks' diets, if they are not null
-			Diet mergedDiet = new Diet();
+			//Set sync date
 			mergedDiet.setLastSynced(new Date());
-
-			if(d1 != null)
-				mergedDiet.addDays(d1.getDays());
-
-			if(d2 != null)
-				mergedDiet.addDays(d2.getDays());
 
 			//return the merged one
 			return mergedDiet;
@@ -132,149 +116,92 @@ public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 	/**
 	 * Parses the given InputStream to a diet.
 	 * @param in The Inputstream that should be parsed.
-	 * @param isSecondWeek A flag, indicating if the given stream represents the first or the second week
 	 * @return The parsed Diet object
 	 * @throws javax.xml.parsers.ParserConfigurationException
 	 * @throws org.xml.sax.SAXException
 	 * @throws java.io.IOException
 	 */
-	protected Diet parseRss(InputStream in, boolean isSecondWeek) throws ParserConfigurationException, SAXException, IOException {
-		//Set up Parser
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document document = documentBuilder.parse(in);
+	protected Diet parseMenu(InputStream in) throws Exception {
+        //Read input stream
+        Log.i(this.getClass().getSimpleName(), "Start reading...");
+        StringBuilder html = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream((in))));
+        String line;
+        while((line = br.readLine()) != null) {
+            html.append(line);
+        }
+        Log.i(this.getClass().getSimpleName(), "Reading done.");
 
-		//Get week and create new Diet
-		int currentWeek = Utils.getWeek();
-		Diet diet = new Diet();
 
-		//create note list for <item>, every item node represents a day
-		NodeList itemElements = document.getElementsByTagName("item");
-		for(int i=0; i<itemElements.getLength(); i++) {
-			//Get current Element (current day)
-			Element itemElement = (Element) itemElements.item(i);
+        in.close();
 
-			//Get info
-			String title = itemElement.getElementsByTagName("title").item(0).getFirstChild().getNodeValue();
-			String guid = itemElement.getElementsByTagName("guid").item(0).getFirstChild().getNodeValue();
-			String description = itemElement.getElementsByTagName("description").item(0).getFirstChild().getNodeValue();
+        //Create Jsoup document
+        Log.i(this.getClass().getSimpleName(), "Start parsing...");
+        Document doc = Jsoup.parse(html.toString());
+        Log.i(this.getClass().getSimpleName(), "Parsing done");
 
-			//create day, set guid and title (never used?)
-			Day d = this.parseDay(description);
-			d.setGuid(guid);
-			d.setTitle(title);
+        // Create empty Diet
+        Diet diet = new Diet();
 
-			//set day:  index equals Calender.DAYXX + 2 -> WHOOT? :D
-			d.setDay(i + 2);
+        //Get diet
+        Element dietElement = doc.getElementById("speiseplan-tabs");
 
-			//set week
-			if(isSecondWeek) {
-				d.setWeek(currentWeek + 1);
-			} else {
-				d.setWeek(currentWeek);
-			}
+        //Get notes
+        String notes = doc.getElementsByClass("menu-zusatzstoffe").get(0).html();
 
-			//add day to diet
-			diet.addDay(d);
-		}
+        //Parse every day
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-mon"), notes));
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-tue"), notes));
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-wed"), notes));
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-thu"), notes));
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-fri"), notes));
+        diet.addDay(this.parseDay(dietElement.getElementById("tab-sat"), notes));
 
-		//set last sync date and return
-		diet.setLastSynced(new Date());
-		return diet;
-	}
+        //Get link to next week (if there is one)
+        Elements linkNextWeek = doc.getElementsByClass("next-week");
+        if(linkNextWeek.size() > 0) {
+            diet.setUrlQueryNextWeek(URI.create(linkNextWeek.get(0).attr("href")).getQuery());
+        }
+
+        return diet;
+    }
 
 	/**
 	 * Parses a single day using the given description of the day's menus.
-	 * @param description The description of the day's menus
+	 * @param tab The day's tab element
 	 * @return
 	 */
-	private Day parseDay(String description) {
+	private Day parseDay(Element tab, String notes) {
+        //Create empty day
+        Day day = new Day();
+        day.setNotes(notes);
+        day.setGuid(tab.getElementsByTag("h3").get(0).text());
 
-		//create day
-		Day d = new Day();
+        //Get menu-header and menu-info divs
+        Elements header = tab.getElementsByClass("menu-header");
+        Elements info = tab.getElementsByClass("menu-info");
 
-		// Clear the CDATA and use delimiter 
-		description = description.replace("<![CDATA[", "");
-		description = description.replace("]]>", "");
-		description = description.replace("<br> ", "<br>");
-		description = description.replace(" <br>", "<br>");
-		String[] menus = description.split("<br><br>");
+        //Iterate over all available menus
+        for(int i=0; i<header.size(); i++) {
+            //Get html code
+            String infoText = info.get(i).html();
 
-		try {
-			for(String s : menus) {
+            //Get title
+            String titleText = header.get(i).getElementsByTag("h4").get(0).text();
 
-				String parts[] = s.split("<br>");
-				Menu m = new Menu();
+            //Get type
+            String type = info.attr("class").substring("menu-info ".length());
 
-				for(int i=0; i<parts.length; i++) {
+            //Create menu
+            Menu menu = new Menu(titleText, infoText, type);
 
-					if(parts[i].contains("<u>")) {
+            //Add to day
+            day.addMenu(menu);
 
-						if(m.getTitle() != null && m.getTitle().length() > 0) {
-							d.addMenu(m);
-							m = new Menu();
-						}
+        }
 
-						m.setTitle(this.optimizeString(parts[i]));
+        return day;
 
-						if(m.getTitle().equals("Kennzeichnung")) {
-							d.setNotes(this.optimizeString(parts[i+1]));
-							m = null;
-							break;
-						}
-
-
-					} else if(parts[i].contains("<b>")) {
-						m.setMainCourse(this.optimizeString(parts[i]));
-
-					} else {
-
-						if(m.getMainCourse() == null) {
-							m.setAppetizer(this.optimizeString(parts[i]));
-						} else {
-
-							String a = this.optimizeString(parts[i]);
-							if(m.getSideDish() == null)
-								m.setSideDish(a);
-							else
-								m.setSideDish(m.getSideDish() + ", " + a);
-						}
-					}
-
-				}
-
-				if(m != null && m.getTitle() != null && m.getTitle().length() > 0)
-					d.addMenu(m);
-
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-
-		return d;
-	}
-
-	/**
-	 * Optimizes the given String by deleting unrelevant characters or replacing them by better ones.
-	 * @param s The String object that is going to be optimized
-	 * @return
-	 */
-	private String optimizeString(String s) {
-		s = s.replace("\n", "").replace("\r", "").replace("\t", "");
-		s = s.replaceAll("<u>", "");
-		s = s.replaceAll("</u>", "");
-		s = s.trim().replaceAll(" +", " ");
-		s = s.replaceAll(">\\s+<", "><").trim();
-		s = s.replace("<br>", "");
-		s = s.replaceAll("(;)\\1+", "");
-		s = s.replaceAll("<b>", "");
-		s = s.replaceAll("</b>", "");
-
-		if(s.startsWith(" "))
-			s = s.substring(1);
-
-		return s;
 	}
 
 	private Date getDateOfNextSunday() {
@@ -352,4 +279,5 @@ public class DietFetchTask extends AsyncTask<Mensa, Void, Diet> {
 	public MainActivity getActivity() {
 		return activity;
 	}
+
 }

@@ -42,8 +42,8 @@ public class Diet implements Serializable {
 		this.days = days;
 	}
 
-    public void setUrlNextWeek(String url) { this.urlNextWeek = url; }
+    public void setUrlQueryNextWeek(String query) { this.urlNextWeek = "?" + query; }
 
-    public String getUrlNextWeek() { return this.urlNextWeek; }
+    public String getUrlQueryNextWeek() { return this.urlNextWeek; }
 	
 }

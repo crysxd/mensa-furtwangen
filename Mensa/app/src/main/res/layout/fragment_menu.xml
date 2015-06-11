@@ -50,29 +50,13 @@
             android:background="@color/color_light_text" />
 
         <TextView
-            android:id="@+id/menu_appetizer"
+            android:id="@+id/menu_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_empty"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/color_light_text" />
 
-        <TextView
-            android:id="@+id/menu_maincourse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_empty"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/color_light_text"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/menu_sidedish"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_empty"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/color_light_text" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

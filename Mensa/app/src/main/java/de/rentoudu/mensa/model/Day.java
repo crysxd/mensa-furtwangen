@@ -33,16 +33,25 @@ public class Day implements Serializable {
 	
 	public void setNotes(String notes) {
 		this.notes = notes;
-	}
+
+        //Parse the HTML definition list to a more convinient layour
+        this.notes = this.notes.replace("\n", "");
+        this.notes = this.notes.replace("\r", "");
+        this.notes = this.notes.replaceAll("( )*</dd>( )*<dt>( )*", ", (");
+        this.notes = this.notes.replaceAll("( )*</dt>( )*<dd>( )*", ") ");
+        this.notes = this.notes.replaceAll("( )*<dt>( )*", "(");
+        this.notes = this.notes.replaceAll("( )*</dd>( )*", "");
+
+    }
 	
 	public String getNotes() {
 		return notes;
 	}
-	
+
 	public String getGuid() {
 		return guid;
 	}
-	
+
 	public void setGuid(String guid) {
 		this.guid = guid;
 	}

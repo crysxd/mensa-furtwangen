@@ -35,8 +35,6 @@ import de.rentoudu.mensa.task.DietFetchTask;
  */
 public class MainActivity extends ActionBarActivity implements OnItemClickListener {
 
-	private static final String FEED_URL = "http://www.swfr.de/essen-trinken/speiseplaene/speiseplan-rss/?no_cache=1&Tag={day}&Ort_ID={id}";
-
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections.
@@ -214,14 +212,10 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 
 	public void refreshDiet(boolean useCachedValues) {
 
-		//Generate RSS feed URLs
-		String firstWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex());
-		String secondWeekFeedUrl = buildFeedUrl(-getCurrentCanteenDayIndex() + 7);
-
 		//create Executor and AsyncTask and execute it. Shutdown s properly.
 		//Hint: use new ExecutorService instead of the default one to ensure that the task is started immediately
 		ExecutorService s = Executors.newSingleThreadExecutor();
-		new DietFetchTask(this, useCachedValues).executeOnExecutor(s, this.selectedMensa.getId() + "", firstWeekFeedUrl, secondWeekFeedUrl);
+		new DietFetchTask(this, useCachedValues).executeOnExecutor(s, this.selectedMensa);
 		s.shutdown();
 	}
 
@@ -234,15 +228,6 @@ public class MainActivity extends ActionBarActivity implements OnItemClickListen
 		dayPagerAdapter.notifyDataSetChanged();
 
 		viewPager.setCurrentItem(getCurrentCanteenDayIndex());
-	}
-
-	/**
-	 * Builds the feed URL to fetch based on the current weekday.
-	 */
-	protected String buildFeedUrl(int startDay) {
-		return FEED_URL
-				.replace("{day}", String.valueOf(startDay))
-				.replace("{id}", String.valueOf(this.selectedMensa.getId()));
 	}
 
 	/**

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import de.hfu.mensa.R;
 import de.rentoudu.mensa.model.Menu;
 
@@ -21,9 +22,7 @@ public class MenuFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_menu, container, false);
 		
 		TextView menuTitle = (TextView) view.findViewById(R.id.menu_title);
-		TextView menuAppetizer = (TextView) view.findViewById(R.id.menu_appetizer);
-    	TextView menumainCourse = (TextView) view.findViewById(R.id.menu_maincourse);
-    	TextView menuSideDish = (TextView) view.findViewById(R.id.menu_sidedish);
+		TextView menuData = (TextView) view.findViewById(R.id.menu_data);
     	
     	Menu menu = getMenu();
     	
@@ -33,27 +32,10 @@ public class MenuFragment extends Fragment {
     	
 		// Menu value
 		menuTitle.setText(menu.getTitle());
-		menuAppetizer.setText(menu.getAppetizer());
-		menumainCourse.setText(menu.getMainCourse());
-    	menuSideDish.setText(menu.getSideDish());
-		
-    	//hide unused textfields
-    	if(menuAppetizer.getText().length() == 0) {
-    		menuAppetizer.setVisibility(View.GONE);
-    	}
-    	if(menumainCourse.getText().length() == 0) {
-    		menumainCourse.setVisibility(View.GONE);
-    	}
-    	if(menuSideDish.getText().length() == 0) {
-    		menuSideDish.setVisibility(View.GONE);
-    	}
-    	
-    	//hide raiting bar if there is no main course to prevent useless votes
-//    	if(menu.getMainCourse() == null) {
-//    		menuRatingBar.setVisibility(View.GONE);
+		menuData.setText(menu.getData());
 
     	// Thumbs rating
-    	if(savedInstanceState == null && menu.getMainCourse() != null) {
+    	if(savedInstanceState == null && menu.getTitle() != null) {
     		ThumbsFragment ratingFragment = new ThumbsFragment();
     		Bundle bundle = new Bundle();
     		bundle.putString("menuId", menu.getId());
