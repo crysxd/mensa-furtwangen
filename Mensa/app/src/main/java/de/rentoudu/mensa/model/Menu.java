@@ -117,10 +117,6 @@ public class Menu implements Serializable {
         //Replace multiple spaces in a row with a single on
         s = s.replaceAll(" +", " ");
 
-        //Remove boldness
-        s = s.replaceAll("<b>", "");
-        s = s.replaceAll("</b>", "");
-
         //Remove <br> tags at the end of the text
         s = s.replaceAll("(<br( )*(/){0,1}( )*/>)*$", "");
 
