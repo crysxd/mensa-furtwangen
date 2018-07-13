@@ -12,7 +12,7 @@ class Canteen() {
     lateinit var menuUrl: String
     lateinit var description: String
     lateinit var openingHours: String
-    var iconResourceName: String = "ic_default_canteen_icon"
+    lateinit var iconUrl: String
     var latitude: Float = 0.0f
     var longitude: Float = 0.0f
 }

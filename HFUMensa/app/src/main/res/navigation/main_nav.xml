@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
-        android:name="de.crysxd.hfumensa.view.SplashFragment"
+        android:name="de.crysxd.hfumensa.view.splash.SplashFragment"
         android:label="SplashFragment" >
         <action
             android:id="@+id/action_splashFragment_to_selectCanteenFragment"
@@ -15,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/selectCanteenFragment"
-        android:name="de.crysxd.hfumensa.view.SelectCanteenFragment"
-        android:label="SelectCanteenFragment"></fragment>
+        android:name="de.crysxd.hfumensa.view.selectcanteen.SelectCanteenFragment"
+        android:label="SelectCanteenFragment" />
 </navigation>

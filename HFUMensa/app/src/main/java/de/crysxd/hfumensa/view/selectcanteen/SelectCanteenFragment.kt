@@ -1,28 +1,33 @@
-package de.crysxd.hfumensa.view
+package de.crysxd.hfumensa.view.selectcanteen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
+import de.crysxd.hfumensa.view.ErrorDialogHelper
+import kotlinx.android.synthetic.main.fragment_select_canteen.*
 
 class SelectCanteenFragment : Fragment() {
 
     var shownAlertDialog: AlertDialog? = null
+    val adapter = CanteenAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) = inflater.inflate(R.layout.fragment_select_canteen, container, false)
 
     override fun onStart() {
         super.onStart()
 
+        recyclerView.adapter = adapter
+
         val (result, error) = CanteenRepository().getCanteens()
         result.observe(this, Observer<List<Canteen>> {
-            Toast.makeText(context, "${it.size} canteens loaded", Toast.LENGTH_LONG).show()
+            adapter.canteens = it
         })
         error.observe(this, Observer<Exception> {
             shownAlertDialog?.dismiss()

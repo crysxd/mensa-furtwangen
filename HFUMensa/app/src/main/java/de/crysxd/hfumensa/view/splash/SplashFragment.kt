@@ -1,17 +1,14 @@
-package de.crysxd.hfumensa.view
+package de.crysxd.hfumensa.view.splash
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import de.crysxd.hfumensa.R
+import de.crysxd.hfumensa.view.ErrorDialogHelper
 import timber.log.Timber
 
 
