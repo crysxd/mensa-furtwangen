@@ -29,7 +29,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha03'
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha03'
 
