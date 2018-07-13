@@ -41,3 +41,4 @@ local.properties
 .idea/libraries
 .DS_Store
 build
+HFUMensa/app/google-services.json
