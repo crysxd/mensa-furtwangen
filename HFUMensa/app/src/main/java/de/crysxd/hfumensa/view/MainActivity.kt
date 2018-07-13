@@ -1,7 +1,7 @@
 package de.crysxd.hfumensa.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import de.crysxd.hfumensa.R
 
 class MainActivity : AppCompatActivity() {

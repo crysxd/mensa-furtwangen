@@ -51,14 +51,9 @@ class SplashFragment : Fragment() {
 
     private fun handleError(error: Exception) {
         Timber.e(error)
-        context?.let {
-            shownAlertDialog?.dismiss()
-            shownAlertDialog = AlertDialog.Builder(it)
-                    .setMessage(R.string.ui_error_unable_to_load_data)
-                    .setPositiveButton(android.R.string.ok, { _, _ ->
-                        activity?.finish()
-                    })
-                    .show()
-        }
+        shownAlertDialog?.dismiss()
+        shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, error, R.string.ui_error_unable_to_load_data, {
+            activity?.finish()
+        })
     }
 }
