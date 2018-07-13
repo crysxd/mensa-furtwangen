@@ -5,5 +5,13 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="de.crysxd.hfumensa.view.SplashFragment"
-        android:label="SplashFragment" />
+        android:label="SplashFragment" >
+        <action
+            android:id="@+id/action_splashFragment_to_selectCanteenFragment"
+            app:destination="@id/selectCanteenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectCanteenFragment"
+        android:name="de.crysxd.hfumensa.view.SelectCanteenFragment"
+        android:label="SelectCanteenFragment" />
 </navigation>

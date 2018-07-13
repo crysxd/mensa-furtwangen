@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HFU Mensa</string>
     <string name="ui_loading">Lade Daten...</string>
+    <string name="ui_error_unable_to_load_data">Daten können aktuell nicht geladen werden, versuche es später nochmal</string>
 </resources>
