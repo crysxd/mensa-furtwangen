@@ -45,3 +45,5 @@ HFUMensa/app/google-services.json
 Server/firebase-debug.log
 Server/functions/node_modules/*
 Server/functions/package-lock.json
+Server/node_modules/*
+Server/package-lock.json
