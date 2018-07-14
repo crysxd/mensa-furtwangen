@@ -34,10 +34,5 @@ class SelectCanteenFragment : Fragment() {
             shownAlertDialog?.dismiss()
             shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it, R.string.ui_error_unable_to_load_data)
         })
-
-        val(result2, error2) = MenuRepository().getMenu("610", Date())
-        result2.observe(this, Observer {
-            Timber.d(it.size.toString())
-        })
     }
 }
