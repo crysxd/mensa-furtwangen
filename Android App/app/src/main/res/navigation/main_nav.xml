@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
         android:name="de.crysxd.hfumensa.view.splash.SplashFragment"
+        tools:layout="@layout/fragment_splash"
         android:label="SplashFragment" >
         <action
             android:id="@+id/action_splashFragment_to_selectCanteenFragment"
-            app:destination="@id/selectCanteenFragment"
+            app:destination="@id/menuFragment"
             app:launchSingleTop="true"
             app:clearTask="true"
             app:popUpToInclusive="true" />
@@ -16,5 +18,11 @@
     <fragment
         android:id="@+id/selectCanteenFragment"
         android:name="de.crysxd.hfumensa.view.selectcanteen.SelectCanteenFragment"
+        tools:layout="@layout/fragment_select_canteen"
         android:label="SelectCanteenFragment" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="de.crysxd.hfumensa.view.menu.MenuFragment"
+        tools:layout="@layout/fragment_menu"
+        android:label="MenuFragment" />
 </navigation>
