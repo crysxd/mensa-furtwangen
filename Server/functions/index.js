@@ -63,13 +63,11 @@ function parseWeek(canteenId, url, menu, resolve, reject) {
           return parseWeek(canteenId, parsedUrl.protocol + '//' + parsedUrl.host + linkHref, menu, resolve, reject);
         } else {
           console.log("Empty href in " + url + ", menu complete")
-          storeMenu(canteenId, menu)
-          return resolve();
+          return storeMenu(canteenId, menu, resolve, reject)
         }
       } else {
         console.log("No link to next week in " + url + ", menu complete")
-        storeMenu(canteenId, menu)
-        return resolve();
+        return storeMenu(canteenId, menu, resolve, reject)
       }
     })
     .catch((e) => {
@@ -143,11 +141,15 @@ function improveString(string) {
   return string
 }
 
-function storeMenu(canteenId, menu) {
+function storeMenu(canteenId, menu, resolve, reject) {
   menu.forEach((day) => {
     console.log("Storing dishes for canteen", canteenId, "at day", day.date);
     day.dishes.forEach((dish, i) => {
-      admin.firestore().collection("canteens").doc(String(canteenId)).collection("menu").doc(day.date).collection('dishes').doc(String(i)).set(dish);
+      admin.firestore().collection("canteens").doc(String(canteenId)).collection("menu").doc(day.date).collection('dishes').doc(String(i)).set(dish).then(() => {
+        return resolve();
+      }).catch((e) => {
+        reject(e);
+      })
     });
   })
 }
