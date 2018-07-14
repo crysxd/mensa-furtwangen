@@ -10,6 +10,7 @@
             android:id="@+id/action_splashFragment_to_selectCanteenFragment"
             app:destination="@id/selectCanteenFragment"
             app:launchSingleTop="true"
+            app:clearTask="true"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

@@ -20,9 +20,10 @@ class SplashFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
         login {
             view?.let {
-                Navigation.findNavController(it).navigate(R.id.selectCanteenFragment)
+                Navigation.findNavController(it).navigate(R.id.action_splashFragment_to_selectCanteenFragment)
             }
         }
     }
