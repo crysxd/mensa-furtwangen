@@ -18,9 +18,9 @@ exports.updateMenu = functions.https.onRequest((request, response) => {
     });
 
     // When all canteens are loaded
-    Promise.all(promises).then((results) => {
+    return Promise.all(promises).then((results) => {
       console.log("Update completed")
-      response.status(200).send({})
+      return response.status(200).send({})
     }).catch((e) => {
       console.error(e)
       response.status(500).send({})
@@ -60,16 +60,16 @@ function parseWeek(canteenId, url, menu, resolve, reject) {
         if (linkHref) {
           var parsedUrl = URL.parse(url)
           console.log("Following link to next week from in " + url + "...")
-          parseWeek(canteenId, parsedUrl.protocol + '//' + parsedUrl.host + linkHref, menu, resolve, reject);
+          return parseWeek(canteenId, parsedUrl.protocol + '//' + parsedUrl.host + linkHref, menu, resolve, reject);
         } else {
           console.log("Empty href in " + url + ", menu complete")
           storeMenu(canteenId, menu)
-          resolve();
+          return resolve();
         }
       } else {
         console.log("No link to next week in " + url + ", menu complete")
         storeMenu(canteenId, menu)
-        resolve();
+        return resolve();
       }
     })
     .catch((e) => {
@@ -96,8 +96,8 @@ function parseDay($, tabName) {
     // Additives are numbers, allergens are letters
     var contents = (improveString($(dish).find('.zusatzsstoffe.show-with-allergenes').text()) || "").split(',').filter(i => i && i.length > 0);
     var msc = contents.filter(i => i === 'MSC').length > 0;
-    var additives = contents.filter(i => isNumber(i)).map((i) => { return {key: i, description: additivesTable[i] } });
-    var alergens = contents.filter(i => !isNumber(i) && i !== 'MSC').map((i) => { return {key: i, description: alergensTable[i] } });
+    var additives = contents.filter(i => isNumber(i)).map((i) => { return { key: i, description: additivesTable[i] } });
+    var alergens = contents.filter(i => !isNumber(i) && i !== 'MSC').map((i) => { return { key: i, description: alergensTable[i] } });
     $(dish).find('.zusatzsstoffe').remove()
 
     dishes.push({
@@ -110,7 +110,7 @@ function parseDay($, tabName) {
       vegan: $(dish).hasClass('vegan'),
       veganOption: $(dish).hasClass('wunsch-vegan'),
       msc: msc,
-      priceStudents: improveString($(dish).find('.price-studierende').next().text()) || "",
+      priceStudents: improveString($(dish).find('.price-studierende').next().text()) || "",
       priceEmployees: improveString($(dish).find('.price-mitarbeiter').next().text()) || "",
       priceGuests: improveString($(dish).find('.price-gaeste').next().text()) || ""
     });
@@ -129,7 +129,7 @@ function parseDate(date) {
   var month =  Number.parseInt(cleanDate.split(".")[1])
   var currentYear = now.getFullYear()
   var currentMonth = now.getMonth()
-  var year = month == 1 && currentMonth == 12 ? currentYear + 1 : currentYear
+  var year = month === 1 && currentMonth === 12 ? currentYear + 1 : currentYear
   return new Date(year, month - 1, day + 1)
 }
 
@@ -140,21 +140,22 @@ function improveString(string) {
       .replace('enthält Allergene: ', ',')
       .replace('Kennzeichnungen/Zusatzstoffe: ', '')
   }
+  return string
 }
 
 function storeMenu(canteenId, menu) {
   menu.forEach((day) => {
     console.log("Storing dishes for canteen", canteenId, "at day", day.date);
     day.dishes.forEach((dish, i) => {
-      admin.firestore().collection("canteens").doc(canteenId + "").collection("menu").doc(day.date).collection('dishes').doc(i + "").set(dish);
+      admin.firestore().collection("canteens").doc(String(canteenId)).collection("menu").doc(day.date).collection('dishes').doc(String(i)).set(dish);
     });
   })
 }
 
 function formatDate(date) {
     var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
+        month = String(d.getMonth() + 1),
+        day = String(d.getDate()),
         year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month;
