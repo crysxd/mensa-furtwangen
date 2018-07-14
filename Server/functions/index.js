@@ -10,31 +10,24 @@ admin.initializeApp();
 
 exports.updateMenu = functions.https.onRequest((request, response) => {
   // Read all canteens
-  admin.database().ref("canteens/").once("value", (snapshot) => {
+  admin.firestore().collection("canteens").get().then((documents) => {
     var promises = new Array();
-    snapshot.val().forEach((canteen) => {
+    documents.forEach((canteenDoc) => {
+      var canteen = canteenDoc.data()
       promises.push(parseMenu(canteen.id, canteen.menuUrl))
     });
 
     // When all canteens are loaded
     Promise.all(promises).then((results) => {
-      // Restructure data
-      var data = {}
-      results.forEach((result) => {
-        data[result.id] = result.menu
-      })
-
-      // Store in database
-      admin.database().ref("menu").set(data).then(() => {
-        console.log("Update completed")
-        response.status(200).send({})
-      }).catch((error) => {
-        response.status(500).send({})
-      });
+      console.log("Update completed")
+      response.status(200).send({})
     }).catch((e) => {
       console.error(e)
       response.status(500).send({})
-    })
+    });
+  }).catch((e) => {
+    console.error(e)
+    response.status(500).send({})
   });
 });
 
@@ -70,11 +63,13 @@ function parseWeek(canteenId, url, menu, resolve, reject) {
           parseWeek(canteenId, parsedUrl.protocol + '//' + parsedUrl.host + linkHref, menu, resolve, reject);
         } else {
           console.log("Empty href in " + url + ", menu complete")
-          resolve({id: canteenId, menu: menu});
+          storeMenu(canteenId, menu)
+          resolve();
         }
       } else {
         console.log("No link to next week in " + url + ", menu complete")
-        resolve({id: canteenId, menu: menu});
+        storeMenu(canteenId, menu)
+        resolve();
       }
     })
     .catch((e) => {
@@ -84,7 +79,7 @@ function parseWeek(canteenId, url, menu, resolve, reject) {
 }
 
 function parseDay($, tabName) {
-  var date = parseDate($('h3', tabName).text()).toISOString()
+  var date = formatDate(parseDate($('h3', tabName).text()))
   var dishes = new Array();
 
   var additivesTable = {};
@@ -106,6 +101,7 @@ function parseDay($, tabName) {
     $(dish).find('.zusatzsstoffe').remove()
 
     dishes.push({
+      date: date,
       title: improveString($(dish).find('h4').text()),
       description: improveString($(dish).find('.menu-info').html()),
       additives: additives,
@@ -140,8 +136,29 @@ function parseDate(date) {
 function improveString(string) {
   if (string) {
     return string.trim()
-      .replace(/\s\s+/g, ' ')
+      .replace(/  +/g, ' ')
       .replace('enthält Allergene: ', ',')
       .replace('Kennzeichnungen/Zusatzstoffe: ', '')
   }
+}
+
+function storeMenu(canteenId, menu) {
+  menu.forEach((day) => {
+    console.log("Storing dishes for canteen", canteenId, "at day", day.date);
+    day.dishes.forEach((dish, i) => {
+      admin.firestore().collection("canteens").doc(canteenId + "").collection("menu").doc(day.date).collection('dishes').doc(i + "").set(dish);
+    });
+  })
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
