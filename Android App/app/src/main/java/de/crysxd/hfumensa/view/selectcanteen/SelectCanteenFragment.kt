@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
 import de.crysxd.hfumensa.R
-import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
+import de.crysxd.hfumensa.persistence.MenuRepository
 import de.crysxd.hfumensa.view.ErrorDialogHelper
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
+import timber.log.Timber
+import java.util.*
 
 class SelectCanteenFragment : Fragment() {
 
@@ -26,12 +27,17 @@ class SelectCanteenFragment : Fragment() {
         recyclerView.adapter = adapter
 
         val (result, error) = CanteenRepository().getCanteens()
-        result.observe(this, Observer<List<Canteen>> {
+        result.observe(this, Observer {
             adapter.canteens = it
         })
-        error.observe(this, Observer<Exception> {
+        error.observe(this, Observer {
             shownAlertDialog?.dismiss()
             shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it, R.string.ui_error_unable_to_load_data)
+        })
+
+        val(result2, error2) = MenuRepository().getMenu("610", Date())
+        result2.observe(this, Observer {
+            Timber.d(it.size.toString())
         })
     }
 }

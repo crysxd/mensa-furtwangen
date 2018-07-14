@@ -145,7 +145,8 @@ function storeMenu(canteenId, menu, resolve, reject) {
   menu.forEach((day) => {
     console.log("Storing dishes for canteen", canteenId, "at day", day.date);
     day.dishes.forEach((dish, i) => {
-      admin.firestore().collection("canteens").doc(String(canteenId)).collection("menu").doc(day.date).collection('dishes').doc(String(i)).set(dish).then(() => {
+      var id = dish.date + '-' + hashCode(dish.title);
+      admin.firestore().collection("canteens").doc(String(canteenId)).collection("menu").doc(id).set(dish).then(() => {
         return resolve();
       }).catch((e) => {
         reject(e);
@@ -164,4 +165,8 @@ function formatDate(date) {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+}
+
+function hashCode(s){
+  return Math.abs(s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0));
 }

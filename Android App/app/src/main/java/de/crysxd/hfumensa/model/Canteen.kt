@@ -1,8 +1,5 @@
 package de.crysxd.hfumensa.model
 
-import java.lang.reflect.AccessibleObject.setAccessible
-
-
 class Canteen() {
     var id: Int = 0
     lateinit var name: String
