@@ -42,3 +42,6 @@ local.properties
 .DS_Store
 build
 HFUMensa/app/google-services.json
+Server/firebase-debug.log
+Server/functions/node_modules/*
+Server/functions/package-lock.json
