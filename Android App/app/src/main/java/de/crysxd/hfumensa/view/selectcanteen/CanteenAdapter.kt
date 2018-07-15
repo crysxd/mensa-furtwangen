@@ -30,6 +30,7 @@ class CanteenAdapter(val clickAction: (View, Int) -> Unit) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: CanteenViewHolder, position: Int) {
         holder.textViewName.text = canteens[position].name
+        holder.textViewPlace.text = canteens[position].place
         holder.itemView.setOnClickListener {
             clickAction(holder.itemView, position)
         }
