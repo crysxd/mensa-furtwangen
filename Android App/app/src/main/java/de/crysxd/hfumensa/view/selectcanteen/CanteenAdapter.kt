@@ -1,5 +1,6 @@
 package de.crysxd.hfumensa.view.selectcanteen
 
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -8,7 +9,7 @@ import de.crysxd.hfumensa.model.Canteen
 import kotlinx.android.synthetic.main.item_canteen.*
 import timber.log.Timber
 
-class CanteenAdapter : RecyclerView.Adapter<CanteenViewHolder>() {
+class CanteenAdapter(val clickAction: (View, Int) -> Unit) : RecyclerView.Adapter<CanteenViewHolder>() {
 
     var canteens: List<Canteen> = emptyList()
         set(value) {
@@ -29,6 +30,9 @@ class CanteenAdapter : RecyclerView.Adapter<CanteenViewHolder>() {
 
     override fun onBindViewHolder(holder: CanteenViewHolder, position: Int) {
         holder.textViewName.text = canteens[position].name
+        holder.itemView.setOnClickListener {
+            clickAction(holder.itemView, position)
+        }
         Glide.with(holder.itemView.context)
                 .load(canteens[position].iconUrl)
                 .transition(DrawableTransitionOptions.withCrossFade())

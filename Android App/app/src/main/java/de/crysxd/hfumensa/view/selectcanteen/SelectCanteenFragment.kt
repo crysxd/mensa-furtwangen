@@ -24,12 +24,14 @@ import de.crysxd.hfumensa.persistence.CanteenRepository
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
 
-const val MIN_LOADING_TIME_MS = 3000
 
 class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
 
     private var shownAlertDialog: AlertDialog? = null
-    private val adapter = CanteenAdapter()
+    private val adapter = CanteenAdapter { view, position ->
+        onCanteenSelected(position)
+        storeCanteenAndContinue(view)
+    }
     private val snapHelper = ControllablePagerSnapHelper {
         onCanteenSelected(it)
     }
@@ -57,20 +59,16 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             snapHelper.snapToPrevious()
         }
         buttonContinue.setOnClickListener {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(it.context)
-            prefs.edit().putString(SELECTED_MENSA_SETTING, adapter.canteens[snapHelper.snappedPosition].id).apply()
-            Navigation.findNavController(it).navigate(R.id.action_selectCanteenFragment_to_menuFragment)
+            storeCanteenAndContinue(it)
         }
 
         val startTime = System.currentTimeMillis()
         val (result, error) = CanteenRepository().getCanteens()
         result.observe(this, Observer {
-            Handler().postDelayed({
-                adapter.canteens = it.sortedBy {
-                    it.place
-                }
-                onCanteenSelected(0)
-            }, Math.max(0, MIN_LOADING_TIME_MS - (System.currentTimeMillis() - startTime)))
+            adapter.canteens = it.sortedBy {
+                it.place
+            }
+            onCanteenSelected(0)
         })
         error.observe(this, Observer {
             shownAlertDialog?.dismiss()
@@ -78,34 +76,43 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
+    private fun storeCanteenAndContinue(view: View) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(view.context)
+        prefs.edit().putString(SELECTED_MENSA_SETTING, adapter.canteens[snapHelper.snappedPosition].id).apply()
+        Navigation.findNavController(view).navigate(R.id.action_selectCanteenFragment_to_menuFragment)
+    }
+
     private fun onCanteenSelected(position: Int) {
-        showCanteenOnMap(adapter.canteens[position])
-        TransitionManager.beginDelayedTransition(view as ViewGroup)
-        buttonNext.visibility = if (adapter.itemCount == 0 || position >= adapter.itemCount - 1) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-        buttonPrevious.visibility = if (adapter.itemCount == 0 || position <= 0) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-        buttonContinue.visibility = if (adapter.itemCount == 0) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-        waveHeader.visibility = if (adapter.itemCount == 0) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
-        textViewHeading.visibility = buttonContinue.visibility
-        if (adapter.itemCount == 0 && !waveHeader.isRunning) {
-            waveHeader.start()
-        } else if (adapter.itemCount != 0 && waveHeader.isRunning) {
-            waveHeader.stop()
+        view?.let {
+            showCanteenOnMap(adapter.canteens[position])
+            TransitionManager.beginDelayedTransition(it as ViewGroup)
+            buttonNext.visibility = if (adapter.itemCount == 0 || position >= adapter.itemCount - 1) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+            buttonPrevious.visibility = if (adapter.itemCount == 0 || position <= 0) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+            buttonContinue.visibility = if (adapter.itemCount == 0) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+            waveHeader.visibility = if (adapter.itemCount == 0) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            textViewHeading.visibility = buttonContinue.visibility
+            recyclerView.visibility = buttonContinue.visibility
+            if (adapter.itemCount == 0 && !waveHeader.isRunning) {
+                waveHeader.start()
+            } else if (adapter.itemCount != 0 && waveHeader.isRunning) {
+                waveHeader.stop()
+            }
         }
     }
 

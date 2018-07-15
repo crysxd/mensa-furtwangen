@@ -49,11 +49,13 @@
         android:paddingTop="8dp"
         android:paddingRight="48dp"
         android:paddingBottom="8dp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/buttonContinue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/item_canteen" />
+        tools:listitem="@layout/item_canteen"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/buttonContinue"
