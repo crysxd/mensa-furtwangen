@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/splashFragment">
     <fragment
         android:id="@+id/splashFragment"
         android:name="de.crysxd.hfumensa.view.splash.SplashFragment"
-        tools:layout="@layout/fragment_splash"
-        android:label="SplashFragment" >
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_selectCanteenFragment"
-            app:destination="@id/menuFragment"
-            app:launchSingleTop="true"
             app:clearTask="true"
-            app:popUpToInclusive="true" />
+            app:destination="@id/selectCanteenFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectCanteenFragment"
         android:name="de.crysxd.hfumensa.view.selectcanteen.SelectCanteenFragment"
-        tools:layout="@layout/fragment_select_canteen"
-        android:label="SelectCanteenFragment" />
+        android:label="SelectCanteenFragment"
+        tools:layout="@layout/fragment_select_canteen">
+        <action
+            android:id="@+id/action_selectCanteenFragment_to_menuFragment"
+            app:clearTask="true"
+            app:destination="@id/menuFragment" />
+    </fragment>
     <fragment
         android:id="@+id/menuFragment"
         android:name="de.crysxd.hfumensa.view.menu.MenuFragment"
-        tools:layout="@layout/fragment_menu"
-        android:label="MenuFragment" />
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu" />
 </navigation>
