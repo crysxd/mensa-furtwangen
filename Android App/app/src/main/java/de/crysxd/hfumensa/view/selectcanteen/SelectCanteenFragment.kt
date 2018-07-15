@@ -22,6 +22,7 @@ import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
+import kotlinx.android.synthetic.main.fragment_menu.*
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
 
 
@@ -101,17 +102,14 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             } else {
                 View.VISIBLE
             }
-            waveHeader.visibility = if (adapter.itemCount == 0) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
             textViewHeading.visibility = buttonContinue.visibility
             recyclerView.visibility = buttonContinue.visibility
-            if (adapter.itemCount == 0 && !waveHeader.isRunning) {
-                waveHeader.start()
-            } else if (adapter.itemCount != 0 && waveHeader.isRunning) {
-                waveHeader.stop()
+            if (adapter.itemCount == 0 && !toolbarBackground.isRunning) {
+                toolbarBackground.start()
+                toolbarBackground.animate().translationY(0f).start()
+            } else if (adapter.itemCount != 0 && toolbarBackground.isRunning) {
+                toolbarBackground.stop()
+                toolbarBackground.animate().translationY(-toolbarBackground.height / 2f).start()
             }
         }
     }

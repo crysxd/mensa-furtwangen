@@ -19,20 +19,27 @@
         app:layout_constraintTop_toTopOf="@+id/textViewHeading"
         tools:context="de.crysxd.hfumensa.model.MapsActivity" />
 
-    <View
-        android:id="@+id/view2"
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/toolbarBackground"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@drawable/white_tranlucent_gradient"
+        android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/map" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/colorPrimary"
+        app:mwhColorAlpha="0.45"
+        app:mwhGradientAngle="45"
+        app:mwhProgress="1"
+        app:mwhStartColor="@color/colorPrimaryDark"
+        app:mwhVelocity="10"
+        app:mwhWaveHeight="20dp"
+        app:mwhWaves="MultiWave" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/white_tranlucent_gradient"
+        android:background="@drawable/window_background_tranlucent_gradient"
         android:rotation="180"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,6 +88,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/ui_select_your_canteen"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:textColor="?android:attr/textColorPrimaryInverse"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -132,21 +140,5 @@
             tools:visibility="visible" />
 
     </FrameLayout>
-
-    <com.scwang.wave.MultiWaveHeader
-        android:id="@+id/waveHeader"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mwhCloseColor="@color/colorPrimary"
-        app:mwhColorAlpha="0.45"
-        app:mwhGradientAngle="45"
-        app:mwhProgress="1"
-        app:mwhStartColor="@color/colorPrimaryDark"
-        app:mwhVelocity="10"
-        app:mwhWaveHeight="50dp"
-        app:mwhWaves="MultiWave" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
