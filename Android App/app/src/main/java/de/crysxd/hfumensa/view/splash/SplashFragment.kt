@@ -11,7 +11,7 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
-import de.crysxd.hfumensa.view.ErrorDialogHelper
+import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
 import timber.log.Timber
 
 

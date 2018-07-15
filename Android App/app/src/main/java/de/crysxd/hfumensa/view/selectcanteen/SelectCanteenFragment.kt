@@ -21,7 +21,7 @@ import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
-import de.crysxd.hfumensa.view.ErrorDialogHelper
+import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
 
 const val MIN_LOADING_TIME_MS = 3000

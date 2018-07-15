@@ -1,9 +1,8 @@
-package de.crysxd.hfumensa.view
+package de.crysxd.hfumensa.view.utils
 
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import de.crysxd.hfumensa.R
 
 object ErrorDialogHelper {
 

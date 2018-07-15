@@ -31,5 +31,13 @@
         android:id="@+id/menuFragment"
         android:name="de.crysxd.hfumensa.view.menu.MenuFragment"
         android:label="MenuFragment"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menuFragment_to_selectCanteenFragment"
+            app:destination="@id/selectCanteenFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_selectCanteenFragment_no_back"
+            app:clearTask="true"
+            app:destination="@id/selectCanteenFragment" />
+    </fragment>
 </navigation>
