@@ -1,6 +1,7 @@
 package de.crysxd.hfumensa.view.selectcanteen
 
 import android.os.Bundle
+import android.os.Handler
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,17 +16,21 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import de.crysxd.hfumensa.R
+import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
 import de.crysxd.hfumensa.view.ErrorDialogHelper
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
-import androidx.recyclerview.widget.RecyclerView
 
-
+const val MIN_LOADING_TIME_MS = 3000
 
 class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
 
     var shownAlertDialog: AlertDialog? = null
     val adapter = CanteenAdapter()
+    val snapHelper = ControllablePagerSnapHelper {
+        onCanteenSelected(it)
+    }
+    var map: GoogleMap? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) = inflater.inflate(R.layout.fragment_select_canteen, container, false)
 
@@ -41,36 +45,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         super.onStart()
 
         recyclerView.adapter = adapter
-        val snapHelper = object: PagerSnapHelper() {
-            var snappedPosition = 0
-            private var snapToNext = false
-            private var snapToPrevious = false
-
-            override fun findTargetSnapPosition(layoutManager: RecyclerView.LayoutManager, velocityX: Int, velocityY: Int): Int {
-                if (snapToNext) {
-                    snapToNext = false
-                    snappedPosition = Math.min(recyclerView.adapter?.itemCount ?: 0, snappedPosition + 1)
-                } else if (snapToPrevious) {
-                    snapToPrevious = false
-                    snappedPosition = Math.max(0, snappedPosition - 1)
-                } else {
-                    snappedPosition = super.findTargetSnapPosition(layoutManager, velocityX, velocityY)
-                }
-
-                onCanteenSelected(snappedPosition)
-                return snappedPosition
-            }
-
-            fun snapToNext() {
-                snapToNext = true
-                onFling(Int.MAX_VALUE, Int.MAX_VALUE)
-            }
-
-            fun snapToPrevious() {
-                snapToPrevious = true
-                onFling(Int.MAX_VALUE, Int.MAX_VALUE)
-            }
-        }
         snapHelper.attachToRecyclerView(recyclerView)
 
         buttonNext.setOnClickListener {
@@ -81,12 +55,15 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             snapHelper.snapToPrevious()
         }
 
+        val startTime = System.currentTimeMillis()
         val (result, error) = CanteenRepository().getCanteens()
         result.observe(this, Observer {
-            adapter.canteens = it.sortedBy {
-                it.name
-            }
-            onCanteenSelected(0)
+            Handler().postDelayed({
+                adapter.canteens = it.sortedBy {
+                    it.place
+                }
+                onCanteenSelected(0)
+            }, Math.max(0, MIN_LOADING_TIME_MS - (System.currentTimeMillis() - startTime)))
         })
         error.observe(this, Observer {
             shownAlertDialog?.dismiss()
@@ -95,6 +72,7 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
     }
 
     fun onCanteenSelected(position: Int) {
+        showCanteenOnMap(adapter.canteens[position])
         TransitionManager.beginDelayedTransition(view as ViewGroup)
         buttonNext.visibility = if (adapter.itemCount == 0 || position >= adapter.itemCount - 1) {
             View.GONE
@@ -106,12 +84,12 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         } else {
             View.VISIBLE
         }
-        buttonContinue.visibility =  if (adapter.itemCount == 0) {
+        buttonContinue.visibility = if (adapter.itemCount == 0) {
             View.GONE
         } else {
             View.VISIBLE
         }
-        waveHeader.visibility =  if (adapter.itemCount == 0) {
+        waveHeader.visibility = if (adapter.itemCount == 0) {
             View.VISIBLE
         } else {
             View.GONE
@@ -125,8 +103,20 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        this.map = map
+        if (adapter.itemCount > 0) {
+            showCanteenOnMap(adapter.canteens[snapHelper.snappedPosition], false)
+        }
+    }
+
+    fun showCanteenOnMap(canteen: Canteen, animated: Boolean = true) {
+        val location = LatLng(canteen.latitude.toDouble(), canteen.longitude.toDouble())
+        map?.addMarker(MarkerOptions().position(location).title(canteen.name))
+        val update = CameraUpdateFactory.newLatLngZoom(location, 15f)
+        if (animated) {
+            map?.animateCamera(update)
+        } else {
+            map?.moveCamera(update)
+        }
     }
 }
