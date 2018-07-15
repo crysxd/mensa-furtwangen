@@ -20,20 +20,13 @@
         tools:context="de.crysxd.hfumensa.model.MapsActivity" />
 
     <com.scwang.wave.MultiWaveHeader
-        android:id="@+id/toolbarBackground"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="180dp"
+        android:id="@+id/toolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mwhCloseColor="@color/colorPrimary"
-        app:mwhColorAlpha="0.45"
-        app:mwhGradientAngle="45"
-        app:mwhProgress="1"
-        app:mwhStartColor="@color/colorPrimaryDark"
-        app:mwhVelocity="10"
-        app:mwhWaveHeight="20dp"
-        app:mwhWaves="MultiWave" />
+        style="@style/AppTheme.ToolbarBackground" />
 
     <View
         android:id="@+id/view"
@@ -69,8 +62,8 @@
         style="@style/AppTheme.PrimaryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="52dp"
         android:layout_marginBottom="16dp"
         android:text="@string/ui_next"
         android:visibility="gone"

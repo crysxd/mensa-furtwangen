@@ -17,4 +17,15 @@
         <item name="android:textColor">#fff</item>
     </style>
 
+    <style name="AppTheme.ToolbarBackground">
+        <item name="mwhCloseColor">@color/colorPrimary</item>
+        <item name="mwhColorAlpha">0.45</item>
+        <item name="mwhGradientAngle">45</item>
+        <item name="mwhProgress">1</item>
+        <item name="mwhStartColor">@color/colorPrimaryDark</item>
+        <item name="mwhVelocity">10</item>
+        <item name="mwhWaveHeight">20dp</item>
+        <item name="mwhWaves">MultiWave</item>
+    </style>
+
 </resources>

@@ -4,8 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAltBackground"
     android:orientation="vertical">
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/toolbarBackground"
+        style="@style/AppTheme.ToolbarBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"/>
 
     <ImageView
         android:layout_width="0dp"
@@ -19,37 +29,18 @@
         android:adjustViewBounds="true"
         android:importantForAccessibility="no"
         android:tint="@color/colorAltForeground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.32999998"
         app:srcCompat="@drawable/ic_brand_100dp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="16sp"
-        android:layout_height="16sp"
-        android:layout_marginEnd="8dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/colorAltForeground"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toStartOf="@+id/textView"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:text="@string/ui_loading"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:textColor="@color/colorAltForeground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/progressBar" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
