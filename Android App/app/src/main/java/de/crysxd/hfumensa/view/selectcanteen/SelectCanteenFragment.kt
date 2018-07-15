@@ -1,7 +1,6 @@
 package de.crysxd.hfumensa.view.selectcanteen
 
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -21,15 +20,16 @@ import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
+import de.crysxd.hfumensa.view.ToolbarMode
+import de.crysxd.hfumensa.view.setToolbarMode
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
-import kotlinx.android.synthetic.main.fragment_menu.*
 import kotlinx.android.synthetic.main.fragment_select_canteen.*
 
 
 class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
 
     private var shownAlertDialog: AlertDialog? = null
-    private val adapter = CanteenAdapter { view, position ->
+    private val adapter: CanteenAdapter = CanteenAdapter { view, position ->
         onCanteenSelected(position)
         storeCanteenAndContinue(view)
     }
@@ -63,7 +63,8 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             storeCanteenAndContinue(it)
         }
 
-        val startTime = System.currentTimeMillis()
+        updateView()
+
         val (result, error) = CanteenRepository().getCanteens()
         result.observe(this, Observer {
             adapter.canteens = it.sortedBy {
@@ -83,36 +84,45 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         Navigation.findNavController(view).navigate(R.id.action_selectCanteenFragment_to_menuFragment)
     }
 
-    private fun onCanteenSelected(position: Int) {
-        view?.let {
-            showCanteenOnMap(adapter.canteens[position])
-            TransitionManager.beginDelayedTransition(it as ViewGroup)
-            buttonNext.visibility = if (adapter.itemCount == 0 || position >= adapter.itemCount - 1) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-            buttonPrevious.visibility = if (adapter.itemCount == 0 || position <= 0) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-            buttonContinue.visibility = if (adapter.itemCount == 0) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
-            textViewHeading.visibility = buttonContinue.visibility
-            recyclerView.visibility = buttonContinue.visibility
-            if (adapter.itemCount == 0) {
-                toolbarBackground.velocity = 10f
-                toolbarBackground.animate().translationY(0f).start()
-            } else {
-                toolbarBackground.velocity = 1f
-                toolbarBackground.animate().translationY(-toolbarBackground.height / 2f).start()
-            }
+    private fun onCanteenSelected(position: Int) = view?.let {
+        TransitionManager.beginDelayedTransition(it as ViewGroup)
+
+        showCanteenOnMap(adapter.canteens[position])
+        buttonNext.visibility = if (adapter.itemCount == 0 || position >= adapter.itemCount - 1) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+        buttonPrevious.visibility = if (adapter.itemCount == 0 || position <= 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+
+        updateView()
+    }
+
+    private fun updateView() = view?.let {
+        TransitionManager.beginDelayedTransition(it as ViewGroup)
+
+        buttonContinue.visibility = if (adapter.itemCount == 0) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+        activity?.title = if (adapter.itemCount == 0) {
+            ""
+        } else {
+            activity?.getString(R.string.ui_select_your_canteen)
+        }
+        recyclerView.visibility = buttonContinue.visibility
+        if (adapter.itemCount == 0) {
+            activity?.setToolbarMode(ToolbarMode.LOADING)
+        } else {
+            activity?.setToolbarMode(ToolbarMode.IDLE)
         }
     }
+
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map

@@ -13,9 +13,9 @@ object ErrorDialogHelper {
     fun showErrorDialog(context: Context?, exception: Exception?, suggestedErrorMessage: CharSequence, okAction: () -> Unit = {}) = context?.let {
         AlertDialog.Builder(context)
                 .setMessage(suggestedErrorMessage)
-                .setPositiveButton(android.R.string.ok, { _, _ ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     okAction()
-                })
+                }
                 .show()
     }
 }

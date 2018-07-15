@@ -12,8 +12,10 @@ import androidx.navigation.Navigation
 import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.persistence.MenuRepository
+import de.crysxd.hfumensa.view.ToolbarMode
+import de.crysxd.hfumensa.view.getToolbar
+import de.crysxd.hfumensa.view.setToolbarMode
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
-import kotlinx.android.synthetic.main.fragment_menu.*
 import java.util.*
 
 class MenuFragment : Fragment() {
@@ -25,8 +27,9 @@ class MenuFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        toolbar.inflateMenu(R.menu.menu_fragment_menu)
-        toolbar.setOnMenuItemClickListener {
+        activity?.setToolbarMode(ToolbarMode.LOADING)
+        activity?.getToolbar()?.inflateMenu(R.menu.menu_fragment_menu)
+        activity?.getToolbar()?.setOnMenuItemClickListener {
             if (it.itemId == R.id.menuChangeCanteen) {
                 showCanteenSelection()
             }
@@ -35,15 +38,23 @@ class MenuFragment : Fragment() {
 
         val selectedCanteen = PreferenceManager.getDefaultSharedPreferences(context).getString(SELECTED_MENSA_SETTING, null)
                 ?: return showCanteenSelection(false)
+        activity?.title = selectedCanteen
         val (result, error) = MenuRepository().getMenu(selectedCanteen, Date())
         result.observe(this, Observer {
+            activity?.setToolbarMode(ToolbarMode.IDLE)
             Toast.makeText(context, "${it.size} dishes loaded", Toast.LENGTH_LONG).show()
         })
         error.observe(this, Observer {
+            activity?.setToolbarMode(ToolbarMode.IDLE)
             shownAlertDialog?.dismiss()
             shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it, R.string.ui_error_unable_to_load_data)
         })
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity?.getToolbar()?.menu?.clear()
     }
 
     private fun showCanteenSelection(allowBackNavigation: Boolean = true) {

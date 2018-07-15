@@ -11,6 +11,8 @@ import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
+import de.crysxd.hfumensa.view.ToolbarMode
+import de.crysxd.hfumensa.view.setToolbarMode
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
 import timber.log.Timber
 
@@ -24,10 +26,16 @@ class SplashFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        login {
+        activity?.setToolbarMode(ToolbarMode.FULLSCREEN_LOADING, false)
+
+        login { alreadyLoggedIn ->
             view?.let {
                 // Upgrade the preferences, id used to be int in v1
                 upgradePrefsToV2(it.context)
+
+                if (alreadyLoggedIn) {
+                    activity?.setToolbarMode(ToolbarMode.LOADING, false)
+                }
 
                 // Let user select a canteen if not already set
                 val prefs = getPreferences(it.context)
@@ -40,16 +48,16 @@ class SplashFragment : Fragment() {
         }
     }
 
-    private fun login(completedAction: () -> Unit) {
+    private fun login(completedAction: (Boolean) -> Unit) {
         val auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            completedAction()
+            completedAction(true)
         } else {
             auth.signInAnonymously().addOnCompleteListener {
                 if (it.isSuccessful) {
                     Timber.d("signInAnonymously:success")
-                    completedAction()
+                    completedAction(false)
                 } else {
                     it.exception?.let {
                         handleError(it)

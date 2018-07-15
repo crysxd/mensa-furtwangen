@@ -11,22 +11,13 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewHeading"
-        tools:context="de.crysxd.hfumensa.model.MapsActivity" />
-
-    <com.scwang.wave.MultiWaveHeader
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:id="@+id/toolbarBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        style="@style/AppTheme.ToolbarBackground" />
+        tools:context="de.crysxd.hfumensa.model.MapsActivity" />
 
     <View
         android:id="@+id/view"
@@ -70,22 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/textViewHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/ui_select_your_canteen"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-        android:textColor="?android:attr/textColorPrimaryInverse"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
     <FrameLayout
