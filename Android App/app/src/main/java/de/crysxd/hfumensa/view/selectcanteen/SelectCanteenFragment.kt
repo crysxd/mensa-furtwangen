@@ -81,7 +81,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             snapHelper.snapToPrevious()
         }
 
-
         val (result, error) = CanteenRepository().getCanteens()
         result.observe(this, Observer {
             adapter.canteens = it.sortedBy {
@@ -111,6 +110,17 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             View.GONE
         } else {
             View.VISIBLE
+        }
+        waveHeader.visibility =  if (adapter.itemCount == 0) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        textViewHeading.visibility = buttonContinue.visibility
+        if (adapter.itemCount == 0 && !waveHeader.isRunning) {
+            waveHeader.start()
+        } else if (adapter.itemCount != 0 && waveHeader.isRunning) {
+            waveHeader.stop()
         }
     }
 

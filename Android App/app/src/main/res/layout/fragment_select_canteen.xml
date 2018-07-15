@@ -54,9 +54,11 @@
         android:layout_marginEnd="8dp"
         android:text="@string/ui_select_your_canteen"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <FrameLayout
         android:layout_width="40dp"
@@ -103,5 +105,21 @@
             tools:visibility="visible" />
 
     </FrameLayout>
+
+    <com.scwang.wave.MultiWaveHeader
+        android:id="@+id/waveHeader"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/colorPrimary"
+        app:mwhColorAlpha="0.45"
+        app:mwhGradientAngle="45"
+        app:mwhProgress="1"
+        app:mwhStartColor="@color/colorPrimaryDark"
+        app:mwhVelocity="10"
+        app:mwhWaveHeight="50dp"
+        app:mwhWaves="MultiWave" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
