@@ -15,11 +15,15 @@ class CanteenRepository {
 
         firestore.collection("canteens").get()
                 .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        liveDataResult.postValue(it.result.documents.mapNotNull {
-                            it.toObject(Canteen::class.java)
-                        })
-                    } else {
+                    try {
+                        if (it.isSuccessful) {
+                            liveDataResult.postValue(it.result.documents.mapNotNull {
+                                it.toObject(Canteen::class.java)
+                            })
+                        } else if (it.exception != null) {
+                            throw it.exception!!
+                        }
+                    } catch (e: Exception) {
                         Timber.e(it.exception)
                         liveDataError.postValue(it.exception)
                     }

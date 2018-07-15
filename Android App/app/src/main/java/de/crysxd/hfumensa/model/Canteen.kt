@@ -1,6 +1,6 @@
 package de.crysxd.hfumensa.model
 
-data class Canteen(var id: Int = 0,
+data class Canteen(var id: String = "",
     var name: String = "",
     var street: String = "",
     var zip: String = "",
