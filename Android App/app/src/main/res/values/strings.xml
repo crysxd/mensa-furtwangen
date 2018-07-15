@@ -5,7 +5,7 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="ui_next">Weiter</string>
+    <string name="ui_next">Los geht\'s!</string>
     <string name="ui_select_your_canteen">Wähle deine Mensa</string>
     <string name="ui_ac_next_canteen">Nächste Mensa</string>
     <string name="ui_ac_previous_canteen">Vorherige Mensa</string>

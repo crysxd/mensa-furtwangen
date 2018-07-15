@@ -104,11 +104,11 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             }
             textViewHeading.visibility = buttonContinue.visibility
             recyclerView.visibility = buttonContinue.visibility
-            if (adapter.itemCount == 0 && !toolbarBackground.isRunning) {
-                toolbarBackground.start()
+            if (adapter.itemCount == 0) {
+                toolbarBackground.velocity = 10f
                 toolbarBackground.animate().translationY(0f).start()
-            } else if (adapter.itemCount != 0 && toolbarBackground.isRunning) {
-                toolbarBackground.stop()
+            } else {
+                toolbarBackground.velocity = 1f
                 toolbarBackground.animate().translationY(-toolbarBackground.height / 2f).start()
             }
         }
