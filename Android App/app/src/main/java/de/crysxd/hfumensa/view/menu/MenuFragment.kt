@@ -13,9 +13,9 @@ import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.persistence.MenuRepository
 import de.crysxd.hfumensa.persistence.QueryResult
-import de.crysxd.hfumensa.view.ToolbarMode
-import de.crysxd.hfumensa.view.getToolbar
-import de.crysxd.hfumensa.view.setToolbarMode
+import de.crysxd.hfumensa.view.utils.ToolbarMode
+import de.crysxd.hfumensa.view.utils.getToolbar
+import de.crysxd.hfumensa.view.utils.setToolbarMode
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
 import java.util.*
 

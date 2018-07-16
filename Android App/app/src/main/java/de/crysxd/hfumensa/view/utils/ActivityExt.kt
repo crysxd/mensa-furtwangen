@@ -1,7 +1,8 @@
-package de.crysxd.hfumensa.view
+package de.crysxd.hfumensa.view.utils
 
 import android.app.Activity
 import de.crysxd.hfumensa.R
+import de.crysxd.hfumensa.view.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 fun Activity.setToolbarMode(toolbarMode: ToolbarMode, animated: Boolean = true) {
