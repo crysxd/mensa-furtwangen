@@ -1,5 +1,6 @@
 package de.crysxd.hfumensa.persistence
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -10,7 +11,7 @@ abstract class AbstractFirestoreRepository<T: Any>(private val documentClass: Cl
 
     protected val firestore = FirebaseFirestore.getInstance()
 
-    protected fun performQuery(query: Query, fromCache: Boolean = true, result: MutableLiveData<QueryResult<T>> = MutableLiveData()): MutableLiveData<QueryResult<T>> {
+    protected fun performQuery(query: Query, fromCache: Boolean = true, result: MutableLiveData<QueryResult<T>> = MutableLiveData()): LiveData<QueryResult<T>> {
         result.postValue(QueryResult(QueryResult.Status.ACTIVE, fromCache))
 
         query.get(if (fromCache) {
