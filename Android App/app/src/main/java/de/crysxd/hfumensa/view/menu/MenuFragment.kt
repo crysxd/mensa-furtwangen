@@ -27,7 +27,12 @@ class MenuFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        activity?.setToolbarMode(ToolbarMode.LOADING)
+        // Get selected canteen
+        val selectedCanteen = PreferenceManager.getDefaultSharedPreferences(context).getString(SELECTED_MENSA_SETTING, null)
+                ?: return showCanteenSelection(false)
+
+        // Prepare toolbar
+        activity?.title = selectedCanteen
         activity?.getToolbar()?.inflateMenu(R.menu.menu_fragment_menu)
         activity?.getToolbar()?.setOnMenuItemClickListener {
             if (it.itemId == R.id.menuChangeCanteen) {
@@ -36,20 +41,29 @@ class MenuFragment : Fragment() {
             true
         }
 
-        val selectedCanteen = PreferenceManager.getDefaultSharedPreferences(context).getString(SELECTED_MENSA_SETTING, null)
-                ?: return showCanteenSelection(false)
-        activity?.title = selectedCanteen
-        val (result, error) = MenuRepository().getMenu(selectedCanteen, Date())
-        result.observe(this, Observer {
-            activity?.setToolbarMode(ToolbarMode.IDLE)
-            Toast.makeText(context, "${it.size} dishes loaded", Toast.LENGTH_LONG).show()
-        })
-        error.observe(this, Observer {
-            activity?.setToolbarMode(ToolbarMode.IDLE)
-            shownAlertDialog?.dismiss()
-            shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it, R.string.ui_error_unable_to_load_data)
-        })
+        // Query data
+        MenuRepository().getMenu(selectedCanteen, Date()).observe(this, Observer {
+            when (it.status) {
+                Query.Status.ACTIVE -> {
+                    if (!it.fromCache) {
+                        // Only show loading animation if querying over network
+                        activity?.setToolbarMode(ToolbarMode.LOADING)
+                    }
+                }
 
+                Query.Status.COMPLETED -> {
+                    activity?.setToolbarMode(ToolbarMode.IDLE)
+                    Toast.makeText(context, "${it.result.size} dishes loaded", Toast.LENGTH_LONG).show()
+                }
+
+
+                Query.Status.FAILED -> {
+                    activity?.setToolbarMode(ToolbarMode.IDLE)
+                    shownAlertDialog?.dismiss()
+                    shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it.exception, R.string.ui_error_unable_to_load_data)
+                }
+            }
+        })
     }
 
     override fun onStop() {
