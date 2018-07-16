@@ -31,23 +31,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.Toolbar"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewTitle"
-        app:layout_constraintTop_toTopOf="@+id/textViewTitle" />
+        app:layout_constraintBottom_toBottomOf="@+id/textSwitcherTitle"
+        app:layout_constraintTop_toTopOf="@+id/textSwitcherTitle" />
 
-    <TextView
-        android:id="@+id/textViewTitle"
+    <TextSwitcher
+        android:id="@+id/textSwitcherTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="32dp"
-        android:gravity="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-        android:textColor="?android:attr/textColorPrimaryInverse"
         app:layout_constraintBottom_toBottomOf="@+id/toolbarBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="@string/ui_select_your_canteen" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineToolbar"

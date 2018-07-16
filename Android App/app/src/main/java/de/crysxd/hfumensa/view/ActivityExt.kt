@@ -26,12 +26,12 @@ fun Activity.setToolbarMode(toolbarMode: ToolbarMode, animated: Boolean = true) 
 
         if (animated) {
             toolbarBackground.animate().translationY(translationY).start()
-            textViewTitle.animate().translationY(translationY).start()
+            textSwitcherTitle.animate().translationY(translationY).start()
             toolbar.animate().translationY(translationY).start()
             progressBar.animate().translationY(progressTranslationY).start()
         } else {
             toolbarBackground.translationY = translationY
-            textViewTitle.translationY = translationY
+            textSwitcherTitle.translationY = translationY
             toolbar.translationY = translationY
             progressBar.translationY = progressTranslationY
         }
