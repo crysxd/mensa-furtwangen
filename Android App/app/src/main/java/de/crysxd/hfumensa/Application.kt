@@ -3,6 +3,7 @@ package de.crysxd.hfumensa
 import android.app.Application
 import androidx.work.*
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import de.crysxd.hfumensa.work.UpdateDatabaseCacheWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -26,6 +27,9 @@ class Application: Application() {
         val workRequest = PeriodicWorkRequest.Builder(UpdateDatabaseCacheWorker::class.java, 24, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .build()
-        WorkManager.getInstance()?.enqueueUniquePeriodicWork("database-update", ExistingPeriodicWorkPolicy.KEEP, workRequest)
+
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            WorkManager.getInstance()?.enqueueUniquePeriodicWork("database-update", ExistingPeriodicWorkPolicy.KEEP, workRequest)
+        }
     }
 }
