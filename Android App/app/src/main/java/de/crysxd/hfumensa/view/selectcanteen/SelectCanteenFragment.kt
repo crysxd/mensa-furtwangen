@@ -56,9 +56,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         buttonPrevious.setOnClickListener {
             snapHelper.snapToPrevious()
         }
-        buttonContinue.setOnClickListener {
-            storeCanteenAndContinue(it)
-        }
 
         updateView()
 
@@ -116,7 +113,7 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
     private fun updateView() = view?.let {
         TransitionManager.beginDelayedTransition(it as ViewGroup)
 
-        buttonContinue.visibility = if (adapter.itemCount == 0) {
+        recyclerView.visibility = if (adapter.itemCount == 0) {
             View.GONE
         } else {
             View.VISIBLE
@@ -126,7 +123,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         } else {
             activity?.getString(R.string.ui_select_your_canteen)
         }
-        recyclerView.visibility = buttonContinue.visibility
     }
 
 

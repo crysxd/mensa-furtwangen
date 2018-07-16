@@ -10,4 +10,5 @@
     <string name="ui_ac_next_canteen">Nächste Mensa</string>
     <string name="ui_ac_previous_canteen">Vorherige Mensa</string>
     <string name="ui_change_canteen">Mensa wechseln</string>
+    <string name="ui_select">Auswählen</string>
 </resources>

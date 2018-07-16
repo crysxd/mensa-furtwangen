@@ -52,6 +52,18 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 tools:text="Mensa 1234" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorAccent"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textAllCaps="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="8dp"
+                android:gravity="center"
+                android:textColor="?android:attr/textColorPrimaryInverse"
+                android:text="@string/ui_select"/>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
