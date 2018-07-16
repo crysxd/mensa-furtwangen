@@ -46,10 +46,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
         recyclerView.adapter = adapter
         snapHelper.attachToRecyclerView(recyclerView)

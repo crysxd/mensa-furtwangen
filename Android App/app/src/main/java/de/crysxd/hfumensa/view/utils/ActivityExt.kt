@@ -39,11 +39,11 @@ fun Activity.setToolbarMode(toolbarMode: ToolbarMode, animated: Boolean = true) 
     }
 }
 
-fun Activity.getToolbar() = if (this is MainActivity) {
+fun Activity.getToolbar() = (if (this is MainActivity) {
     toolbar
 } else {
     throw IllegalAccessException("Only available for MainActivity")
-}
+})!!
 
 enum class ToolbarMode {
     IDLE,
