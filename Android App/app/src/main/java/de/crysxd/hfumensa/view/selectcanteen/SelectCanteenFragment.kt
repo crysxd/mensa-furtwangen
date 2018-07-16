@@ -82,6 +82,7 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
                     adapter.canteens = it.result.sortedBy {
                         it.place
                     }
+                    onCanteenSelected(0)
                 }
 
                 QueryResult.Status.FAILED -> {
