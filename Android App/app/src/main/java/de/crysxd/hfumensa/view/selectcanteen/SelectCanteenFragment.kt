@@ -132,11 +132,6 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
             activity?.getString(R.string.ui_select_your_canteen)
         }
         recyclerView.visibility = buttonContinue.visibility
-        if (adapter.itemCount == 0) {
-            activity?.setToolbarMode(ToolbarMode.LOADING)
-        } else {
-            activity?.setToolbarMode(ToolbarMode.IDLE)
-        }
     }
 
 
