@@ -6,6 +6,7 @@ import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,6 +21,7 @@ import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.model.Canteen
 import de.crysxd.hfumensa.persistence.CanteenRepository
+import de.crysxd.hfumensa.persistence.QueryResult
 import de.crysxd.hfumensa.view.ToolbarMode
 import de.crysxd.hfumensa.view.setToolbarMode
 import de.crysxd.hfumensa.view.utils.ErrorDialogHelper
@@ -65,16 +67,29 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
 
         updateView()
 
-        val (result, error) = CanteenRepository().getCanteens()
+        val result = CanteenRepository().getCanteens()
         result.observe(this, Observer {
-            adapter.canteens = it.sortedBy {
-                it.place
+            when (it.status) {
+                QueryResult.Status.ACTIVE -> {
+                    if (!it.fromCache) {
+                        // Only show loading animation if querying over network
+                        activity?.setToolbarMode(ToolbarMode.LOADING)
+                    }
+                }
+
+                QueryResult.Status.COMPLETED -> {
+                    activity?.setToolbarMode(ToolbarMode.IDLE)
+                    adapter.canteens = it.result.sortedBy {
+                        it.place
+                    }
+                }
+
+                QueryResult.Status.FAILED -> {
+                    activity?.setToolbarMode(ToolbarMode.IDLE)
+                    shownAlertDialog?.dismiss()
+                    shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it.exception, R.string.ui_error_unable_to_load_data)
+                }
             }
-            onCanteenSelected(0)
-        })
-        error.observe(this, Observer {
-            shownAlertDialog?.dismiss()
-            shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it, R.string.ui_error_unable_to_load_data)
         })
     }
 

@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import de.crysxd.hfumensa.R
 import de.crysxd.hfumensa.SELECTED_MENSA_SETTING
 import de.crysxd.hfumensa.persistence.MenuRepository
+import de.crysxd.hfumensa.persistence.QueryResult
 import de.crysxd.hfumensa.view.ToolbarMode
 import de.crysxd.hfumensa.view.getToolbar
 import de.crysxd.hfumensa.view.setToolbarMode
@@ -41,23 +42,23 @@ class MenuFragment : Fragment() {
             true
         }
 
-        // Query data
+        // QueryResult data
         MenuRepository().getMenu(selectedCanteen, Date()).observe(this, Observer {
             when (it.status) {
-                Query.Status.ACTIVE -> {
+                QueryResult.Status.ACTIVE -> {
                     if (!it.fromCache) {
                         // Only show loading animation if querying over network
                         activity?.setToolbarMode(ToolbarMode.LOADING)
                     }
                 }
 
-                Query.Status.COMPLETED -> {
+                QueryResult.Status.COMPLETED -> {
                     activity?.setToolbarMode(ToolbarMode.IDLE)
                     Toast.makeText(context, "${it.result.size} dishes loaded", Toast.LENGTH_LONG).show()
                 }
 
 
-                Query.Status.FAILED -> {
+                QueryResult.Status.FAILED -> {
                     activity?.setToolbarMode(ToolbarMode.IDLE)
                     shownAlertDialog?.dismiss()
                     shownAlertDialog = ErrorDialogHelper.showErrorDialog(context, it.exception, R.string.ui_error_unable_to_load_data)
