@@ -48,8 +48,8 @@ class SelectCanteenFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         recyclerView.adapter = adapter
         snapHelper.attachToRecyclerView(recyclerView)
